@@ -70,34 +70,29 @@
                 <!--end::Search-->
                 <div class="app-navbar-item ms-1 ms-md-4" id="kt_header_user_menu_toggle">
                     <!--begin::Menu wrapper-->
-{{--                    <div class="cursor-pointer symbol symbol-35px"--}}
-{{--                         data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent"--}}
-{{--                         data-kt-menu-placement="bottom-end">--}}
-{{--                        @foreach (config('language') as $key => $lang)--}}
-{{--                            @if(app()->getLocale() == $key)--}}
-                               {{-- <img src="{{asset('dashboard/assets/img/'.$key.'.png')}}" class="rounded-3 custom_img" alt="user"/> --}}
-{{--                            @endif--}}{{--                        @endforeach--}}
-{{--                    </div>--}}
+                    <div class="cursor-pointer symbol symbol-35px"
+                         data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent"
+                         data-kt-menu-placement="bottom-end">
+                        @foreach (config('language') as $key => $lang)
+                            @if(app()->getLocale() == $key)
+                                <img src="{{asset('dashboard/assets/img/'.$key.'.png')}}" class="rounded-3 custom_img" style="width: 30px; height: 20px; object-fit: cover;" alt="{{ $lang }}"/>
+                            @endif
+                        @endforeach
+                    </div>
                     <!--begin::User account menu-->
-{{--                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px"--}}
-{{--                        data-kt-menu="true">--}}
-{{--                        <!--begin::Menu item-->--}}
-{{--                        <!--end::Menu separator-->--}}
-{{--                        <!--begin::Menu item-->--}}
-{{--                        @foreach (config('language') as $key => $lang)--}}
-{{--                            <div class="menu-item px-5">--}}
-{{--                                <a class="menu-link px-5" rel="alternate"--}}
-{{--                                   hreflang="{{ $key }}"--}}
-{{--                                   href="{{ LaravelLocalization::getLocalizedURL($key, null, [], true) }}">--}}
-{{--                                    <img src="{{asset('dashboard/assets/img/'.$key.'.png')}}" class="custom_img me-3" style="width: 30px" alt="user"/>--}}
-
-{{--                                    {{ $lang }}--}}
-{{--                                </a>--}}
-{{--                            </div>--}}
-{{--                    @endforeach--}}
-
-{{--                    <!--end::Menu item-->--}}
-{{--                    </div>--}}
+                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-200px"
+                        data-kt-menu="true">
+                        @foreach (config('language') as $key => $lang)
+                            <div class="menu-item px-5">
+                                <a class="menu-link px-5 {{ app()->getLocale() == $key ? 'active' : '' }}" rel="alternate"
+                                   hreflang="{{ $key }}"
+                                   href="{{ LaravelLocalization::getLocalizedURL($key, null, [], true) }}">
+                                    <img src="{{asset('dashboard/assets/img/'.$key.'.png')}}" class="custom_img me-3" style="width: 25px; height: 16px; object-fit: cover;" alt="{{ $lang }}"/>
+                                    {{ $lang }}
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
 
                     <!--end::User account menu-->
                     <!--end::Menu wrapper-->

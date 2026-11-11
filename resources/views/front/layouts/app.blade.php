@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js" lang="{{app()->getLocale()}}">
+<html class="no-js" lang="{{app()->getLocale()}}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 <head>
 
     <link

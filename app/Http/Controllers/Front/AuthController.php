@@ -40,30 +40,13 @@ class AuthController extends Controller
         return view('front.pages.user_dashboard.auth.register');
     }
 
-    // public function registerSubmit(RegisterSubmitRequest $request)
-    // {
-    //     DB::beginTransaction();
-    //     $data = [
-    //         'name' => $request->name,
-    //         'email' => $request->email,
-    //         'password' => Hash::make($request->password),
-    //         'l_name' => $request->l_name,
-    //         'phone' => $request->phone,
-    //         'username' => $request->username,
-    //     ];
-    //     $user = User::create($data);
-    //     DB::commit();
-    //     Auth::guard('web')->login($user);
-    //     return redirect()->route('site.home')->with(['success' => TranslationHelper::translate('Successfully Registered')]);
-    // }
+  
 
     public function registerSubmit(RegisterSubmitRequest $request)
     {
-        // بدء معاملة قاعدة البيانات
         DB::beginTransaction();
 
         try {
-            // إعداد البيانات من الـ Request
             $data = [
                 'name'     => $request->name,
                 'email'    => $request->email,
@@ -73,27 +56,20 @@ class AuthController extends Controller
                 'username' => $request->username,
             ];
 
-            // التحقق عبر الـ Request
             $validated = $request->validated();
 
-            // إنشاء المستخدم
             $user = User::create($data);
 
-            // إنهاء المعاملة بنجاح
             DB::commit();
 
-            // تسجيل الدخول
             Auth::guard('web')->login($user);
 
-            // إعادة توجيه مع رسالة نجاح
             return redirect()->route('site.home')->with([
                 'success' => TranslationHelper::translate('Successfully Registered'),
             ]);
         } catch (\Exception $e) {
-            // في حال حدوث خطأ، يتم إلغاء المعاملة
             DB::rollBack();
 
-            // عرض رسالة خطأ
             return redirect()->back()->withErrors([
                     'error' => 'An error occurred during registration. Please try again.',
                 ]);
@@ -108,7 +84,6 @@ class AuthController extends Controller
         if (Auth::guard('web')->check()) {
             Auth::guard('web')->logout();
         }
-        //    dd('no');
         return redirect()->route('site.home');
     }
 
