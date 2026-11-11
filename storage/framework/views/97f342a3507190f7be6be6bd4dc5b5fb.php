@@ -1,0 +1,139 @@
+<?php $__env->startSection('title', \App\Helpers\TranslationHelper::translate('Product Details')); ?>
+<?php $__env->startSection('crumb'); ?>
+    <?php if (isset($component)) { $__componentOriginalc2072a121b282e859e8bdea9c58b76d8 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalc2072a121b282e859e8bdea9c58b76d8 = $attributes; } ?>
+<?php $component = App\View\Components\BreadCrumb::resolve(['breadcrumbs' => [
+        ['text'=>\App\Helpers\TranslationHelper::translate('Products'),'link'=>route('admin.product.index')],
+        ['text'=> \App\Helpers\TranslationHelper::translate('Details')]
+        ],'button' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('bread-crumb'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(App\View\Components\BreadCrumb::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+     <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginalc2072a121b282e859e8bdea9c58b76d8)): ?>
+<?php $attributes = $__attributesOriginalc2072a121b282e859e8bdea9c58b76d8; ?>
+<?php unset($__attributesOriginalc2072a121b282e859e8bdea9c58b76d8); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc2072a121b282e859e8bdea9c58b76d8)): ?>
+<?php $component = $__componentOriginalc2072a121b282e859e8bdea9c58b76d8; ?>
+<?php unset($__componentOriginalc2072a121b282e859e8bdea9c58b76d8); ?>
+<?php endif; ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+
+
+    
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <div class="post d-flex flex-column-fluid" id="kt_post">
+        <div id="kt_content_container" class="container-xxl">
+            <div class="card">
+                <div class="card-header border-0 pt-6">
+                    <div class="card-body py-4 px-0" dir="<?php echo e(Config::get('app.locale') == 'en' ? 'ltr' : 'rtl'); ?>">
+                        
+                        <!-- Title Section -->
+                        <div class="row px-0 mt-3 align-items-center">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-6 text-left">
+                                <h4 class="py-3"><?php echo e(\App\Helpers\TranslationHelper::translate('Product Details')); ?></h4>
+                            </div>
+                            <?php if(auth()->guard('admin')->user()->can('product.edit', 'admin')): ?>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-6 text-right">
+                                    <a class="btn btn-primary" href="<?php echo e(route('admin.product.edit', $product->id)); ?>">
+                                        <span><?php echo e(\App\Helpers\TranslationHelper::translate('Edit')); ?></span> &nbsp;
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <!-- Product Name Section -->
+                        <div class="row px-0 mt-3">
+                            <?php $__currentLoopData = Config('language'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $lang): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <div class="col-12 m-auto text-left">
+                                    <div class="row align-items-center">
+                                        <div class="col-lg-3 col-md-4 col-sm-12 text-left details_item bold">
+                                            <?php echo e(\App\Helpers\TranslationHelper::translate('Name in')); ?> <?php echo e(__('methods.' . $lang)); ?>:
+                                        </div>
+                                        <div class="col-lg-9 col-md-8 col-sm-12 details_item">
+                                            <?php echo e($product->getTranslation('name', $key)); ?>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </div>
+                        
+
+                         <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-6 text-left details_item bold">
+            <?php echo e(\App\Helpers\TranslationHelper::translate('product category')); ?>
+
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-6 text-left details_item">
+            <?php echo e($product->Productcategory->name ?? '-'); ?> 
+        </div>
+    </div>
+
+                        <!-- Product Description Section -->
+                        <div class="row px-0 mt-3">
+                            <?php $__currentLoopData = Config('language'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $lang): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <div class="col-12 m-auto text-left">
+                                    <div class="row align-items-center">
+                                        <div class="col-lg-3 col-md-4 col-sm-12 text-left details_item bold">
+                                            <?php echo e(\App\Helpers\TranslationHelper::translate('Description in')); ?> <?php echo e(__('methods.' . $lang)); ?>:
+                                        </div>
+                                        <div class="col-lg-9 col-md-8 col-sm-12 details_item">
+                                            <?php echo $product->getTranslation('description', $key); ?>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </div>
+                        
+                        <!-- Product Image Section -->
+                        
+
+                        <div class="row px-0 mt-3">
+    <div class="col-12 m-auto text-left">
+        <div class="row align-items-center">
+            <div class="col-lg-3 col-md-4 col-sm-12 text-left details_item bold">
+                <?php echo e(\App\Helpers\TranslationHelper::translate('Images')); ?>:
+            </div>
+            <div class="col-lg-9 col-md-8 col-sm-12 details_item">
+                <?php $__currentLoopData = $product->getMedia('products'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $media): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <a href="<?php echo e($media->getUrl()); ?>" target="_blank">
+                        <img src="<?php echo e($media->getUrl()); ?>" 
+                             class="img-fluid" 
+                             alt="product-image" 
+                             style="width: 150px; height: 150px; object-fit: contain; margin-right: 10px;">
+                    </a>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                          
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
+  
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\silverblue\resources\views/admin/pages/product/show.blade.php ENDPATH**/ ?>

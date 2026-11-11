@@ -1,0 +1,41 @@
+body{
+direction: rtl;
+}
+ul {
+  padding: 0;
+}
+
+
+.custom_left_btn {text-align: left!important;direction: ltr;}
+.custom_right_btn {text-align: right!important;direction: ltr;}
+.tr-about-content i {left:auto!important;right: 0!important;}
+.tr-about-content {padding-left: 0!important;padding-right: 35px!important;}
+.dropdown-btn::after {top: 15px!important;right: auto!important;left: 20px!important;}
+
+
+.navbar-nav{
+      padding-left: 240px;
+}
+
+.navbar-brand{
+      padding-right: 80px;
+}
+
+.custom-dropdown-direction {
+    right: 0 !important;
+    left: auto !important;
+    text-align: right;
+}
+
+.lang-ar .text-about h2 {
+    direction: rtl;
+    text-align: right;
+}
+
+.form-group label {
+    position: absolute;
+    top: -20px;
+        right: 0;
+    font-size: 14px;
+    color: #555;
+  }

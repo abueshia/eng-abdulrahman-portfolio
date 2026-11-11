@@ -1,0 +1,52 @@
+
+.bold {font-weight: 600!important;}
+.details_item {padding:14px 15px;border-bottom: 1px solid #ddd; font-size: 14px}
+.details_item:hover {background:#f2eeee;}
+.details_item_custom {font-size: 14px!important; color: #000!important;}
+
+.dataTables_wrapper .dataTable tfoot th, .dataTables_wrapper .dataTable thead th {font-weight: bold;color: #181C32;}
+
+table.table-bordered.dataTable th, table.table-bordered.dataTable td{vertical-align: middle!important;}
+
+.cke_notifications_area {display: none!important;}
+
+
+.symbol.symbol-35px>img {
+    width: auto!important;
+    padding: 0px;
+    /* background: #246eb7; */
+}
+.symbol.symbol-35px .custom_img {
+    width: 30px !important;
+    padding: 0;
+    background: none !important;
+    border-radius: 3px !important;
+    height: 20px;
+}
+.custom_img {
+    width: 30px !important;
+    padding: 0;
+    background: none !important;
+    border-radius: 3px !important;
+    height: 20px;
+} 
+
+.custom_logo_light {
+    padding: 60px;
+    /* background: #246eb7; */
+    border-radius: 16px;
+    
+}
+
+div.dataTables_wrapper div.dataTables_filter {text-align: left!important;}
+.form-check-input:checked {
+    background-color: #28bb00;
+    border-color: #28bb00;
+}
+.badge_pending { background-color:#eeeeff;color:#246eb7}
+.badge_denied { background-color:#FFEEF3;color:#F8285A}
+.badge_approved { background-color: var(--bs-success-light);color: var(--bs-success);}
+.badge_negotiating { background-color: var(--bs-warning-light);color: var(--bs-warning);}
+.line_height_5 {margin-bottom: 20px}
+.line_height_4 {margin-bottom: 13px}
+.dataTables_wrapper {direction: ltr!important;}
