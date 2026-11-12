@@ -1,25 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Helpers\ReorderHelper;
 use App\Models\Testimonial;
 
-class  TestimonialService
+class TestimonialService
 {
-
-    public function createTestimonial($data)
+    public function createTestimonial($data): void
     {
-     {
-            $testimonial = Testimonial::create($data);
+
+        $testimonial = Testimonial::create($data);
         if (isset($data['image'])) {
-                $testimonial->storeFile($data['image']);
+            $testimonial->storeFile($data['image']);
         }
-    }
+
     }
 
-
-    public function updateTestimonial($testimonial , $data)
+    public function updateTestimonial($testimonial, $data): void
     {
         if (isset($data['image'])) {
             $testimonial->updateFile($data['image']);
@@ -27,8 +27,7 @@ class  TestimonialService
         $testimonial->update($data);
     }
 
-
-     public function deleteTestimonial($testimonial)
+    public function deleteTestimonial($testimonial): void
     {
         $testimonial->delete();
     }

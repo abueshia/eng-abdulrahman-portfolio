@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Helpers\ReorderHelper;
 use App\Models\Blog;
 use App\Models\Tag;
 
-class  BlogService
+class BlogService
 {
-
-    public function createBlog($data)
+    public function createBlog($data): void
     {
         $blog = Blog::create([
             'name' => $data['name'],
@@ -46,11 +47,9 @@ class  BlogService
         // }
     }
 
-
-
-    public function updateBlog(Blog $blog, array $data)
+    public function updateBlog(Blog $blog, array $data): void
     {
-//        dd($data['meta_tags']);
+        //        dd($data['meta_tags']);
 
         $blog->update([
             'name' => $data['name'],
@@ -61,9 +60,9 @@ class  BlogService
             // 'meta_title' => $data['meta_title'],
             // 'alt_text' => $data['alt_text'],
             // 'category_id'=> $data['category_id']
-//            'meta_tags' => $data['meta_tags'],
-//            'image' => $image,
-//            'meta_image' => $meta_image,
+            //            'meta_tags' => $data['meta_tags'],
+            //            'image' => $image,
+            //            'meta_image' => $meta_image,
         ]);
 
         // if (isset($data['meta_tags']) && $data['meta_tags'] != null) {
@@ -92,13 +91,12 @@ class  BlogService
         $this->updateFiles($blog, $data);
     }
 
-    public function deleteBlog(Blog $blog)
+    public function deleteBlog(Blog $blog): void
     {
         $blog->delete();
     }
 
-
-    private function storeFiles(Blog $blog, array $data)
+    private function storeFiles(Blog $blog, array $data): void
     {
         if (isset($data['image'])) {
             $blog->storeFile($data['image'], '_image');
@@ -112,49 +110,47 @@ class  BlogService
         //     $blog->storeFile($data['meta_image'], '_meta_image');
         // }
     }
-//     public function createUniqueSlug($name, $model , $id = null) {
-//         $slug = $this->generateArabicSlug($name);
+    //     public function createUniqueSlug($name, $model , $id = null) {
+    //         $slug = $this->generateArabicSlug($name);
 
-//         $originalSlug = $slug;
+    //         $originalSlug = $slug;
 
-//         // Keep modifying the slug by appending a number until it's unique
-//         if ($id != null) {
-//             $count = $model::where('slug', $slug)->where('id', '!=', $id)->count();
-//         } else {
-//             $count = $model::where('slug', $slug)->count();
+    //         // Keep modifying the slug by appending a number until it's unique
+    //         if ($id != null) {
+    //             $count = $model::where('slug', $slug)->where('id', '!=', $id)->count();
+    //         } else {
+    //             $count = $model::where('slug', $slug)->count();
 
-//         }
-//         if ($count > 0) {
-//             $slug = $originalSlug . '-' . $count;
-//         } else {
-//             $slug = $originalSlug;
-//         }
-// //        dd($slug);
-//         return $slug;
+    //         }
+    //         if ($count > 0) {
+    //             $slug = $originalSlug . '-' . $count;
+    //         } else {
+    //             $slug = $originalSlug;
+    //         }
+    // //        dd($slug);
+    //         return $slug;
 
+    //     }
+    //     public function generateArabicSlug($string, $separator = '-')
+    //     {
+    //         if (is_null($string)) {
+    //             return "";
+    //         }
 
-//     }
-//     public function generateArabicSlug($string, $separator = '-')
-//     {
-//         if (is_null($string)) {
-//             return "";
-//         }
+    //         $string = trim($string);
 
-//         $string = trim($string);
+    //         $string = mb_strtolower($string, "UTF-8");;
 
-//         $string = mb_strtolower($string, "UTF-8");;
+    //         $string = preg_replace("/[^a-z0-9_\sءاأإآؤئبتثجحخدذرزسشصضطظعغفقكلمنهويةى]#u/", "", $string);
 
-//         $string = preg_replace("/[^a-z0-9_\sءاأإآؤئبتثجحخدذرزسشصضطظعغفقكلمنهويةى]#u/", "", $string);
+    //         $string = preg_replace("/[\s-]+/", " ", $string);
 
-//         $string = preg_replace("/[\s-]+/", " ", $string);
+    //         $string = preg_replace("/[\s_]/", $separator, $string);
 
-//         $string = preg_replace("/[\s_]/", $separator, $string);
+    //         return $string;
+    //     }
 
-//         return $string;
-//     }
-
-
-    private function updateFiles(Blog $blog, array $data)
+    private function updateFiles(Blog $blog, array $data): void
     {
         if (isset($data['image'])) {
             $blog->updateFile($data['image'], '_image');
@@ -163,12 +159,10 @@ class  BlogService
         //     $blog->storeFile($data['blog_video'], 'blog_video');
         // }
 
-
         // if (isset($data['meta_image'])) {
         //     $blog->updateFile($data['meta_image'], '_meta_image');
         // }
     }
-
 
     public function reorder($blog, $label, $path, $max_num)
     {
@@ -179,5 +173,4 @@ class  BlogService
     {
         return ReorderHelper::saveReorder($all_entries, $blog);
     }
-
 }

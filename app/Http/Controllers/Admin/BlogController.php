@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\TranslationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Blog\BlogRequest;
 use App\Models\Blog;
-use App\Models\Category;
 use App\Models\Tag;
 use App\Services\BlogService;
 use App\ViewModels\BlogViewModel;
@@ -28,9 +29,9 @@ class BlogController extends Controller
         $this->middleware(['auth:admin', 'permission:blogs.edit'], ['only' => ['edit', 'store']]);
         $this->middleware(['auth:admin', 'permission:blogs.delete'], ['only' => ['destroy']]);
         $this->middleware(['auth:admin', 'permission:blogs.sort'], ['only' => ['reorder', 'saveReorder']]);
-        $this->blog = new BlogService();
+        $this->blog = new BlogService;
     }
-    
+
     /**
      * Display a listing of the blog.
      */
@@ -38,16 +39,16 @@ class BlogController extends Controller
     {
         return view('admin.pages.blog.index');
     }
-    
+
     public function table(DataTables $dataTables, Request $request)
     {
         $model = Blog::with('categories')->ordered();
-        if ($request->has('search') && !empty($request->search['value'])) {
+        if ($request->has('search') && ! empty($request->search['value'])) {
             $search = $request->search['value'];
-            $model = $model->where(function ($query) use ($search) {
-                $query->where('name', 'LIKE', '%' . $search . '%') // البحث عن اسم المدونة
-                    ->orWhereHas('categories', function ($query) use ($search) {
-                        $query->where('name', 'LIKE', '%' . $search . '%'); // البحث عن اسم القسم
+            $model = $model->where(function ($query) use ($search): void {
+                $query->where('name', 'LIKE', '%'.$search.'%') // البحث عن اسم المدونة
+                    ->orWhereHas('categories', function ($query) use ($search): void {
+                        $query->where('name', 'LIKE', '%'.$search.'%'); // البحث عن اسم القسم
                     });
             });
         }
@@ -62,8 +63,9 @@ class BlogController extends Controller
 
             })->editColumn('image', function (Blog $blog) {
                 $imageUrl = $blog->getFirstMediaUrl('blogs_image') ?: asset('path/to/default/image.jpg');
+
                 return "<img width='100' src='{$imageUrl}' alt='Blog Image'/>";
-                
+
             })->editColumn('created_at', function (Blog $blog) {
                 return $blog->created_at->format('d-m-Y h:i A') ?? '-';
             })->addColumn('action', function (Blog $blog) {
@@ -81,6 +83,7 @@ class BlogController extends Controller
     {
 
         $blog = Blog::with('categories')->find($id);
+
         return view('admin.pages.blog.show', get_defined_vars());
     }
 
@@ -90,7 +93,8 @@ class BlogController extends Controller
     public function create(): View
     {
         $tags = Tag::get();
-        return view('admin.pages.blog.form',  new BlogViewModel(), get_defined_vars());
+
+        return view('admin.pages.blog.form', new BlogViewModel, get_defined_vars());
     }
 
     /**
@@ -101,6 +105,7 @@ class BlogController extends Controller
         // return $request;
         $this->blog->createBlog($request->validated());
         session()->flash('success', TranslationHelper::translate('Operation Success'));
+
         return back();
     }
 
@@ -111,7 +116,7 @@ class BlogController extends Controller
     {
         $tags = Tag::get();
 
-        return view('admin.pages.blog.form',  new BlogViewModel($blog), get_defined_vars());
+        return view('admin.pages.blog.form', new BlogViewModel($blog), get_defined_vars());
     }
 
     /**
@@ -122,6 +127,7 @@ class BlogController extends Controller
         //        return $request;
         $this->blog->updateBlog($blog, $request->validated());
         session()->flash('success', TranslationHelper::translate('Successfully Updated'));
+
         return back();
     }
 
@@ -131,9 +137,9 @@ class BlogController extends Controller
     public function destroy(Blog $blog): JsonResponse
     {
         $this->blog->deleteBlog($blog);
+
         return response()->json(['status' => 'success', 'message' => TranslationHelper::translate('Successfully Deleted')]);
     }
-
 
     public function reorder(Blog $blog)
     {
@@ -143,7 +149,7 @@ class BlogController extends Controller
     public function saveReorder(Request $request, Blog $blog)
     {
         $all_entries = $request->input('tree');
+
         return $this->blog->saveReorder($all_entries, $blog);
     }
-
 }

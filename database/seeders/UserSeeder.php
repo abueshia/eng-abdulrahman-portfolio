@@ -1,11 +1,18 @@
 <?php
 
+/**
+ * UserSeeder
+ *
+ * Seeds the default administrator account for Eng. Abdelrahman Abu Aishah's Portfolio CMS.
+ * Credentials are read from environment variables with safe development fallbacks.
+ */
+
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
-use Faker\Guesser\Name;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
@@ -15,15 +22,21 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => 'Super',
-            'l_name' => 'Admin',
-            'email' => 'admin@admin.com',
-            'phone' => '123456789',
-            'username' => 'admin_username',
-            'password' => Hash::make('123456789'),
-            'email_verified_at'=>now(),
-            'is_admin'=>1
-        ]);
+        $email = (string) env('PORTFOLIO_ADMIN_EMAIL', 'admin@example.com');
+        $password = (string) env('PORTFOLIO_ADMIN_PASSWORD', 'password');
+
+        User::query()->updateOrCreate(
+            ['email' => $email],
+            [
+                'name' => (string) env('PORTFOLIO_ADMIN_FIRST_NAME', 'Abdelrahman'),
+                'l_name' => (string) env('PORTFOLIO_ADMIN_LAST_NAME', 'Abu Aishah'),
+                'username' => (string) env('PORTFOLIO_ADMIN_USERNAME', 'abdelrahman'),
+                'phone' => (string) env('PORTFOLIO_ADMIN_PHONE', '+201000000000'),
+                'type' => 'admin',
+                'is_admin' => true,
+                'email_verified_at' => now(),
+                'password' => Hash::make($password),
+            ]
+        );
     }
 }

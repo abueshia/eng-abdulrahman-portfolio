@@ -73,4 +73,3 @@ interface BaseRepositoryInterface
      */
     public function reorder(array $items): void;
 }
-

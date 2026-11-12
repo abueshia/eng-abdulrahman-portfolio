@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use App\Helpers\TranslationHelper;
@@ -12,11 +14,11 @@ class CheckLogin
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->check()) {
+        if (auth()->check()) {
             return $next($request);
         } else {
             return redirect()->route('user.login.form')->with(['error', TranslationHelper::translate('Please Login First !!')]);

@@ -139,4 +139,3 @@ abstract class BaseRepository implements BaseRepositoryInterface
         });
     }
 }
-

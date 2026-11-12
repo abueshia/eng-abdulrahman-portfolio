@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use App\Traits\ApiResponseTrait;
@@ -11,10 +13,10 @@ use Symfony\Component\HttpFoundation\Response;
 class CheckAuthApi
 {
     use ApiResponseTrait;
-        /**
+    /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(Request): (Response)  $next
      */
     // public function handle(Request $request, Closure $next): Response
     // {
@@ -38,10 +40,10 @@ class CheckAuthApi
     public function handle(Request $request, Closure $next)
     {
         // التحقق من تسجيل الدخول باستخدام الجارد 'client'
-        if (!Auth::guard('client_api')->check()) {
+        if (! Auth::guard('client_api')->check()) {
             return $this->unauthorized_response('Unauthorized', 401);
         }
+
         return $next($request);
     }
-    
 }

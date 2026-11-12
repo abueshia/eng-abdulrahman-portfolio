@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -12,14 +14,15 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
-
     /**
      * Store FCM Token
      */
-    public function storeToken(Request $request) {
+    public function storeToken(Request $request)
+    {
         if (auth()->check()) {
             Auth::user()->cm_firebase_token = $request->token;
             Auth::user()->save();
+
             return response()->json(['Token Updated Successfully']);
         } else {
             return response()->json(['Some Error Happened .. Please Allow Send Notifications']);
@@ -55,7 +58,6 @@ class AuthenticatedSessionController extends Controller
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
-    
 
     /**
      * Destroy an authenticated session.

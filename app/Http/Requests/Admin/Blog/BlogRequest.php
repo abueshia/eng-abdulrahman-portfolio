@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Admin\Blog;
 
 use App\Helpers\TranslationHelper;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BlogRequest extends FormRequest
@@ -18,7 +21,7 @@ class BlogRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
@@ -37,6 +40,7 @@ class BlogRequest extends FormRequest
             // 'meta_tags' => 'nullable',
         ];
     }
+
     public function messages(): array
     {
         return [

@@ -1,12 +1,20 @@
 <?php
 
+/**
+ * RoleSeeder
+ *
+ * Seeds the Super Admin role and module permissions on the 'admin' guard.
+ */
+
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class RoleSeeder extends Seeder
 {
@@ -15,101 +23,47 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $admin =  User::where('is_admin', 1)->first();
-
-        Permission::query()->delete();
-
-        //=============================Super-admin===============================================
-        $superAdmin = Role::firstOrCreate([
-            'name'          => 'Super admin',
+        $superAdmin = Role::query()->firstOrCreate([
+            'name' => 'Super admin',
+            'guard_name' => 'admin',
         ]);
-        //        dd($admin);
 
-        $admin->assignRole($superAdmin);
-
-        $permissions = [
-            ['name' => 'roles.view_all'],
-            ['name' => 'roles.create'],
-            ['name' => 'roles.edit'],
-            ['name' => 'roles.delete'],
-
-
-            ['name' => 'admins.view_all'],
-            ['name' => 'admins.view_details'],
-            ['name' => 'admins.create'],
-            ['name' => 'admins.edit'],
-            ['name' => 'admins.delete'],
-
-
-
-            ['name' => 'product.view_all'],
-            ['name' => 'product.view_details'],
-            ['name' => 'product.create'],
-            ['name' => 'product.edit'],
-            ['name' => 'product.delete'],
-            // ['name' => 'product.sort'],
-
-            ['name' => 'productcategory.view_all'],
-            ['name' => 'productcategory.view_details'],
-            ['name' => 'productcategory.create'],
-            ['name' => 'productcategory.edit'],
-            ['name' => 'productcategory.delete'],
-
-
-
-            // banner 
-            ['name' => 'banner.view_all'],
-            ['name' => 'banner.view_details'],
-            ['name' => 'banner.create'],
-            ['name' => 'banner.edit'],
-            ['name' => 'banner.delete'],
-            ['name' => 'banner.sort'],
-
-            // about_us
-            ['name' => 'about_us.view_all'],
-            ['name' => 'about_us.view_details'],
-            ['name' => 'about_us.create'],
-            ['name' => 'about_us.edit'],
-            ['name' => 'about_us.delete'],
-
-
-            //contact
-            ['name' => 'contact.view_all'],
-            ['name' => 'contact.view_details'],
-            ['name' => 'contact.create'],
-            ['name' => 'contact.edit'],
-            ['name' => 'contact.delete'],
-
-
-            // testimonial
-            ['name' => 'testimonial.view_all'],
-            ['name' => 'testimonial.view_details'],
-            ['name' => 'testimonial.create'],
-            ['name' => 'testimonial.edit'],
-            ['name' => 'testimonial.delete'],
-            ['name' => 'testimonial.sort'],
-
-
-            // all_settings
-            ['name' => 'all_settings.view_all'],
-
-            ['name' => 'mainSetting.view_details'],
-            ['name' => 'mainSetting.edit'],
-
-
-            ['name' => 'home_couronne_setting.view_details'],
-            ['name' => 'home_couronne_setting.edit'],
-
+        $modules = [
+            'roles' => ['view_all', 'create', 'edit', 'delete'],
+            'admins' => ['view_all', 'view_details', 'create', 'edit', 'delete'],
+            'projects' => ['view_all', 'view_details', 'create', 'edit', 'delete', 'sort'],
+            'technologies' => ['view_all', 'view_details', 'create', 'edit', 'delete', 'sort'],
+            'experiences' => ['view_all', 'view_details', 'create', 'edit', 'delete', 'sort'],
+            'credentials' => ['view_all', 'view_details', 'create', 'edit', 'delete', 'sort'],
+            'services' => ['view_all', 'view_details', 'create', 'edit', 'delete', 'sort'],
+            'testimonial' => ['view_all', 'view_details', 'create', 'edit', 'delete', 'sort'],
+            'categories' => ['view_all', 'view_details', 'create', 'edit', 'delete', 'sort'],
+            'blogs' => ['view_all', 'view_details', 'create', 'edit', 'delete', 'sort'],
+            'messages' => ['view_all', 'view_details', 'edit', 'delete'],
+            'faqs' => ['view_all', 'view_details', 'create', 'edit', 'delete', 'sort'],
+            'stats' => ['view_all', 'view_details', 'create', 'edit', 'delete', 'sort'],
+            'all_settings' => ['view_all'],
+            'mainSetting' => ['view_details', 'edit'],
         ];
 
-        foreach ($permissions as $permission) {
-            $name = isset($permission['name']) ? $permission['name'] : null;
-            $createdPermission = Permission::firstOrCreate([
-                'name'          => $name,
-                'guard_name' => 'admin'
-            ]);
-            $superAdmin->givePermissionTo($createdPermission);
+        $permissionInstances = [];
+
+        foreach ($modules as $module => $actions) {
+            foreach ($actions as $action) {
+                $permissionInstances[] = Permission::query()->firstOrCreate([
+                    'name' => "{$module}.{$action}",
+                    'guard_name' => 'admin',
+                ]);
+            }
+        }
+
+        $superAdmin->syncPermissions($permissionInstances);
+
+        $admin = User::query()->where('is_admin', true)->first();
+        if ($admin !== null) {
+            $admin->assignRole($superAdmin);
         }
     }
 }

@@ -1,124 +1,107 @@
 <?php
 
+/**
+ * Admin MessageController
+ *
+ * Manages incoming ContactMessages (project inquiries, job offers, and general messages)
+ * in the admin dashboard.
+ */
+
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\ContactMessageTypeEnum;
 use App\Helpers\TranslationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Message\MessageRequest;
-use App\Models\Message;
-use App\Services\MessageService;
-use App\ViewModels\MessageViewModel;
+use App\Models\ContactMessage;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 
 class MessageController extends Controller
 {
-
     public function __construct()
     {
-
-        // $this->middleware('permission:messages.view_all', ['only' => ['index']]);
-        // $this->middleware('permission:messages.view_details', ['only' => ['show']]);
-        // $this->middleware('permission:messages.delete', ['only' => ['destroy']]);
-
-        $this->middleware(['auth:admin', 'permission:messages.view_all'], ['only' => ['index']]);
-        $this->middleware(['auth:admin', 'permission:messages.view_details'], ['only' => ['show']]);
-        $this->middleware(['auth:admin', 'permission:messages.create'], ['only' => ['create', 'store']]);
-        $this->middleware(['auth:admin', 'permission:messages.edit'], ['only' => ['edit', 'update']]);
+        $this->middleware(['auth:admin', 'permission:messages.view_all'], ['only' => ['index', 'table']]);
+        $this->middleware(['auth:admin', 'permission:messages.view_details'], ['only' => ['show', 'Show']]);
         $this->middleware(['auth:admin', 'permission:messages.delete'], ['only' => ['destroy']]);
-        $this->middleware(['auth:admin', 'permission:messages.sort'], ['only' => [
-            'reorder',
-            'saveReorder'
-        ]]);
-
     }
+
     /**
-     * Display a listing of the message.
+     * Display the contact messages listing page.
      */
-    public function index(Request $request) : View
+    public function index(): View
     {
         return view('admin.pages.message.index');
     }
 
-
-    
-    public function table(DataTables $dataTables, Request $request)
+    /**
+     * Return DataTables JSON payload for contact messages.
+     */
+    public function table(DataTables $dataTables, Request $request): JsonResponse
     {
-        $model = Message::query();
+        $model = ContactMessage::query()->ordered();
 
-        // تطبيق التصفية بناءً على القيم المرسلة في الطلب
-        if ($request->has('search') && !empty($request->search['value'])) {
-            $search = $request->search['value'];
+        if ($request->has('search') && ! empty($request->search['value'])) {
+            $search = (string) $request->search['value'];
 
-            $model = $model->where(function ($query) use ($search) {
-                $query->where('name', 'LIKE', '%' . $search . '%')
-                    ->orWhere('phone', 'LIKE', '%' . $search . '%')
-                    ->orWhere('email', 'LIKE', '%' . $search . '%');
+            $model->where(static function ($query) use ($search): void {
+                $query->where('name', 'LIKE', '%'.$search.'%')
+                    ->orWhere('phone', 'LIKE', '%'.$search.'%')
+                    ->orWhere('email', 'LIKE', '%'.$search.'%');
             });
         }
-        
-        if ($request->has('type') && !empty($request->type)) {
-            $model = $model->where('type', $request->type);
+
+        if ($request->filled('type')) {
+            $model->where('type', (string) $request->type);
         }
 
         return $dataTables->eloquent($model)
             ->addIndexColumn()
-            ->editColumn('id', function (Message $message) {
-                return $message->id ?? '-';
-            })
-            ->editColumn('name', function (Message $message) {
-                return $message->name ?? '-';
-            })
-            ->editColumn('email', function (Message $message) {
-                return $message->email ?? '-';
-            })
-            // ->editColumn('city', function (Message $message) {
-            //     return $message->city ?? '-';
-            // })
-            ->editColumn('phone', function (Message $message) {
-                return $message->phone ?? '-';
-            })
-            ->editColumn('type', function (Message $message) {
-                if ($message->type == 'booking') {
-                    return '<span class="badge badge-light-success">'.\App\Helpers\TranslationHelper::translate('Booking').'</span>';
+            ->editColumn('id', static fn (ContactMessage $message): int => (int) $message->id)
+            ->editColumn('name', static fn (ContactMessage $message): string => $message->name ?? '-')
+            ->editColumn('email', static fn (ContactMessage $message): string => $message->email ?? '-')
+            ->editColumn('phone', static fn (ContactMessage $message): string => $message->phone ?? '-')
+            ->editColumn('type', static function (ContactMessage $message): string {
+                $typeEnum = $message->type instanceof ContactMessageTypeEnum
+                    ? $message->type
+                    : ContactMessageTypeEnum::tryFrom((string) $message->getRawOriginal('type'));
+
+                if ($typeEnum !== null) {
+                    return '<span class="badge badge-light-'.$typeEnum->color().'">'.e($typeEnum->label()).'</span>';
                 }
-                return '<span class="badge badge-light-primary">'.\App\Helpers\TranslationHelper::translate('Contact').'</span>';
+
+                return '<span class="badge badge-light-primary">'.e(TranslationHelper::translate('Contact')).'</span>';
             })
-            ->editColumn('service', function (Message $message) {
-                return $message->service ?? '-';
-            })
-            ->editColumn('created_at', function (Message $message) {
-                return $message->created_at ? $message->created_at->format('d-m-Y') : '-';
-            })
-            ->addColumn('action', function (Message $message) {
-                return view('admin.pages.message.buttons', compact('message'));
-            })
+            ->editColumn('service', static fn (ContactMessage $message): string => $message->service ?? '-')
+            ->editColumn('created_at', static fn (ContactMessage $message): string => $message->created_at ? $message->created_at->format('d-m-Y') : '-')
+            ->addColumn('action', static fn (ContactMessage $message): View => view('admin.pages.message.buttons', compact('message')))
             ->rawColumns(['action', 'type'])
             ->make(true);
     }
 
-
     /**
-     * Display a Single Row of the resource.
+     * Display details of a single contact message.
      */
-    public function Show($id): View
+    public function show(int|string $id): View
     {
-        $message = Message::find($id);
-        return view('admin.pages.message.show' , get_defined_vars());
+        $message = ContactMessage::query()->findOrFail((int) $id);
+
+        return view('admin.pages.message.show', compact('message'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a contact message from storage.
      */
-    public function destroy(Message $message) : JsonResponse
+    public function destroy(ContactMessage $message): JsonResponse
     {
         $message->delete();
-        return response()->json(['status' => 'success', 'message' => TranslationHelper::translate('Successfully Deleted')]);
 
+        return response()->json([
+            'status' => 'success',
+            'message' => TranslationHelper::translate('Successfully Deleted'),
+        ]);
     }
-
 }

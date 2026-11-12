@@ -100,6 +100,7 @@ Route::group(
 
             // Settings
             Route::get('all-settings', [SettingController::class, 'all_settings'])->name('all_settings.index');
+            Route::put('all-settings', [SettingController::class, 'update'])->name('all_settings.update');
         });
     }
 );

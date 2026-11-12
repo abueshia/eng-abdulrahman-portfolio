@@ -1,14 +1,16 @@
 <?php
+
+declare(strict_types=1);
+
 namespace App\Services;
 
-use App\Helpers\ReorderHelper;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
-class  AdminService {
-
+class AdminService
+{
     //     public function createAdmin($data)
     //     {
     // //        if ($data['name'] && $data['name'] != null) {
@@ -56,7 +58,7 @@ class  AdminService {
     //         'email' => $data['email'],
     //         'password' => Hash::make($data['password']),
     //         'is_admin' => 1,
-    //         // 'phone' => $data['phone'] ?? null, 
+    //         // 'phone' => $data['phone'] ?? null,
     //     ]);
 
     //     // dd($new_admin);
@@ -66,10 +68,10 @@ class  AdminService {
     //     $admin->assignRole($role);
     // }
 
-    public function createAdmin($data)
+    public function createAdmin($data): void
     {
-        // dd($data); 
-        if (!empty($data['name'])) {
+        // dd($data);
+        if (! empty($data['name'])) {
             $data['name'] = customizeSingleName($data['name']);
         }
         $new_admin = User::create([
@@ -84,9 +86,6 @@ class  AdminService {
         $new_admin->assignRole($role);
     }
 
-
-
-
     // public function updateAdmin(User $user, array $data)
     // {
     //      $updatedData = [
@@ -99,35 +98,29 @@ class  AdminService {
     //     $user->update($updatedData);
     // }
 
-    public function updateAdmin(User $user, array $data)
-{
-    // تحضير البيانات المحدثة
-    $updatedData = [
-        'name' => $data['name'] ?? $user->name,
-        'branche_id' => $data['branche_id'] ?? $user->branche_id,
-        'email'    => $data['email'] ?? $user->email,
-        'password' => isset($data['password']) ? Hash::make($data['password']) : $user->password,
-        'username' => $data['username'] ?? $user->username,
-    ];
+    public function updateAdmin(User $user, array $data): void
+    {
+        // تحضير البيانات المحدثة
+        $updatedData = [
+            'name' => $data['name'] ?? $user->name,
+            'branche_id' => $data['branche_id'] ?? $user->branche_id,
+            'email' => $data['email'] ?? $user->email,
+            'password' => isset($data['password']) ? Hash::make($data['password']) : $user->password,
+            'username' => $data['username'] ?? $user->username,
+        ];
 
-    // تحديث البيانات في الجدول
-    $user->update($updatedData);
+        // تحديث البيانات في الجدول
+        $user->update($updatedData);
 
-    // التحقق من وجود الدور (Role) في البيانات المُرسلة
-    if (!empty($data['role_id'])) {
-        $role = Role::findById($data['role_id'], 'admin'); // البحث عن الدور في الحرس "admin"
-        $user->syncRoles([$role]); // مزامنة الأدوار (إزالة الأدوار القديمة وإضافة الجديدة)
+        // التحقق من وجود الدور (Role) في البيانات المُرسلة
+        if (! empty($data['role_id'])) {
+            $role = Role::findById($data['role_id'], 'admin'); // البحث عن الدور في الحرس "admin"
+            $user->syncRoles([$role]); // مزامنة الأدوار (إزالة الأدوار القديمة وإضافة الجديدة)
+        }
     }
-}
 
-
-
-
-
-
-    public function deleteAdmin($admin){
+    public function deleteAdmin($admin): void
+    {
         $admin->delete();
     }
-
-
 }

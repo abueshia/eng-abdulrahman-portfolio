@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Tag;
-use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
@@ -14,6 +15,7 @@ class BlogController extends Controller
     {
         $blogs = Blog::latest()->get();
         $categories = Category::all();
+
         return view('front.pages.blog.index', get_defined_vars());
     }
 
@@ -21,10 +23,11 @@ class BlogController extends Controller
     {
         $categories = Category::all();
         $blog = Blog::where('slug', $slug)->first();
-        if (!$blog) {
+        if (! $blog) {
             abort(404);
         }
         $blogs = Blog::latest()->limit(5)->where('id', '!=', $blog->id)->get();
+
         return view('front.pages.blog.details', get_defined_vars());
     }
 
@@ -32,20 +35,19 @@ class BlogController extends Controller
     {
         $category = Category::with('blogs')->where('slug', $slug)->first();
 
-        if (!$category) {
+        if (! $category) {
             abort(404);
         }
 
         $categories = Category::all();
+
         return view('front.pages.blog.category', compact('category', 'categories'));
     }
-
-
 
     public function tag($tag_slug)
     {
         $tag = Tag::where('slug', $tag_slug)->first();
-        $blogs = Blog::query()->whereHas('tags', function ($q) use ($tag_slug) {
+        $blogs = Blog::query()->whereHas('tags', function ($q) use ($tag_slug): void {
             $q->where('tags.slug', $tag_slug);
         })->get();
         $categories = Category::get();

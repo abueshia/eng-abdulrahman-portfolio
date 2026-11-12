@@ -154,27 +154,55 @@ eng-abdulrahman-portfolio/
 
 ---
 
-## 5. حالة الموديلات والملفات الحالية بعد تنظيف المرحلة 1 (Phase 1 State)
+## 5. الموديلات والـ Enums وهيكلة قاعدة البيانات بعد المرحلة 2 (Phase 2 Domain State)
 
-### ما تم حذفه نهائياً في المرحلة 1 (Legacy Cleanup):
-- **الموديلات المحذوفة:** `About`, `Banner`, `Client`, `Contact`, `Gallery`, `Otp`, `Privacypolicy`, `Termsandcondition`.
-- **الخدمات (Services) المحذوفة:** `AboutService`, `BannerService`, `ClientService`, `ContactService`, `GalleryService`, `NewsService`, `PrivacypolicyService`, `TermsandconditionService`.
-- **الكنترولرز المحذوفة:**
-  - `Admin`: `AboutController`, `BannerController`, `ClientController`, `ContactController`, `GalleryController`, `PrivacypolicyController`, `RateController`, `TermsandconditionController`.
-  - `API`: `AboutusController`, `BannerController`, `ClientController`, `ContactController`, `LoginController`, `PrivacypolicyController`, `TermsandconditionController`, `VoucherspageController`.
-  - `Front`: `AuthController`.
-- **الـ Jobs المحذوفة:** `FetchAirportData`, `FetchJsonData`, `ProcessCityBatch`.
-- **الـ ViewModels المحذوفة:** 35 ملف ViewModel قديم موروث من قوالب السياحة والعيادة.
-- **الـ Migrations المحذوفة:** جميع جداول السياحة، العملاء (`clients`)، الـ OTP، البانرات القديمة (`banners`)، المعرض (`galleries`)، سياسة الخصوصية والشروط (`privacy_policy`, `terms_and_condition`)، و`about_uses` و`contacts` (حيث سيتم دمج بيانات التعريف والتواصل في نظام الإعدادات الديناميكي `Settings` في المرحلة 2 و3).
+### أولاً: الـ Backed Enums (`app/Enums/` — PHP 8.3 `string` Enums مع `label()`, `color()`, `values()`, `options()`)
+1. [`ProjectStatusEnum`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Enums/ProjectStatusEnum.php): `draft`, `published`, `archived`.
+2. [`ProjectTypeEnum`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Enums/ProjectTypeEnum.php): `web_app`, `saas`, `api_backend`, `ecommerce`, `cms_dashboard`, `full_stack`.
+3. [`TechnologyCategoryEnum`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Enums/TechnologyCategoryEnum.php): `backend`, `frontend`, `database`, `devops`, `architecture`, `testing`, `tools`.
+4. [`EmploymentTypeEnum`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Enums/EmploymentTypeEnum.php): `full_time`, `part_time`, `contract`, `freelance`, `remote`.
+5. [`CredentialTypeEnum`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Enums/CredentialTypeEnum.php): `academic_degree`, `professional_certificate`, `course`, `award`.
+6. [`ContactMessageTypeEnum`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Enums/ContactMessageTypeEnum.php): `general_contact`, `project_inquiry`, `job_offer`, `consultation`.
+7. [`ContactMessageStatusEnum`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Enums/ContactMessageStatusEnum.php): `new`, `read`, `in_progress`, `replied`, `archived`.
+8. [`BlogStatusEnum`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Enums/BlogStatusEnum.php): `draft`, `published`, `archived`.
+9. [`SettingGroupEnum`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Enums/SettingGroupEnum.php): `general`, `hero`, `about`, `contact`, `seo`, `sections_visibility`, `cta`.
+10. [`SettingTypeEnum`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Enums/SettingTypeEnum.php): `text`, `textarea`, `rich_text`, `image`, `file`, `url`, `email`, `boolean`, `json`.
+11. [`SettingKeyEnum`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Enums/SettingKeyEnum.php): مصدر الحقيقة الوحيد (Single Source of Truth) لجميع مفاتيح الإعدادات (`35` مفتاحاً) مع الدوال `group()`, `type()`, `isTranslatable()`, `default()`, و`defaultForLocale()`.
 
-### الموديلات الأساسية المتبقية حالياً (وستُبنى عليها هيكلة المرحلة 2):
-1. [`Blog`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Blog.php) (المقالات التقنية)
-2. [`Category`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Category.php) (التصنيفات التقنية)
-3. [`Message`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Message.php) (رسائل التواصل وطلبات المشاريع — ستُطوّر في المرحلة 2)
-4. [`Permission`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Permission.php) & [`Role`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Role.php) (الأدوار والصلاحيات على الحارس `admin`)
-5. [`Setting`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Setting.php) (الإعدادات الديناميكية)
-6. [`Testimonial`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Testimonial.php) (آراء وتقييمات العملاء)
-7. [`User`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/User.php) (حساب المشرف الإداري للبورتفوليو)
+### ثانياً: الموديلات المعتمدة وجداولها وعلاقاتها (`app/Models/`)
+1. [`Project`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Project.php) (`projects` + pivot `project_technology`):
+   - يمثل المشاريع البرمجية ودراسات الحالة (`title`, `slug`, `subtitle`, `short_description`, `description`, `challenge`, `solution`, `results`, `metrics`, `project_type`, `status`, `live_url`, `repo_url`).
+   - العلاقات: `category()`, `technologies()`, `testimonials()`.
+   - الـ Scopes: `scopeActive`, `scopePublished`, `scopeFeatured`, `scopeOfType`, `scopeOrdered`.
+   - الميديا: `projects` (صورة الغلاف)، `projects_gallery` (معرض شاشات المشروع).
+2. [`Technology`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Technology.php) (`technologies`):
+   - يمثل اللغات والتقنيات (`PHP 8.3`, `Laravel 10`, `React.js`, `JavaScript ES6+`, `MySQL`, `Redis`, `Clean Architecture & SOLID`, `PHPUnit`...).
+   - العلاقات: `projects()`, `experiences()`.
+   - الـ Scopes: `scopeActive`, `scopeFeatured`, `scopeByCategory`, `scopeOrdered`.
+3. [`Experience`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Experience.php) (`experiences` + pivot `experience_technology`):
+   - يمثل المسيرة المهنية والخبرات العملية.
+   - العلاقات: `technologies()`.
+   - الـ Scopes: `scopeActive`, `scopeOrdered`.
+4. [`Credential`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Credential.php) (`credentials`):
+   - يمثل المؤهلات الأكاديمية والشهادات الاحترافية والدورات.
+   - الـ Scopes: `scopeActive`, `scopeOfType`, `scopeOrdered`.
+5. [`Service`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Service.php) (`services`):
+   - يمثل الخدمات البرمجية التي يقدمها م. عبدالرحمن أبو عيشة.
+   - الـ Scopes: `scopeActive`, `scopeFeatured`, `scopeOrdered`.
+6. [`Setting`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Setting.php) (`settings`):
+   - نظام الإعدادات الديناميكية الموحد (`group`, `key`, `value` JSON, `type`, `is_translatable`, `sort_order`) ويشمل بيانات التعريف (`about`) والتواصل (`contact`) والـ SEO.
+   - الدوال والـ Scopes: `localizedValue()`, `scopeByGroup`, `scopeOrdered`.
+7. [`ContactMessage`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/ContactMessage.php) (`contact_messages`):
+   - يمثل رسائل التواصل وطلبات المشاريع وعروض العمل (تم حذف موديل `Message` القديم المكرر نهائياً).
+   - الـ Scopes: `scopeOfType`, `scopeWithStatus`, `scopeUnread`, `scopeOrdered`.
+8. [`Testimonial`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Testimonial.php) (`testimonials`):
+   - يمثل آراء وتقييمات العملاء مع ربط اختياري بالمشروع `project()`.
+9. [`Category`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Category.php) (`categories`) & [`Blog`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Blog.php) (`blogs`):
+   - التصنيفات والمقالات التقنية ثنائية اللغة (مع ربط `Blog::status` بـ [`BlogStatusEnum`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Enums/BlogStatusEnum.php)).
+10. [`Faq`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Faq.php) (`faqs`) & [`Stat`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Stat.php) (`stats`):
+    - الأسئلة الشائعة والإحصائيات الرقمية للبورتفوليو.
+11. [`User`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/User.php), [`Role`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Role.php), [`Permission`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Permission.php):
+    - إدارة المشرفين والصلاحيات على الحارس `admin`.
 
 ---
 
@@ -192,3 +220,24 @@ eng-abdulrahman-portfolio/
 4. **تأسيس البنية التحتية للـ Repository Pattern وLaravel Pint والاختبارات:**
    - إنشاء [`BaseRepositoryInterface`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Repositories/Contracts/BaseRepositoryInterface.php)، [`BaseRepository`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Repositories/Eloquent/BaseRepository.php)، و[`RepositoryServiceProvider`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Providers/RepositoryServiceProvider.php).
    - إعداد [`pint.json`](file:///d:/laragon/www/eng-abdulrahman-portfolio/pint.json) وإنشاء اختبار [`ArchitectureFoundationTest`](file:///d:/laragon/www/eng-abdulrahman-portfolio/tests/Feature/ArchitectureFoundationTest.php).
+
+### المرحلة 2 (Phase 2 - Enums, Clean Migrations, Domain Models, Factories, Seeders & Schema Tests) — مكتملة ✅
+1. **إنشاء 9 كلاسات PHP 8.3 Backed Enums في `app/Enums/` مع ملفات الترجمة (`resources/lang/{ar,en}/enums.php`):**
+   - كل Enum يدعم `label()` و`color()` و`values()` و`options()`.
+2. **إعادة بناء جميع ملفات الـ Migrations بشكل نظيف ومفهرس بالكامل:**
+   - إنشاء جداول `settings`, `categories`, `technologies`, `projects`, `project_technology`, `experiences`, `experience_technology`, `credentials`, `services`, `testimonials`, `blogs`, `contact_messages`, `faqs`, `stats`, و`media` مع جميع الـ Foreign Keys والـ Indexes.
+3. **بناء وتحديث جميع موديلات البورتفوليو في `app/Models/` والـ Factories في `database/factories/`:**
+   - ربط الـ Casts بالـ Enums، توثيق العلاقات والـ Local Scopes بـ PHPDoc إنجليزي، وتفعيل `HasTranslations` و`InteractsWithMedia`.
+4. **بناء الـ Seeders الغنية ببيانات م. عبدالرحمن أبو عيشة (`UserSeeder`, `RoleSeeder`, `SettingSeeder`, `PortfolioSeeder`) وتشغيل `migrate:fresh --seed` واختبارات `PortfolioDomainSchemaTest`.**
+
+### المرحلة 3 (Phase 3 - Dynamic Settings Engine & Auth/Frontend Test Suite) — مكتملة ✅
+1. **تنظيف اختبارات Laravel Breeze الموروثة وإضافة اختبارات المصادقة الفعلية (`AdminAuthenticationTest`):**
+   - حذف `tests/Feature/Auth/`, `tests/Feature/ProfileTest.php`, `tests/Feature/ExampleTest.php`, و`tests/Unit/ExampleTest.php`.
+   - إنشاء [`tests/Feature/Admin/AdminAuthenticationTest.php`](file:///d:/laragon/www/eng-abdulrahman-portfolio/tests/Feature/Admin/AdminAuthenticationTest.php) للتحقق من `/admin/login`، تسجيل الدخول والخروج بالحارس `admin`، حماية الصلاحيات (`403`)، وفتح الصفحة الرئيسية للموقع (`/ar` و`/en`).
+2. **توحيد `ContactMessage` وإضافة `BlogStatusEnum`:**
+   - حذف `app/Models/Message.php` المكرر نهائياً وتحديث جميع الكنترولرز لاستخدام [`ContactMessage`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/ContactMessage.php).
+   - إنشاء [`app/Enums/BlogStatusEnum.php`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Enums/BlogStatusEnum.php) وربطه بموديل [`Blog`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Models/Blog.php).
+3. **بناء محرك الإعدادات الديناميكي المتكامل (Dynamic Settings Engine):**
+   - إنشاء [`SettingKeyEnum`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Enums/SettingKeyEnum.php) كمصدر حقيقة وحيد (`group()`, `type()`, `isTranslatable()`, `default()`, `defaultForLocale()`).
+   - إنشاء [`SettingRepositoryInterface`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Repositories/Contracts/SettingRepositoryInterface.php)، [`EloquentSettingRepository`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Repositories/Eloquent/EloquentSettingRepository.php)، [`SettingUpdateData`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/DTOs/SettingUpdateData.php) DTO، [`SettingObserver`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Observers/SettingObserver.php)، و[`SettingService`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Services/SettingService.php) مع الكاش الدائم `portfolio.settings`.
+   - إنشاء [`UpdateSettingRequest`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Http/Requests/Admin/Setting/UpdateSettingRequest.php) وتحديث [`SettingController`](file:///d:/laragon/www/eng-abdulrahman-portfolio/app/Http/Controllers/Admin/SettingController.php) وصفحة التبويبات الـ 7 المتجاوبة [`resources/views/admin/pages/setting/index.blade.php`](file:///d:/laragon/www/eng-abdulrahman-portfolio/resources/views/admin/pages/setting/index.blade.php) واختبارات [`SettingServiceTest`](file:///d:/laragon/www/eng-abdulrahman-portfolio/tests/Feature/SettingServiceTest.php).

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -10,15 +12,15 @@ return [
     | The default group settings for the elFinder routes.
     |
     */
-    'route'          => [
-        'prefix'     => 'admin/translations',
+    'route' => [
+        'prefix' => 'admin/translations',
         'middleware' => 'web',
     ],
 
     /**
      * Enable deletion of translations
      *
-     * @type boolean
+     * @type bool
      */
     'delete_enabled' => true,
 
@@ -46,12 +48,12 @@ return [
      *        'de',
      *    )
      */
-    'exclude_langs'  => [],
+    'exclude_langs' => [],
 
     /**
      * Export translations with keys output alphabetically.
      */
-    'sort_keys'     => false,
+    'sort_keys' => false,
 
     'trans_functions' => [
         'trans',

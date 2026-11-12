@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ViewModels;
 
-use Spatie\ViewModels\ViewModel;
 use Spatie\Permission\Models\Role;
+use Spatie\ViewModels\ViewModel;
 
 class RoleViewModel extends ViewModel
 {

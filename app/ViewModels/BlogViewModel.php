@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ViewModels;
 
-use Spatie\ViewModels\ViewModel;
 use App\Models\Blog;
 use App\Models\Category;
+use Spatie\ViewModels\ViewModel;
 
 class BlogViewModel extends ViewModel
 {
@@ -24,8 +26,6 @@ class BlogViewModel extends ViewModel
     {
         return is_null($this->blog->id) ? 'POST' : 'PUT';
     }
-
-
 
     public function categories()
     {

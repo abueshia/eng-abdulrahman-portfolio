@@ -1,5 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
+use App\Models\Client;
+use App\Models\User;
+
 return [
 
     /*
@@ -55,11 +60,9 @@ return [
 
         'client_api' => [
             'driver' => 'passport',
-            'provider' => 'client'
+            'provider' => 'client',
         ],
     ],
-
-
 
     /*
     |--------------------------------------------------------------------------
@@ -84,12 +87,10 @@ return [
     //         'model' => App\Models\User::class,
     //     ],
 
-
-
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => User::class,
         ],
 
         // 'admins' => [
@@ -99,7 +100,7 @@ return [
 
         'client' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Client::class,
+            'model' => Client::class,
         ],
     ],
 

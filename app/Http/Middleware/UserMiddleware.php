@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -11,14 +13,14 @@ class UserMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  Closure(Request): (Response)  $next
      */
-public function handle($request, Closure $next)
-{
-    if (auth('user')->check()) {
-        return $next($request);
-    }
+    public function handle($request, Closure $next)
+    {
+        if (auth('user')->check()) {
+            return $next($request);
+        }
 
-    return redirect('/login')->with('error', 'Access Denied');
-}
+        return redirect('/login')->with('error', 'Access Denied');
+    }
 }

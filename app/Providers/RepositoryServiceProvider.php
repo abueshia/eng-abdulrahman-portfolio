@@ -11,17 +11,20 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Repositories\Contracts\SettingRepositoryInterface;
+use App\Repositories\Eloquent\EloquentSettingRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
     /**
      * All repository interface-to-implementation bindings.
-     * Domain-specific bindings will be populated in Phase 3 and Phase 4.
      *
      * @var array<class-string, class-string>
      */
-    public array $bindings = [];
+    public array $bindings = [
+        SettingRepositoryInterface::class => EloquentSettingRepository::class,
+    ];
 
     /**
      * Register repository bindings in the container.
@@ -41,4 +44,3 @@ class RepositoryServiceProvider extends ServiceProvider
         //
     }
 }
-

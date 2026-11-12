@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ViewModels;
 
-use Spatie\ViewModels\ViewModel;
 use App\Models\Category;
+use Spatie\ViewModels\ViewModel;
 
 class CategoryViewModel extends ViewModel
 {

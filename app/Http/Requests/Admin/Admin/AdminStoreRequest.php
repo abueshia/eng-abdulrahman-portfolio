@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Admin\Admin;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AdminStoreRequest extends FormRequest
@@ -17,16 +20,16 @@ class AdminStoreRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         $rules = [
-            'name' => 'required|max:255', 
-            'email'    => 'required|email|unique:users,email',
-            'branche_id' => 'required|exists:branches,id', 
-            'role_id' => 'required|exists:roles,id', 
-            'password' => 'required|min:6',  
+            'name' => 'required|max:255',
+            'email' => 'required|email|unique:users,email',
+            'branche_id' => 'required|exists:branches,id',
+            'role_id' => 'required|exists:roles,id',
+            'password' => 'required|min:6',
         ];
 
         if ($this->isMethod('post')) {
@@ -35,7 +38,4 @@ class AdminStoreRequest extends FormRequest
 
         return $rules;
     }
-
-
-
 }

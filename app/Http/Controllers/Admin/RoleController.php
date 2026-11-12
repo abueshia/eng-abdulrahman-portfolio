@@ -1,19 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\TranslationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Role\RoleRequest;
 use App\Http\Requests\Admin\Role\StoreRoleRequest;
-use App\Models\Country;
 use App\Models\Permission as ModelsPermission;
 use App\Services\RoleService;
 use App\ViewModels\RoleViewModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -25,7 +24,7 @@ class RoleController extends Controller
 
     public function __construct()
     {
-        $this->role = new RoleService();
+        $this->role = new RoleService;
         // $this->middleware('permission:roles.view_all', ['only' => ['index']]);
         // $this->middleware('permission:roles.create', ['only' => ['create', 'store']]);
         // $this->middleware('permission:roles.edit', ['only' => ['edit', 'update']]);
@@ -45,6 +44,7 @@ class RoleController extends Controller
     {
 
         $roles = Role::paginate(15);
+
         return view('admin.pages.role.index', compact('roles'));
     }
 
@@ -68,14 +68,17 @@ class RoleController extends Controller
             ->startsWithSearch()
             ->make(true);
     }
+
     /**
      * Display a Single Row of the resource.
      */
     public function Show($id): View
     {
         $role = Role::find($id);
+
         return view('admin.pages.role.show', get_defined_vars());
     }
+
     /**
      * Show the form for creating a new category.
      */
@@ -94,7 +97,8 @@ class RoleController extends Controller
                         ];
                     });
                 });
-        return view('admin.pages.role.form', new RoleViewModel(), get_defined_vars());
+
+        return view('admin.pages.role.form', new RoleViewModel, get_defined_vars());
     }
 
     /**
@@ -104,9 +108,10 @@ class RoleController extends Controller
     {
         $data = $request->validated();
         $data['guard'] = 'admin';
-        
+
         $this->role->createRole($data);
         session()->flash('success', TranslationHelper::translate('Operation Success'));
+
         return back();
     }
 
@@ -138,9 +143,10 @@ class RoleController extends Controller
      */
     public function update(StoreRoleRequest $request, Role $role): RedirectResponse
     {
-//        return $request;
+        //        return $request;
         $this->role->updateRole($role, $request->validated());
         session()->flash('success', TranslationHelper::translate('Successfully Updated'));
+
         return back();
     }
 
@@ -150,6 +156,7 @@ class RoleController extends Controller
     public function destroy(Role $role): JsonResponse
     {
         $this->role->deleteRole($role);
+
         return response()->json(['status' => 'success', 'message' => TranslationHelper::translate('Successfully Deleted')]);
 
     }
@@ -162,7 +169,7 @@ class RoleController extends Controller
     public function saveReorder(Request $request, Role $role)
     {
         $all_entries = \Request::input('tree');
+
         return $this->role->saveReorder($all_entries, $role);
     }
-
 }

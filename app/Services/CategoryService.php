@@ -1,12 +1,15 @@
 <?php
+
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Helpers\ReorderHelper;
 use App\Models\Category;
 
-class  CategoryService {
-
-    public function createCategory($data)
+class CategoryService
+{
+    public function createCategory($data): void
     {
         // $data['slug'] = $this->createUniqueSlug($data['name'], Category::class);
 
@@ -20,53 +23,52 @@ class  CategoryService {
         }
     }
 
-//     public function createUniqueSlug($name, $model , $id = null) {
-//         $slug = $this->generateArabicSlug($name);
+    //     public function createUniqueSlug($name, $model , $id = null) {
+    //         $slug = $this->generateArabicSlug($name);
 
-//         $originalSlug = $slug;
+    //         $originalSlug = $slug;
 
-//         // Keep modifying the slug by appending a number until it's unique
-//         if ($id != null) {
-//             $count = $model::where('slug', $slug)->where('id', '!=', $id)->count();
-//         } else {
-//             $count = $model::where('slug', $slug)->count();
+    //         // Keep modifying the slug by appending a number until it's unique
+    //         if ($id != null) {
+    //             $count = $model::where('slug', $slug)->where('id', '!=', $id)->count();
+    //         } else {
+    //             $count = $model::where('slug', $slug)->count();
 
-//         }
-//         if ($count > 0) {
-//             $slug = $originalSlug . '-' . $count;
-//         } else {
-//             $slug = $originalSlug;
-//         }
-// //        dd($slug);
-//         return $slug;
+    //         }
+    //         if ($count > 0) {
+    //             $slug = $originalSlug . '-' . $count;
+    //         } else {
+    //             $slug = $originalSlug;
+    //         }
+    // //        dd($slug);
+    //         return $slug;
 
+    //     }
+    //     public function generateArabicSlug($string, $separator = '-')
+    //     {
+    //         if (is_null($string)) {
+    //             return "";
+    //         }
 
-//     }
-//     public function generateArabicSlug($string, $separator = '-')
-//     {
-//         if (is_null($string)) {
-//             return "";
-//         }
+    //         $string = trim($string);
 
-//         $string = trim($string);
+    //         $string = mb_strtolower($string, "UTF-8");;
 
-//         $string = mb_strtolower($string, "UTF-8");;
+    //         $string = preg_replace("/[^a-z0-9_\sءاأإآؤئبتثجحخدذرزسشصضطظعغفقكلمنهويةى]#u/", "", $string);
 
-//         $string = preg_replace("/[^a-z0-9_\sءاأإآؤئبتثجحخدذرزسشصضطظعغفقكلمنهويةى]#u/", "", $string);
+    //         $string = preg_replace("/[\s-]+/", " ", $string);
 
-//         $string = preg_replace("/[\s-]+/", " ", $string);
+    //         $string = preg_replace("/[\s_]/", $separator, $string);
 
-//         $string = preg_replace("/[\s_]/", $separator, $string);
+    //         return $string;
+    //     }
 
-//         return $string;
-//     }
-
-    public function updateCategory($category , $data)
+    public function updateCategory($category, $data): void
     {
 
         // $data['slug'] = $this->createUniqueSlug($data['name'], Category::class, $category->id);
 
-        if(isset($data['image'])){
+        if (isset($data['image'])) {
             $category->updateFile($data['image']);
         }
         if (isset($data['meta_image'])) {
@@ -75,18 +77,18 @@ class  CategoryService {
         $category->update($data);
     }
 
-    public function deleteCategory($category){
+    public function deleteCategory($category): void
+    {
         $category->delete();
     }
 
-    public function reorder($category, $label , $path, $max_num)
+    public function reorder($category, $label, $path, $max_num)
     {
-        return ReorderHelper::reorder($category, $label , $path, $max_num);
+        return ReorderHelper::reorder($category, $label, $path, $max_num);
     }
 
-    public function saveReorder ($all_entries, $category)
+    public function saveReorder($all_entries, $category)
     {
         return ReorderHelper::saveReorder($all_entries, $category);
     }
-
 }

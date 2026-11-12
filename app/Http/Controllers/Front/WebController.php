@@ -11,9 +11,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Front;
 
+use App\Enums\ContactMessageStatusEnum;
+use App\Enums\ContactMessageTypeEnum;
 use App\Helpers\TranslationHelper;
 use App\Http\Controllers\Controller;
-use App\Models\Message;
+use App\Models\ContactMessage;
 use App\Models\Testimonial;
 use Exception;
 use Illuminate\Contracts\View\View;
@@ -107,13 +109,18 @@ class WebController extends Controller
             'message.string' => TranslationHelper::translate('Message must be a valid string'),
         ]);
 
-        Message::query()->create([
+        ContactMessage::query()->create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
             'message' => $request->message,
-            'type' => $request->type ?? 'contact',
+            'type' => $isBooking
+                ? ContactMessageTypeEnum::ProjectInquiry
+                : ContactMessageTypeEnum::GeneralContact,
+            'status' => ContactMessageStatusEnum::New,
             'service' => $request->service,
+            'ip_address' => $request->ip(),
+            'user_agent' => (string) $request->userAgent(),
         ]);
 
         try {

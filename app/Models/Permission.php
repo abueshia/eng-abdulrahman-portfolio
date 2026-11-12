@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +13,7 @@ class Permission extends SpatiePermission
 {
     use HasFactory;
 
-    public static function permissionsByGroups(string | null $name = ''): Collection
+    public static function permissionsByGroups(?string $name = ''): Collection
     {
         return self::where('name', 'LIKE', ["%{$name}%"])->get()
             ->groupBy(function ($permissions) {
@@ -55,5 +57,4 @@ class Permission extends SpatiePermission
             ];
         });
     }
-
 }

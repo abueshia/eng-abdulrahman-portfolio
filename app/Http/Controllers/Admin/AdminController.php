@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\TranslationHelper;
@@ -13,7 +15,6 @@ use App\ViewModels\AdminViewModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
@@ -24,28 +25,29 @@ class AdminController extends Controller
 
     public function __construct()
     {
-       $this->admin = new AdminService();
-    //    $this->middleware('permission:admins.view_all', ['only' => ['index']]);
-    //    $this->middleware('permission:admins.view_details', ['only' => ['show']]);
-    //    $this->middleware('permission:admins.create', ['only' => ['create', 'store']]);
-    //    $this->middleware('permission:admins.edit', ['only' => ['edit', 'update']]);
-    //    $this->middleware('permission:admins.delete', ['only' => ['destroy']]);
+        $this->admin = new AdminService;
+        //    $this->middleware('permission:admins.view_all', ['only' => ['index']]);
+        //    $this->middleware('permission:admins.view_details', ['only' => ['show']]);
+        //    $this->middleware('permission:admins.create', ['only' => ['create', 'store']]);
+        //    $this->middleware('permission:admins.edit', ['only' => ['edit', 'update']]);
+        //    $this->middleware('permission:admins.delete', ['only' => ['destroy']]);
 
         $this->middleware(['auth:admin', 'permission:admins.view_all'], ['only' => ['index']]);
         $this->middleware(['auth:admin', 'permission:admins.view_details'], ['only' => ['show']]);
         $this->middleware(['auth:admin', 'permission:admins.create'], ['only' => ['edit', 'update']]);
         $this->middleware(['auth:admin', 'permission:admins.edit'], ['only' => ['index']]);
         $this->middleware(['auth:admin', 'permission:admins.delete'], ['only' => ['destroy']]);
-        
+
     }
 
     /**
      * Display a listing of the category.
      */
-    public function index(Request $request) : View
+    public function index(Request $request): View
     {
         $branches = Branche::all();
         $roles = Role::all();
+
         return view('admin.pages.admin.index', get_defined_vars());
     }
 
@@ -69,7 +71,7 @@ class AdminController extends Controller
     //         })
     //         ->rawColumns(['image', 'action'])
     //         ->startsWithSearch()
-    //         ->make(true); 
+    //         ->make(true);
     // }
     public function table(DataTables $dataTables, Request $request)
     {
@@ -78,19 +80,19 @@ class AdminController extends Controller
 
         // تطبيق البحث فقط على عمود الاسم
         if ($request->has('search_value') && $request->search_value) {
-            $model->where('name', 'like', '%' . $request->search_value . '%');
+            $model->where('name', 'like', '%'.$request->search_value.'%');
         }
 
         // إضافة الفلاتر الأخرى إذا كانت موجودة
         if ($request->has('role_name') && $request->role_name) {
-            $model->whereHas('roles', function ($query) use ($request) {
-                $query->where('name', 'like', '%' . $request->role_name . '%');
+            $model->whereHas('roles', function ($query) use ($request): void {
+                $query->where('name', 'like', '%'.$request->role_name.'%');
             });
         }
 
         if ($request->has('branche_name') && $request->branche_name) {
-            $model->whereHas('branche', function ($query) use ($request) {
-                $query->where('name', 'like', '%' . $request->branche_name . '%');
+            $model->whereHas('branche', function ($query) use ($request): void {
+                $query->where('name', 'like', '%'.$request->branche_name.'%');
             });
         }
 
@@ -113,8 +115,6 @@ class AdminController extends Controller
             ->make(true);
     }
 
-
-
     /**
      * Display a Single Row of the resource.
      */
@@ -122,17 +122,19 @@ class AdminController extends Controller
     {
         $branches = Branche::all();
         $admin = User::find($id);
-        return view('admin.pages.admin.show' , get_defined_vars());
+
+        return view('admin.pages.admin.show', get_defined_vars());
     }
 
     /**
      * Show the form for creating a new category.
      */
-    public function create() : View
+    public function create(): View
     {
         $branches = Branche::all();
         $roles = Role::all();
-        return view('admin.pages.admin.form' ,  new AdminViewModel(), get_defined_vars());
+
+        return view('admin.pages.admin.form', new AdminViewModel, get_defined_vars());
     }
 
     /**
@@ -142,47 +144,52 @@ class AdminController extends Controller
     {
         $this->admin->createAdmin($request->validated());
         session()->flash('success', TranslationHelper::translate('Operation Success'));
+
         return back();
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $admin) : View
+    public function edit(User $admin): View
     {
         $branches = Branche::all();
         $roles = Role::all();
-        return view('admin.pages.admin.form' ,  new AdminViewModel($admin), get_defined_vars());
+
+        return view('admin.pages.admin.form', new AdminViewModel($admin), get_defined_vars());
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(AdminUpdateRequest $request, User $admin) : RedirectResponse
+    public function update(AdminUpdateRequest $request, User $admin): RedirectResponse
     {
-//        return $request
-        $this->admin->updateAdmin($admin , $request->validated());
+        //        return $request
+        $this->admin->updateAdmin($admin, $request->validated());
         session()->flash('success', TranslationHelper::translate('Successfully Updated'));
+
         return back();
     }
-
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $admin) : JsonResponse
+    public function destroy(User $admin): JsonResponse
     {
         $this->admin->deleteAdmin($admin);
+
         return response()->json(['status' => 'success', 'message' => TranslationHelper::translate('Successfully Deleted')]);
     }
 
-    public function reorder(User $admin) {
+    public function reorder(User $admin)
+    {
         return $this->admin->reorder($admin, 'name', 'admin.pages.admin.reorder', 1);
     }
 
-    public function saveReorder(Request $request, User $admin) {
+    public function saveReorder(Request $request, User $admin)
+    {
         $all_entries = \Request::input('tree');
+
         return $this->admin->saveReorder($all_entries, $admin);
     }
-
 }

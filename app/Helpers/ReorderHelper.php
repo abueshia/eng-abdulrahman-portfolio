@@ -1,22 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\View\View;
 
 class ReorderHelper
 {
     public static function tree_element($entry, $key, $all_entries, $label)
     {
-        if (!isset($entry->tree_element_shown)) {
+        if (! isset($entry->tree_element_shown)) {
             // mark the element as shown
-//            $all_entries[$key]->tree_element_shown = true;
+            //            $all_entries[$key]->tree_element_shown = true;
             $entry->tree_element_shown = true;
 
             // show the tree element
-            echo '<li id="list_' . $entry->getKey() . '">';
-            echo '<div><span class="disclose"><span></span></span>' . object_get($entry, $label) . '</div>';
+            echo '<li id="list_'.$entry->getKey().'">';
+            echo '<div><span class="disclose"><span></span></span>'.object_get($entry, $label).'</div>';
 
             // see if this element has any children
             $children = [];
@@ -69,6 +70,7 @@ class ReorderHelper
     {
 
         $data = $model->select('id', $label, 'lft', 'parent_id')->orderBy('lft', 'ASC')->get();
+
         return view($path, get_defined_vars());
 
     }
@@ -80,17 +82,18 @@ class ReorderHelper
         } else {
             return false;
         }
+
         return 'success for '.$count.' items';
     }
 
-    public static function reorderComponent($all_entries, $label) {
+    public static function reorderComponent($all_entries, $label): void
+    {
         $root_entries = $all_entries->filter(function ($item) {
             return $item->parent_id == 0;
         });
         foreach ($root_entries as $key => $entry) {
 
-            $root_entries[$key] = \App\Helpers\ReorderHelper::tree_element($entry, $key, $all_entries, $label);
+            $root_entries[$key] = ReorderHelper::tree_element($entry, $key, $all_entries, $label);
         }
     }
-
 }

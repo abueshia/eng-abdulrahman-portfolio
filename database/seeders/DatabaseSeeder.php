@@ -1,8 +1,16 @@
 <?php
 
+/**
+ * DatabaseSeeder
+ *
+ * Orchestrates the complete database seeding pipeline for Eng. Abdelrahman Abu Aishah's
+ * Portfolio CMS (Admin User, Roles & Permissions, Dynamic Settings, and Portfolio Content).
+ */
+
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,15 +20,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
         $this->call([
             UserSeeder::class,
+            RoleSeeder::class,
+            SettingSeeder::class,
+            PortfolioSeeder::class,
         ]);
     }
 }

@@ -9,8 +9,8 @@
 
 declare(strict_types=1);
 
-use App\Models\Setting;
-use Illuminate\Support\Facades\Cache;
+use App\Enums\SettingKeyEnum;
+use App\Services\SettingService;
 use Illuminate\Support\Facades\Route;
 
 if (! function_exists('showLink')) {
@@ -73,30 +73,15 @@ if (! function_exists('getLastKeyRoute')) {
 
 if (! function_exists('setting')) {
     /**
-     * Retrieve a cached setting value by option key and optional locale/nested key.
+     * Retrieve a cached setting value via SettingService with locale and fallback support.
      */
-    function setting(string $key, ?string $lang = null, mixed $default = null): mixed
+    function setting(SettingKeyEnum|string $key, ?string $lang = null, mixed $default = null): mixed
     {
         try {
-            $settings = Cache::rememberForever('settings', static function () {
-                return Setting::query()->get();
-            });
+            return app(SettingService::class)->get($key, $lang, $default);
         } catch (Throwable) {
             return $default;
         }
-
-        $setting = $settings->firstWhere('option', $key);
-        if (! $setting) {
-            return $default;
-        }
-
-        $value = $setting->value;
-
-        if ($lang === null) {
-            return is_array($value) ? ($value[0] ?? reset($value) ?: $default) : ($value ?? $default);
-        }
-
-        return is_array($value) ? ($value[$lang] ?? $default) : ($value ?? $default);
     }
 }
 

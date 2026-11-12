@@ -1,43 +1,55 @@
 <?php
 
+/**
+ * API MessageController
+ *
+ * Handles public contact message and project inquiry submissions via REST API.
+ */
+
+declare(strict_types=1);
+
 namespace App\Http\Controllers\API;
 
+use App\Enums\ContactMessageStatusEnum;
+use App\Enums\ContactMessageTypeEnum;
 use App\Http\Controllers\Controller;
-use App\Models\Message; 
+use App\Models\ContactMessage;
 use App\Traits\ApiResponseTrait;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class MessageController extends Controller
 {
     use ApiResponseTrait;
 
-    public function CreateMessage(Request $request)
+    /**
+     * Validate and store a new contact message from the API.
+     */
+    public function CreateMessage(Request $request): JsonResponse
     {
         try {
             $validated = $request->validate([
                 'message' => 'required|string',
                 'name' => 'required|string|max:100',
-                'phone' => 'required|string|regex:/^[0-9]{10,15}$/', 
-            ], [
-                'message.required' => 'حقل الرسالة مطلوب.',
-                'message.string' => 'الرسالة يجب أن تكون نصًا.',
-                'name.required' => 'حقل الاسم مطلوب.',
-                'name.string' => 'الاسم يجب أن يكون نصًا.',
-                'name.max' => 'الاسم يجب ألا يتجاوز 100 حرف.',
-                'phone.required' => 'حقل الهاتف مطلوب.',
-                'phone.string' => 'رقم الهاتف يجب أن يكون نصًا.',
-                'phone.regex' => 'رقم الهاتف غير صالح. يجب أن يتكون من 10 إلى 15 رقمًا.',
+                'phone' => 'required|string|regex:/^[0-9]{10,15}$/',
+                'email' => 'nullable|email|max:255',
             ]);
 
-            $message = Message::create([
+            $message = ContactMessage::query()->create([
                 'message' => $validated['message'],
                 'name' => $validated['name'],
                 'phone' => $validated['phone'],
+                'email' => $validated['email'] ?? null,
+                'type' => ContactMessageTypeEnum::GeneralContact,
+                'status' => ContactMessageStatusEnum::New,
+                'ip_address' => $request->ip(),
+                'user_agent' => (string) $request->userAgent(),
             ]);
 
             return $this->success_response($message, 'Message created successfully', 201);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return $this->error_response('Validation failed', $e->errors(), 422);
+        } catch (ValidationException $e) {
+            return $this->error_response('Validation failed', 422, $e->errors());
         }
     }
 }

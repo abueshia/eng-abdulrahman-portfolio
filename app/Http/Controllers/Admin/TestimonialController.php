@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\TranslationHelper;
@@ -11,6 +13,7 @@ use App\ViewModels\TestimonialViewModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 
@@ -33,9 +36,9 @@ class TestimonialController extends Controller
         $this->middleware(['auth:admin', 'permission:testimonial.delete'], ['only' => ['destroy']]);
         $this->middleware(['auth:admin', 'permission:testimonial.sort'], ['only' => [
             'reorder',
-            'saveReorder'
+            'saveReorder',
         ]]);
-        $this->testimonial = new TestimonialService();
+        $this->testimonial = new TestimonialService;
     }
 
     /**
@@ -45,7 +48,7 @@ class TestimonialController extends Controller
     {
         $total_reviews = Testimonial::count();
         $average_rating = Testimonial::avg('rating') ?? 0;
-        
+
         return view('admin.pages.testimonial.index', compact('total_reviews', 'average_rating'));
     }
 
@@ -74,11 +77,11 @@ class TestimonialController extends Controller
         $model = Testimonial::query();
 
         // إذا كان هناك طلب بحث عام
-        if ($request->has('search') && !empty($request->search['value'])) {
+        if ($request->has('search') && ! empty($request->search['value'])) {
             $search = $request->search['value'];
 
             // البحث في حقل الاسم فقط
-            $model = $model->where('name', 'LIKE', '%' . $search . '%');
+            $model = $model->where('name', 'LIKE', '%'.$search.'%');
         }
 
         return $dataTables->eloquent($model)
@@ -90,13 +93,14 @@ class TestimonialController extends Controller
                 return $testimonial->name ?? '-';
             })
             ->editColumn('description', function (Testimonial $testimonial) {
-                return \Illuminate\Support\Str::limit($testimonial->description, 50, '...') ?? '-';
+                return Str::limit($testimonial->description, 50, '...') ?? '-';
             })
             ->editColumn('rating', function (Testimonial $testimonial) {
                 $stars = '';
                 for ($i = 0; $i < $testimonial->rating; $i++) {
                     $stars .= '<i class="fa-solid fa-star text-warning"></i>';
                 }
+
                 return $stars;
             })
             ->editColumn('created_at', function (Testimonial $testimonial) {
@@ -109,16 +113,13 @@ class TestimonialController extends Controller
             ->make(true);
     }
 
-
-
-
-
     /**
      * Display a Single Row of the resource.
      */
     public function Show($id): View
     {
         $testimonial = Testimonial::find($id);
+
         return view('admin.pages.testimonial.show', get_defined_vars());
     }
 
@@ -127,7 +128,7 @@ class TestimonialController extends Controller
      */
     public function create(): View
     {
-        return view('admin.pages.testimonial.form',  new TestimonialViewModel());
+        return view('admin.pages.testimonial.form', new TestimonialViewModel);
     }
 
     /**
@@ -138,6 +139,7 @@ class TestimonialController extends Controller
         // return $request;
         $this->testimonial->createTestimonial($request->validated());
         session()->flash('success', TranslationHelper::translate('Operation Success'));
+
         return back();
     }
 
@@ -146,7 +148,7 @@ class TestimonialController extends Controller
      */
     public function edit(Testimonial $testimonial): View
     {
-        return view('admin.pages.testimonial.form',  new TestimonialViewModel($testimonial));
+        return view('admin.pages.testimonial.form', new TestimonialViewModel($testimonial));
     }
 
     /**
@@ -157,6 +159,7 @@ class TestimonialController extends Controller
         //        return $request;
         $this->testimonial->updateTestimonial($testimonial, $request->validated());
         session()->flash('success', TranslationHelper::translate('Successfully Updated'));
+
         return back();
     }
 
@@ -166,6 +169,7 @@ class TestimonialController extends Controller
     public function destroy(Testimonial $testimonial): JsonResponse
     {
         $this->testimonial->deleteTestimonial($testimonial);
+
         return response()->json(['status' => 'success', 'message' => TranslationHelper::translate('Successfully Deleted')]);
     }
 
@@ -177,6 +181,7 @@ class TestimonialController extends Controller
     public function saveReorder(Request $request, Testimonial $testimonial)
     {
         $all_entries = $request->input('tree');
+
         return $this->testimonial->saveReorder($all_entries, $testimonial);
     }
 }

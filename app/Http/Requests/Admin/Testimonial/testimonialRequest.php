@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Admin\Testimonial;
 
 use App\Helpers\TranslationHelper;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TestimonialRequest extends FormRequest
@@ -18,7 +21,7 @@ class TestimonialRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
@@ -36,6 +39,7 @@ class TestimonialRequest extends FormRequest
 
         ];
     }
+
     public function messages(): array
     {
         return [
@@ -51,10 +55,8 @@ class TestimonialRequest extends FormRequest
             'name_job.en.required' => TranslationHelper::translate('Please Enter Name Job in English'),
             'name_job.ar.required' => TranslationHelper::translate('Please Enter Name Job in Arabic'),
 
-
             'meta_title.en' => TranslationHelper::translate('Please Enter meta_title in English'),
             'meta_title.ar' => TranslationHelper::translate('Please Enter meta_title in Arabic'),
-
 
         ];
     }

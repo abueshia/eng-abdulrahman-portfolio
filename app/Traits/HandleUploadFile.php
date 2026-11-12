@@ -1,19 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Traits;
 
 use Illuminate\Http\UploadedFile;
 
 trait HandleUploadFile
 {
-
     /**
      * Undocumented function.
      *
-     * @param UploadedFile|null $image
-     * @return void
+     * @param  UploadedFile|null  $image
      */
-    public function updateFile($image, $prefix =''): void
+    public function updateFile($image, $prefix = ''): void
     {
         if (isset($image)) {
             $this->clearMediaCollection($this->getTable().$prefix);
@@ -31,7 +31,7 @@ trait HandleUploadFile
         }
     }
 
-    public function storeFile(?UploadedFile $image , $prefix =''): void
+    public function storeFile(?UploadedFile $image, $prefix = ''): void
     {
         if (isset($image)) {
             $this->addMedia($image)->toMediaCollection($this->getTable().$prefix);
@@ -51,5 +51,4 @@ trait HandleUploadFile
     {
         $this->clearMediaCollection($this->getTable());
     }
-
 }

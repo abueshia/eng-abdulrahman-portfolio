@@ -2220,25 +2220,13 @@
                 
                 <div class="dt-add-review">
                     <div class="dt-add-review__head">
-                        <span class="dt-eyebrow-free">رأيك يهمنا</span>
-                        <h3>شاركنا تجربتك معانا</h3>
-                        <p>تقييمك بيساعدنا نتطور، وبيساعد غيرك ياخد قراره</p>
+                        <span class="dt-eyebrow-free">هل لديك مشروع برمجي؟</span>
+                        <h3>تواصل معي الآن لبدء مشروعك</h3>
+                        <p>أساعد الشركات ورواد الأعمال على بناء أنظمة وتطبيقات ويب متكاملة وعالية الأداء</p>
                     </div>
-                    <form action="<?php echo e(route('create_testimonial')); ?>" method="POST" class="dt-add-review__form">
-                        <?php echo csrf_field(); ?>
-                        <div class="dt-add-review__rate" id="dtRateStars">
-                            <?php for($k = 5; $k >= 1; $k--): ?>
-                                <input type="radio" name="rating" id="dtStar<?php echo e($k); ?>"
-                                    value="<?php echo e($k); ?>" <?php echo e($k == 5 ? 'checked' : ''); ?>>
-                                <label for="dtStar<?php echo e($k); ?>"><i class="fa-solid fa-star"></i></label>
-                            <?php endfor; ?>
-                        </div>
-                        <input type="text" name="website_url" style="display:none !important;" tabindex="-1"
-                            autocomplete="off">
-                        <input type="text" name="name" placeholder="اسمك" required>
-                        <textarea name="review" placeholder="اكتب رأيك هنا..." required></textarea>
-                        <button type="submit" class="dt-cta">إرسال التقييم</button>
-                    </form>
+                    <div class="text-center">
+                        <a href="#booking" class="dt-cta">اطلب مشروعك الآن</a>
+                    </div>
                 </div>
             </div>
         </section>
