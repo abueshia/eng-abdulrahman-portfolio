@@ -44,7 +44,7 @@
         <div class="row">
             <!-- Title -->
             <div class="col-12 mb-5">
-                <label class="fs-5 fw-bold form-label mb-2">عنوان الحالة</label>
+                <label class="fs-5 fw-bold form-label mb-2">عنوان المشروع / العمل</label>
                 <input type="text" class="form-control form-control-solid" name="title" value="{{ old('title', $banner->title ?? '') }}" required />
                 @error('title')
                     <span class="text-danger" role="alert"><strong>{{ $message }}</strong></span>
@@ -53,7 +53,7 @@
 
             <!-- Description -->
             <div class="col-12 mb-5">
-                <label class="fs-5 fw-bold form-label mb-2">وصف الحالة</label>
+                <label class="fs-5 fw-bold form-label mb-2">وصف المشروع والتقنيات المستخدمة</label>
                 <textarea class="form-control form-control-solid" name="description" rows="3" required>{{ old('description', $banner->description ?? '') }}</textarea>
                 @error('description')
                     <span class="text-danger" role="alert"><strong>{{ $message }}</strong></span>
@@ -63,7 +63,7 @@
             <!-- Before Image -->
             <div class="col-6 mb-5">
                 <label class="fs-5 fw-bold form-label mb-5">
-                    صورة قبل (Before):
+                    صورة المشروع الأولى (أو قبل التطوير):
                 </label>
                 <input type="file" class="form-control form-control-solid" name="before_image"/>
                 @error('before_image')
@@ -80,7 +80,7 @@
             <!-- After Image -->
             <div class="col-6 mb-5">
                 <label class="fs-5 fw-bold form-label mb-5">
-                    صورة بعد (After):
+                    صورة المشروع الثانية (أو بعد التطوير):
                 </label>
                 <input type="file" class="form-control form-control-solid" name="after_image"/>
                 @error('after_image')

@@ -565,7 +565,7 @@
         }
 
         .dt-home-about-premium::before {
-            content: 'DR. MOHAMED HAMZA';
+            content: 'ENG. ABDELRAHMAN';
             position: absolute;
             top: 50%;
             left: 50%;
@@ -1865,25 +1865,24 @@
 
             <div class="dt-hero__inner">
                 <div class="dt-hero__copy">
-                    <span class="dt-eyebrow-free">فريق طبي بخبرة متميزة</span>
+                    <span class="dt-eyebrow-free">Full-Stack Software Engineer (Laravel & React.js)</span>
                     <h1 class="dt-hero__title">
-                        ابتسامتك<br>
-                        تستاهل عناية<br>
-                        <span class="dt-hero__title-accent">من نوع تاني</span>
+                        نحوّل أفكارك إلى<br>
+                        أنظمة ومواقع برمجية<br>
+                        <span class="dt-hero__title-accent">بأعلى معايير الجودة</span>
                     </h1>
                     <p class="dt-hero__desc">
-                        من التنظيف والتجميل لغاية زراعة الأسنان وتقويمها، بنقدملك رعاية دقيقة
-                        بأحدث الأجهزة، في بيئة مصممة عشان تحس فيها بالراحة من أول لحظة.
+                        مهندس عبدالرحمن أبو عيشة — خبرة أكثر من 4 سنوات في هندسة وتطوير الباك إند باستخدام PHP & Laravel، وبناء واجهات المستخدم التفاعلية الحديثة باستخدام JavaScript و React.js.
                     </p>
                     <div class="dt-hero__actions">
-                        <a href="#booking" class="dt-cta dt-cta--lg">احجز كشف مجاني</a>
-                        <a href="#services" class="dt-btn-ghost">اكتشف خدماتنا</a>
+                        <a href="#booking" class="dt-cta dt-cta--lg">اطلب مشروعك الآن</a>
+                        <a href="#services" class="dt-btn-ghost">استكشف خدماتي التقنية</a>
                     </div>
 
                     <div class="dt-hero__stats">
-                        <div class="dt-stat"><b data-count="5">0</b><span>سنة خبرة</span></div>
-                        <div class="dt-stat"><b data-count="840">0</b><span>مريض سعيد</span></div>
-                        <div class="dt-stat"><b data-count="98">0</b><span>% رضا العملاء</span></div>
+                        <div class="dt-stat"><b data-count="4">0</b><span>+ سنوات خبرة</span></div>
+                        <div class="dt-stat"><b data-count="45">0</b><span>+ مشروع برمجي ناجح</span></div>
+                        <div class="dt-stat"><b data-count="100">0</b><span>% التزام بالجودة</span></div>
                     </div>
                 </div>
 
@@ -1902,28 +1901,24 @@
                         </svg>
 
                         <div class="dt-portrait__frame">
-                            <img src="{{ asset('front/assets/img/drrr.jpg') }}" alt="د. محمد حمزة الشيخ"
+                            <img src="{{ asset('front/assets/img/drrr.jpg') }}" alt="المهندس عبدالرحمن أبو عيشة"
                                 class="dt-portrait__img">
                         </div>
 
                         <span class="dt-portrait__orbit-icon dt-portrait__orbit-icon--1"><i
-                                class="fa-solid fa-tooth"></i></span>
+                                class="fa-brands fa-laravel"></i></span>
                         <span class="dt-portrait__orbit-icon dt-portrait__orbit-icon--2"><i
-                                class="fa-solid fa-star"></i></span>
+                                class="fa-brands fa-react"></i></span>
                         <span class="dt-portrait__orbit-icon dt-portrait__orbit-icon--3"><i
-                                class="fa-solid fa-heart-pulse"></i></span>
+                                class="fa-solid fa-code"></i></span>
 
                         <div class="dt-portrait__badge">
                             <span class="dt-portrait__badge-mark">
-                                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M20 6c-4.4 0-7 2.6-9 2.6-2.3 0-4-1.4-4-1.4s-.6 5.4 1.3 12.4c1.7 6.2 4 12.4 6.9 12.4 2.1 0 2.1-4.6 4.8-4.6s2.7 4.6 4.8 4.6c2.9 0 5.2-6.2 6.9-12.4C33.6 12.6 33 7.2 33 7.2s-1.7 1.4-4 1.4c-2 0-4.6-2.6-9-2.6z"
-                                        stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
-                                </svg>
+                                <i class="fa-solid fa-terminal"></i>
                             </span>
                             <div>
-                                <b>د. محمد حمزة الشيخ</b>
-                                <span>عيادة د.محمد حمزة التخصصية</span>
+                                <b>م. عبدالرحمن أبو عيشة</b>
+                                <span>Full-Stack Software Engineer</span>
                             </div>
                         </div>
                     </div>
@@ -1933,22 +1928,22 @@
                     <span class="dt-sparkle dt-sparkle--3">✦</span>
 
                     <div class="dt-float-card dt-float-card--1">
-                        <i class="fa-solid fa-shield-heart"></i>
-                        <div><b>تعقيم كامل</b><span>لكل جلسة علاج</span></div>
+                        <i class="fa-brands fa-php"></i>
+                        <div><b>PHP & Laravel</b><span>Backend Architecture</span></div>
                     </div>
                     <div class="dt-float-card dt-float-card--2">
-                        <i class="fa-solid fa-cube"></i>
-                        <div><b>تقنية 3D</b><span>لتشخيص دقيق</span></div>
+                        <i class="fa-brands fa-react"></i>
+                        <div><b>React.js & JS</b><span>Modern Frontend UI</span></div>
                     </div>
                 </div>
             </div>
 
             <div class="dt-hero__marquee">
                 <div class="dt-hero__marquee-track">
-                    <span>زراعة أسنان</span><span>تقويم شفاف</span><span>تبييض احترافي</span>
-                    <span>ابتسامة هوليوود</span><span>علاج جذور</span><span>طب أسنان أطفال</span>
-                    <span>زراعة أسنان</span><span>تقويم شفاف</span><span>تبييض احترافي</span>
-                    <span>ابتسامة هوليوود</span><span>علاج جذور</span><span>طب أسنان أطفال</span>
+                    <span>PHP 8.3 & Laravel</span><span>React.js & JavaScript</span><span>RESTful APIs</span>
+                    <span>لوحات تحكم متكاملة</span><span>MySQL & Database Design</span><span>Performance & SEO</span>
+                    <span>PHP 8.3 & Laravel</span><span>React.js & JavaScript</span><span>RESTful APIs</span>
+                    <span>لوحات تحكم متكاملة</span><span>MySQL & Database Design</span><span>Performance & SEO</span>
                 </div>
             </div>
         </section>
@@ -1957,16 +1952,16 @@
         <section class="dt-program">
             <div class="dt-container">
                 <div class="dt-section-head">
-                    <span class="dt-eyebrow-free">برنامجنا المكثف</span>
-                    <h2 class="dt-h2">برنامج علاج مكثف<br>في أسبوع واحد</h2>
+                    <span class="dt-eyebrow-free">منهجية العمل</span>
+                    <h2 class="dt-h2">دورة حياة تطوير<br>مشاريعك البرمجية</h2>
                 </div>
 
                 <div class="dt-program__steps">
                     @php
                         $dtSteps = [
-                            ['icon' => 'fa-user-doctor', 'title' => 'الأفضل', 'sub' => 'كأطباء وفريق طبي'],
-                            ['icon' => 'fa-microscope', 'title' => 'الأحدث', 'sub' => 'في الأجهزة الطبية'],
-                            ['icon' => 'fa-calendar-check', 'title' => 'الأفضل', 'sub' => 'في المتابعة الدورية'],
+                            ['icon' => 'fa-diagram-project', 'title' => 'تحليل وتصميم', 'sub' => 'هيكلة قاعدة البيانات والـ Architecture'],
+                            ['icon' => 'fa-laptop-code', 'title' => 'تطوير متكامل', 'sub' => 'باك إند Laravel وفرونت إند React.js'],
+                            ['icon' => 'fa-rocket', 'title' => 'إطلاق ودعم', 'sub' => 'اختبار الأداء، الحماية، والـ SEO'],
                         ];
                     @endphp
                     @foreach ($dtSteps as $i => $step)
@@ -1982,35 +1977,6 @@
             </div>
         </section>
 
-        {{-- ================= ABOUT DOCTOR ================= --}}
-        {{-- <section class="dt-about-dr" id="about">
-            <div class="dt-container dt-about-dr__grid">
-                <div class="dt-about-dr__visual">
-                    <!-- YouTube video link for Fancybox -->
-                    <a href="https://www.youtube.com/watch?v=D0UnqGm_miA" data-fancybox class="dt-video-card">
-                        <img src="{{ asset('front/assets/img/drr.jpg') }}" alt="Dr. Mohamed Hamza" class="dt-video-card__img" onerror="this.src='{{ asset('front/assets/img/dr.jpg') }}'">
-                        <div class="dt-video-card__overlay"></div>
-                        <span class="dt-video-card__play">
-                            <i class="fa-solid fa-play"></i>
-                        </span>
-                    </a>
-                </div>
-                <div class="dt-about-dr__copy">
-                    <span class="dt-eyebrow-free">تعرف علينا عن قرب</span>
-                    <h2 class="dt-h2">دكتور محمد حمزة<br>وخبرة سنوات في طب وتجميل الأسنان</h2>
-                    <p class="dt-p">
-                        نسعى دائماً لتقديم أحدث التقنيات الطبية في جو من الراحة والاحترافية. هدفنا الأول هو رسم الابتسامة على وجوهكم وتوفير رعاية صحية متكاملة بأساليب غير مؤلمة وتدوم طويلاً.
-                    </p>
-                    <ul class="dt-check-list">
-                        <li><i class="fa-solid fa-certificate"></i> زمالة طب وتجميل الأسنان المتقدم</li>
-                        <li><i class="fa-solid fa-chalkboard-user"></i> أكثر من 15 سنة خبرة في الحالات المعقدة</li>
-                        <li><i class="fa-solid fa-hand-holding-medical"></i> استخدام أحدث أجهزة الليزر والميكروسكوب</li>
-                    </ul>
-                    <a href="{{ route('about') }}" class="dt-cta">اقرأ المزيد عن العيادة</a>
-                </div>
-            </div>
-        </section> --}}
-
         {{-- ================= WHY US ================= --}}
         <section class="dt-why">
             <div class="dt-container dt-why__grid">
@@ -2019,25 +1985,24 @@
                         style="background-image: url('{{ asset('front/assets/img/rrrrr.jpeg') }}'); background-size: cover; background-position: center;">
                     </div>
                     <div class="dt-why__badge">
-                        <b>4.9</b>
+                        <b>+4</b>
                         <div class="dt-stars">★★★★★</div>
-                        <span>تقييم +1,300 عميل</span>
+                        <span>سنوات خبرة برمجية</span>
                     </div>
                 </div>
                 <div class="dt-why__copy">
-                    <span class="dt-eyebrow-free">لماذا تختارنا</span>
-                    <h2 class="dt-h2">راحتك وثقتك<br>هي أولويتنا</h2>
-                    <p class="dt-p">مش بس بنعالج الأسنان، إحنا بنبني علاقة ثقة بتستمر لسنين. كل خطة علاج
-                        بتتصمم على قد احتياجك وميزانيتك، وبنشرحلك كل خطوة قبل ما نبدأ.</p>
+                    <span class="dt-eyebrow-free">لماذا تعمل معي؟</span>
+                    <h2 class="dt-h2">كود نظيف، أداء فائق<br>وقابلية للتوسع</h2>
+                    <p class="dt-p">لا أكتفي بكتابة كود يعمل فقط، بل أصمم أنظمة برمجية تتبع أفضل الممارسات المعمارية (Clean Code & SOLID Principles) لضمان سهولة التطوير المستقبلي واستقرار النظام.</p>
 
                     <ul class="dt-check-list">
-                        <li><i class="fa-solid fa-check"></i> أطباء متخصصون بشهادات دولية</li>
-                        <li><i class="fa-solid fa-check"></i> أجهزة تشخيص رقمية حديثة</li>
-                        <li><i class="fa-solid fa-check"></i> خطط سداد مرنة تناسب الجميع</li>
-                        <li><i class="fa-solid fa-check"></i> متابعة بعد العلاج بدون رسوم إضافية</li>
+                        <li><i class="fa-solid fa-check"></i> خبرة +4 سنوات في تطوير تطبيقات الويب باستخدام PHP & Laravel</li>
+                        <li><i class="fa-solid fa-check"></i> بناء واجهات تفاعلية سريعة ومتجاوبة بـ React.js و JavaScript</li>
+                        <li><i class="fa-solid fa-check"></i> تصميم وبناء RESTful APIs مؤمنة لتطبيقات الموبايل والويب</li>
+                        <li><i class="fa-solid fa-check"></i> التزام تام بالمواعيد والدعم الفني المستمر بعد التسليم</li>
                     </ul>
 
-                    <a href="#booking" class="dt-btn-ghost">احجز استشارتك</a>
+                    <a href="#booking" class="dt-btn-ghost">ابدأ مشروعك معي</a>
                 </div>
             </div>
         </section>
@@ -2048,9 +2013,7 @@
                 <div class="dt-specialties__visual">
                     <div class="dt-specialties__tooth">
                         <svg viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M100 12c-30 0-45 16-58 16-11 0-20-8-20-8s-4 32 7 74c10 37 25 74 42 74 13 0 13-26 29-26s16 26 29 26c17 0 32-37 42-74 11-42 7-74 7-74s-9 8-20 8c-13 0-28-16-58-16z"
-                                fill="#fff" stroke="var(--dt-teal)" stroke-width="6" stroke-linejoin="round" />
+                            <circle cx="100" cy="110" r="85" fill="#fff" stroke="var(--dt-teal)" stroke-width="6" />
                         </svg>
                     </div>
                     <div class="dt-specialties__person"
@@ -2059,20 +2022,20 @@
                 </div>
 
                 <div class="dt-specialties__copy">
-                    <span class="dt-eyebrow-free">تخصصاتنا</span>
-                    <h2 class="dt-h2">جميع تخصصات<br>طب الأسنان</h2>
-                    <p class="dt-p">نقدر نعمل أشعة، فحوصات، جراحة، ومعالجة كاملة للفم والوجه والفكين تحت سقف عيادة واحدة.
+                    <span class="dt-eyebrow-free">خدماتي التقنية</span>
+                    <h2 class="dt-h2">حلول برمجية متكاملة<br>من الباك إند للفرونت إند</h2>
+                    <p class="dt-p">أقدم خدمات تطوير الويب الشاملة بدءاً من تخطيط قواعد البيانات وبناء الـ Backend والـ APIs وحتى تصميم وتطوير واجهات المستخدم التفاعلية.
                     </p>
 
                     <div class="dt-specialties__chips">
                         @php
                             $dtSpecialties = [
-                                ['icon' => 'fa-tooth', 'title' => 'علاج جذور وسحب عصب'],
-                                ['icon' => 'fa-crown', 'title' => 'حشوات تجميلية وليزر'],
-                                ['icon' => 'fa-hand-sparkles', 'title' => 'تبييض وتنظيف جير الأسنان'],
-                                ['icon' => 'fa-sun', 'title' => 'خلع وجراحة ضرس العقل'],
-                                ['icon' => 'fa-align-center', 'title' => 'علاج أمراض وجراحة اللثة'],
-                                ['icon' => 'fa-teeth-open', 'title' => 'طب أسنان الأطفال'],
+                                ['icon' => 'fa-server', 'title' => 'تطوير باك إند PHP Laravel'],
+                                ['icon' => 'fa-atom', 'title' => 'واجهات تفاعلية React.js'],
+                                ['icon' => 'fa-network-wired', 'title' => 'بناء وربط RESTful APIs'],
+                                ['icon' => 'fa-gauge-high', 'title' => 'لوحات تحكم إدارية وأنظمة ERP'],
+                                ['icon' => 'fa-cart-shopping', 'title' => 'متاجر إلكترونية وبوابات دفع'],
+                                ['icon' => 'fa-magnifying-glass-chart', 'title' => 'تحسين الأداء والـ SEO والأمان'],
                             ];
                         @endphp
                         @foreach ($dtSpecialties as $s)
@@ -2080,13 +2043,13 @@
                                 <span class="dt-chip__icon"><i class="fa-solid {{ $s['icon'] }}"></i></span>
                                 <span>
                                     <b>{{ $s['title'] }}</b>
-                                    <em>التفاصيل والأسعار</em>
+                                    <em>اطلب الخدمة الآن</em>
                                 </span>
                             </a>
                         @endforeach
                     </div>
 
-                    <a href="{{ route('services') }}" class="dt-cta">باقي تخصصاتنا الطبية</a>
+                    <a href="{{ route('services') }}" class="dt-cta">استعراض كافة الخدمات</a>
                 </div>
             </div>
         </section>
@@ -2097,7 +2060,7 @@
 
                 <div class="dt-home-about-premium__visual">
                     <div class="dt-home-about-premium__frame">
-                        <img src="{{ asset('front/assets/img/blog4.jpg') }}" alt="Dr. Mohamed Hamza"
+                        <img src="{{ asset('front/assets/img/blog4.jpg') }}" alt="Eng. Abdelrahman Abu Aishah"
                             class="dt-home-about-premium__img"
                             onerror="this.src='{{ asset('front/assets/img/dr.jpg') }}'">
                         <div class="dt-home-about-premium__overlay"></div>
@@ -2109,30 +2072,27 @@
                 </div>
 
                 <div class="dt-home-about-premium__copy">
-                    <span class="dt-home-about-premium__subtitle">تعرف علينا عن قرب</span>
-                    <h2 class="dt-home-about-premium__title">د. محمد حمزة<br>صانع الابتسامة المشرقة</h2>
+                    <span class="dt-home-about-premium__subtitle">تعرف عليّ عن قرب</span>
+                    <h2 class="dt-home-about-premium__title">م. عبدالرحمن أبو عيشة<br>Full-Stack Software Engineer</h2>
                     <p class="dt-home-about-premium__text">
-                        يؤمن دكتور محمد بأن زيارة طبيب الأسنان يجب أن تكون تجربة إيجابية وخالية من التوتر، ولذلك قام بتصميم
-                        عيادة بايو كلينك لتكون واحة للرعاية الصحية الهادئة. نسعى دائماً لتقديم أحدث التقنيات الطبية في جو من
-                        الراحة والاحترافية. هدفنا الأول هو رسم الابتسامة على وجوهكم وتوفير رعاية صحية متكاملة بأساليب غير
-                        مؤلمة وتدوم طويلاً.
+                        مهندس برمجيات متخصص في بناء تطبيقات الويب المتكاملة بخبرة تزيد عن 4 سنوات. أجمع بين القوة المعمارية في الباك إند باستخدام PHP و Laravel، والمرونة والتفاعلية العالية في الفرونت إند باستخدام JavaScript و React.js، لتقديم منتجات رقمية متكاملة، سريعة، وآمنة تلبي طموحات العملاء والشركات.
                     </p>
 
                     <div class="dt-home-about-premium__actions">
                         <a href="{{ route('about') }}" class="dt-home-about-premium__btn">
-                            اقرأ المزيد عن العيادة <i class="fa-solid fa-arrow-left"></i>
+                            اقرأ المزيد عن خبراتي <i class="fa-solid fa-arrow-left"></i>
                         </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        {{-- ================= BEFORE / AFTER ================= --}}
+        {{-- ================= BEFORE / AFTER (PORTFOLIO PROJECTS) ================= --}}
         <section class="dt-ba" id="before-after">
             <div class="dt-container">
                 <div class="dt-section-head dt-section-head--light" style="margin-bottom: 30px;">
-                    <span class="dt-eyebrow-free">نتائج حقيقية</span>
-                    <h2 class="dt-h2" style="margin-bottom: 10px;">قبل وبعد</h2>
+                    <span class="dt-eyebrow-free">معرض الأعمال</span>
+                    <h2 class="dt-h2" style="margin-bottom: 10px;">أحدث المشاريع والأنظمة</h2>
                 </div>
 
                 <div class="swiper ba-swiper">
@@ -2168,7 +2128,7 @@
                                     <div class="dt-ba__content" style="margin-top: 15px;">
                                         <h3 class="dt-h3"
                                             style="color: var(--dt-gold); font-size: 1.5rem; margin-bottom: 0;">
-                                            {{ $banner->title ?? 'حالة مميزة' }}</h3>
+                                            {{ $banner->title ?? 'مشروع مميز' }}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -2179,7 +2139,7 @@
                 </div>
 
                 <div class="dt-center-btn">
-                    <a href="{{ route('cases.index') }}" class="dt-btn-ghost dt-btn-ghost--light">شاهد كل الحالات</a>
+                    <a href="{{ route('cases.index') }}" class="dt-btn-ghost dt-btn-ghost--light">شاهد كل المشاريع</a>
                 </div>
             </div>
         </section>
@@ -2306,8 +2266,8 @@
         <section class="dt-gallery" id="gallery">
             <div class="dt-container">
                 <div class="dt-section-head">
-                    <span class="dt-eyebrow-free">جولة داخل العيادة</span>
-                    <h2 class="dt-h2">مساحة مصممة لراحتك</h2>
+                    <span class="dt-eyebrow-free">لقطات من المشاريع</span>
+                    <h2 class="dt-h2">واجهات ولوحات تحكم احترافية</h2>
                 </div>
 
                 <div class="swiper gallery-swiper">
@@ -2315,8 +2275,8 @@
                         @foreach ($galleryImages as $img)
                             <div class="swiper-slide">
                                 <a href="{{ asset('front/assets/img/' . $img) }}" data-fancybox="gallery"
-                                    data-caption="عيادة د. محمد حمزة">
-                                    <img src="{{ asset('front/assets/img/' . $img) }}" alt="عيادة د. محمد حمزة"
+                                    data-caption="معرض أعمال م. عبدالرحمن أبو عيشة">
+                                    <img src="{{ asset('front/assets/img/' . $img) }}" alt="معرض أعمال م. عبدالرحمن أبو عيشة"
                                         loading="lazy">
                                 </a>
                             </div>
@@ -2332,96 +2292,58 @@
             <div class="dt-container">
                 <div class="dt-section-head">
                     <span class="dt-eyebrow-free">الأسئلة الشائعة</span>
-                    <h2 class="dt-h2">إجابات لكل استفساراتك</h2>
+                    <h2 class="dt-h2">إجابات لكل استفساراتك التقنية</h2>
                 </div>
                 <div class="dt-faq__grid">
                     <div class="dt-faq__item">
                         <input type="checkbox" id="faq1" class="dt-faq__toggle">
-                        <label for="faq1" class="dt-faq__title">هل الكشف مجاني فعلاً؟ <i
+                        <label for="faq1" class="dt-faq__title">ما هي التقنيات التي تعتمد عليها في تطوير المشاريع؟ <i
                                 class="fa-solid fa-chevron-down"></i></label>
                         <div class="dt-faq__content">
-                            <p>
-
-                                نعم الكشف مجاني تماما لفترة محدودة
-
-                            </p>
+                            <p>أعتمد على PHP 8.3 وإطار العمل Laravel لبناء الباك إند والـ APIs، وJavaScript وReact.js وBootstrap لبناء واجهات المستخدم التفاعلية والمتجاوبة.</p>
                         </div>
                     </div>
                     <div class="dt-faq__item">
                         <input type="checkbox" id="faq2" class="dt-faq__toggle">
-                        <label for="faq2" class="dt-faq__title">هل العلاج مؤلم؟ <i
+                        <label for="faq2" class="dt-faq__title">هل تقدم خدمة تطوير الـ APIs لتطبيقات الموبايل؟ <i
                                 class="fa-solid fa-chevron-down"></i></label>
                         <div class="dt-faq__content">
-                            <p>نستخدم أحدث تقنيات التخدير الموضعي وأجهزة الليزر لضمان تجربة مريحة وخالية من الألم قدر
-                                الإمكان.</p>
+                            <p>نعم، أقوم بتصميم وتطوير RESTful APIs سريعة ومؤمنة بالكامل باستخدام Laravel Passport / Sanctum مع دعم إشعارات Firebase والربط مع بوابات الدفع.</p>
                         </div>
                     </div>
                     <div class="dt-faq__item">
                         <input type="checkbox" id="faq3" class="dt-faq__toggle">
-                        <label for="faq3" class="dt-faq__title">كم يستغرق حشو وسحب العصب ؟<i
+                        <label for="faq3" class="dt-faq__title">هل تشمل الخدمة رفع المشروع على السيرفر وتهيئة الـ SEO؟<i
                                 class="fa-solid fa-chevron-down"></i></label>
                         <div class="dt-faq__content">
-
-                            <p>
-                                ٣ جلسات في المعتاد و في بعض الحالات يمكن إتمام حشو و سحب العصب في جلسة واحدة فقط
-                            </p>
+                            <p>بالتأكيد، أقوم بإعداد السيرفر أو الاستضافة (cPanel / VPS)، وضبط إعدادات الحماية، وشهادات SSL، وتهيئة الموقع لمحركات البحث (Technical SEO).</p>
                         </div>
                     </div>
                     <div class="dt-faq__item">
                         <input type="checkbox" id="faq4" class="dt-faq__toggle">
-                        <label for="faq4" class="dt-faq__title">هل توفرون خطط تقسيط؟ <i
+                        <label for="faq4" class="dt-faq__title">هل يوجد دعم فني بعد تسليم المشروع؟ <i
                                 class="fa-solid fa-chevron-down"></i></label>
                         <div class="dt-faq__content">
-                            <p>نعم، نوفر خطط دفع مرنة تناسب الجميع لتسهيل الحصول على الابتسامة التي تحلم بها.</p>
+                            <p>نعم، أوفر فترة دعم فني مجاني بعد التسليم لضمان استقرار النظام، بالإضافة إلى إمكانية التعاقد على خطط صيانة وتطوير دورية.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        {{-- ================= BOOKING ================= --}}
+        {{-- ================= BOOKING (PROJECT REQUEST) ================= --}}
 
         <section class="dt-booking" id="booking">
             <div class="dt-container dt-booking__grid">
                 <div class="dt-booking__copy">
-                    <span class="dt-eyebrow-free">احجز الآن</span>
-                    <h2 class="dt-h2">خطوة واحدة تفصلك<br>عن ابتسامة أحلامك</h2>
-                    <p class="dt-p">املأ البيانات وهيتواصل معاك فريقنا خلال ساعات لتأكيد الموعد.</p>
+                    <span class="dt-eyebrow-free">اطلب مشروعك الآن</span>
+                    <h2 class="dt-h2">خطوة واحدة تفصلك<br>عن إطلاق مشروعك البرمجي</h2>
+                    <p class="dt-p">املأ البيانات بتفاصيل فكرتك وسأتواصل معك في أقرب وقت لمناقشة الخطة التنفيذية والتكلفة.</p>
                     <ul class="dt-check-list dt-check-list--dark">
-                        <li><i class="fa-solid fa-check"></i> كشف وتشخيص مجاني</li>
-                        <li><i class="fa-solid fa-check"></i> رد سريع خلال أقل من ساعة</li>
-                        <li><i class="fa-solid fa-check"></i> بدون التزام</li>
+                        <li><i class="fa-solid fa-check"></i> استشارة تقنية وتقييم مبدئي مجاني</li>
+                        <li><i class="fa-solid fa-check"></i> رد سريع وتواصل مباشر</li>
+                        <li><i class="fa-solid fa-check"></i> كود نظيف قابل للتوسع والتطوير</li>
                     </ul>
-
-                    <!-- InstaPay Payment Widget -->
-                    <div class="dt-instapay-widget"
-                        style="margin-top: 30px; padding: 20px; background: rgba(255, 255, 255, 0.03); border-radius: 16px; border: 1px solid var(--dt-line); text-align: center; position: relative; overflow: hidden;">
-                        <div
-                            style="position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(120deg, var(--dt-coral) 0%, var(--dt-coral-deep) 100%);">
-                        </div>
-                        <p style="margin: 0 0 12px; font-weight: 700; color: rgba(255, 255, 255, 0.9); font-size: 15px;">
-                            لدفع الحجز أو الاستشارة مسبقاً</p>
-                        <a href="https://ipn.eg/S/hamzawy25/instapay/3gbii5" target="_blank"
-                            style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(120deg, var(--dt-coral) 0%, var(--dt-coral-deep) 100%); color: #fff; padding: 12px 24px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 16px; transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 10px 20px -10px rgba(184, 134, 58, 0.5); width: 100%;">
-                            <i class="fa-solid fa-money-bill-transfer"></i> الدفع الآمن عبر InstaPay
-                        </a>
-                        <div
-                            style="margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 15px;">
-                            <a href="{{ asset('front/assets/img/PM.jpeg') }}" target="_blank"
-                                title="عرض رمز الدفع (QR Code)"
-                                style="display: block; border-radius: 8px; overflow: hidden; border: 2px solid var(--dt-line); transition: transform 0.3s; width: 50px; height: 50px; flex-shrink: 0; background: #fff;"
-                                onmouseover="this.style.transform='scale(1.1)'"
-                                onmouseout="this.style.transform='scale(1)'">
-                                <img src="{{ asset('front/assets/img/PM.jpeg') }}" alt="QR Code"
-                                    style="width: 100%; height: 100%; object-fit: contain;">
-                            </a>
-                            <div
-                                style="font-size: 14px; color: rgba(255, 255, 255, 0.7); display: flex; align-items: center; justify-content: center; gap: 6px;">
-                                <span style="font-weight: 500;">المعرف:</span> <span dir="ltr"
-                                    style="background: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 6px; color: var(--dt-mint); font-family: monospace;">hamzawy25@instapay</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <form action="{{ route('create_message') }}" method="POST" class="dt-booking__form">
                     @csrf
@@ -2429,26 +2351,20 @@
 
                     <div class="dt-form-row">
                         <input type="text" name="name" placeholder="الاسم بالكامل" required>
-                        <input type="tel" name="phone" placeholder="رقم الهاتف" required>
+                        <input type="tel" name="phone" placeholder="رقم الهاتف / واتساب" required>
                     </div>
                     <select name="service" required>
-                        <option value="" disabled selected>اختر الخدمة المطلوبة</option>
-                        <option value="كشف واستشارة عامة">كشف واستشارة عامة</option>
-                        <option value="حشوات تجميلية وليزر">حشوات تجميلية وليزر</option>
-                        <option value="خلع وجراحة ضرس العقل">خلع وجراحة ضرس العقل</option>
-                        <option value="علاج أمراض وجراحة اللثة">علاج أمراض وجراحة اللثة</option>
-                        <option value="تبييض وتنظيف جير الأسنان">تبييض وتنظيف جير الأسنان</option>
-                        <option value="طب أسنان الأطفال">طب أسنان الأطفال</option>
-                        <option value="تقويم أسنان">تقويم أسنان</option>
-                        <option value="زراعة أسنان">زراعة أسنان</option>
-
-                        <option value="ابتسامة هوليود وفينير">ابتسامة هوليود وفينير</option>
-
-                        <option value="علاج جذور وسحب عصب">علاج جذور وسحب عصب</option>
-
+                        <option value="" disabled selected>اختر نوع المشروع أو الخدمة المطلوبة</option>
+                        <option value="تطوير موقع أو نظام متكامل (Full-Stack Laravel & React)">تطوير موقع أو نظام متكامل (Full-Stack Laravel & React)</option>
+                        <option value="تطوير باك إند ولوحة تحكم (PHP Laravel)">تطوير باك إند ولوحة تحكم (PHP Laravel)</option>
+                        <option value="تطوير واجهات مستخدم تفاعلية (React.js / Frontend)">تطوير واجهات مستخدم تفاعلية (React.js / Frontend)</option>
+                        <option value="بناء وربط RESTful APIs لتطبيقات الموبايل">بناء وربط RESTful APIs لتطبيقات الموبايل</option>
+                        <option value="متجر إلكتروني وربط بوابات الدفع">متجر إلكتروني وربط بوابات الدفع</option>
+                        <option value="تطوير وتحديث مشروع قائم / إصلاح أخطاء">تطوير وتحديث مشروع قائم / إصلاح أخطاء</option>
+                        <option value="استشارة تقنية خاصة">استشارة تقنية خاصة</option>
                     </select>
-                    <textarea name="message" placeholder="أي ملاحظات إضافية (اختياري)"></textarea>
-                    <button type="submit" class="dt-cta dt-cta--lg dt-cta--block">تأكيد طلب الحجز</button>
+                    <textarea name="message" placeholder="اكتب نبذة مختصرة عن فكرة مشروعك أو متطلباتك (اختياري)"></textarea>
+                    <button type="submit" class="dt-cta dt-cta--lg dt-cta--block">إرسال طلب المشروع</button>
                 </form>
             </div>
         </section>
@@ -2459,16 +2375,16 @@
         {{-- ================= STICKY QUICK BAR ================= --}}
         <div class="dt-quickbar">
             <a href="{{ route('message_contact') }}" class="dt-quickbar__item">
-                <span class="dt-quickbar__icon"><i class="fa-solid fa-location-dot"></i></span>
-                <span>عنوان العيادة</span>
+                <span class="dt-quickbar__icon"><i class="fa-solid fa-envelope"></i></span>
+                <span>تواصل معي</span>
             </a>
             <a href="#booking" class="dt-quickbar__item dt-quickbar__item--main">
-                <span class="dt-quickbar__icon"><i class="fa-solid fa-calendar-check"></i></span>
-                <span>احجز معاد الكشف</span>
+                <span class="dt-quickbar__icon"><i class="fa-solid fa-laptop-code"></i></span>
+                <span>اطلب مشروعك</span>
             </a>
             <a href="#reviews" class="dt-quickbar__item">
                 <span class="dt-quickbar__icon"><i class="fa-solid fa-comment-dots"></i></span>
-                <span>آراء عملائنا</span>
+                <span>آراء العملاء</span>
             </a>
         </div>
 

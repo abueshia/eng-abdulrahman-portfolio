@@ -9,7 +9,7 @@
 
    <a href="{{ route('admin.index') }}">
 
-    <h1 style="color: rgb(248, 248, 248);">Dr Mohamed</h1>
+    <h1 style="color: rgb(248, 248, 248); font-size: 18px; margin: 0;">Eng. Abdelrahman</h1>
 
 </a>
 

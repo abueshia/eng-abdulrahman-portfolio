@@ -302,9 +302,9 @@
 <main class="dt-services-page">
     <section class="dt-services-hero">
         <div class="dt-container dt-services-hero__inner">
-            <span class="dt-eyebrow-free">خدماتنا الطبية</span>
-            <h1 class="dt-h2">رعاية متكاملة<br>لصحة وجمال أسنانك</h1>
-            <p class="dt-p">في عياداتنا، نقدم لك مجموعة شاملة من الخدمات الطبية والتجميلية باستخدام أحدث التقنيات وأفضل المواد لضمان ابتسامة صحية تدوم طويلاً.</p>
+            <span class="dt-eyebrow-free">خدماتي البرمجية والتقنية</span>
+            <h1 class="dt-h2">حلول برمجية متكاملة<br>لتطوير أعمالك ومشاريعك</h1>
+            <p class="dt-p">أقدم مجموعة شاملة من خدمات هندسة البرمجيات وتطوير الويب (Full-Stack) باستخدام PHP Laravel و React.js لبناء أنظمة قوية، سريعة، وقابلة للتوسع.</p>
         </div>
     </section>
 
@@ -313,82 +313,50 @@
             
             <!-- Service 1 -->
             <div class="dt-service-card">
-                <div class="dt-service-icon"><i class="fa-solid fa-stethoscope"></i></div>
-                <h3 class="dt-service-title">كشف واستشارة عامة</h3>
-                <p class="dt-service-desc">تقييم شامل لحالة الفم والأسنان مع وضع خطة علاج دقيقة تناسب احتياجاتك للحفاظ على صحة فمك.</p>
-                <a href="{{ route('site.home') }}#booking" class="dt-service-btn">احجز الآن <i class="fa-solid fa-arrow-left"></i></a>
+                <div class="dt-service-icon"><i class="fa-brands fa-laravel"></i></div>
+                <h3 class="dt-service-title">تطوير الباك إند (PHP & Laravel)</h3>
+                <p class="dt-service-desc">بناء أنظمة خلفية قوية، آمنة، وعالية الأداء باستخدام أحدث إصدارات PHP 8.3 و Laravel مع هيكلة كود نظيفة (Clean Architecture).</p>
+                <a href="{{ route('site.home') }}#booking" class="dt-service-btn">اطلب الخدمة <i class="fa-solid fa-arrow-left"></i></a>
             </div>
 
             <!-- Service 2 -->
             <div class="dt-service-card">
-                <div class="dt-service-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                <h3 class="dt-service-title">حشوات تجميلية وليزر</h3>
-                <p class="dt-service-desc">استعادة شكل الأسنان الطبيعي ووظيفتها بحشوات تدوم طويلاً ومطابقة للون أسنانك الطبيعية.</p>
-                <a href="{{ route('site.home') }}#booking" class="dt-service-btn">احجز الآن <i class="fa-solid fa-arrow-left"></i></a>
+                <div class="dt-service-icon"><i class="fa-brands fa-react"></i></div>
+                <h3 class="dt-service-title">تطوير واجهات React.js</h3>
+                <p class="dt-service-desc">تصميم وتطوير واجهات مستخدم تفاعلية حديثة (SPA) سريعة الاستجابة باستخدام React.js و JavaScript ES6+.</p>
+                <a href="{{ route('site.home') }}#booking" class="dt-service-btn">اطلب الخدمة <i class="fa-solid fa-arrow-left"></i></a>
             </div>
 
             <!-- Service 3 -->
             <div class="dt-service-card">
-                <div class="dt-service-icon"><i class="fa-solid fa-tooth"></i></div>
-                <h3 class="dt-service-title">خلع وجراحة ضرس العقل</h3>
-                <p class="dt-service-desc">جراحات دقيقة وآمنة لخلع الأسنان المتضررة أو أضراس العقل المطمورة بدون ألم وفي بيئة معقمة.</p>
-                <a href="{{ route('site.home') }}#booking" class="dt-service-btn">احجز الآن <i class="fa-solid fa-arrow-left"></i></a>
+                <div class="dt-service-icon"><i class="fa-solid fa-network-wired"></i></div>
+                <h3 class="dt-service-title">بناء وربط RESTful APIs</h3>
+                <p class="dt-service-desc">تطوير واجهات برمجة تطبيقات مؤمنة (OAuth2 / Sanctum / Passport) لربط تطبيقات الموبايل والفرونت إند وخدمات الطرف الثالث.</p>
+                <a href="{{ route('site.home') }}#booking" class="dt-service-btn">اطلب الخدمة <i class="fa-solid fa-arrow-left"></i></a>
             </div>
 
             <!-- Service 4 -->
             <div class="dt-service-card">
-                <div class="dt-service-icon"><i class="fa-solid fa-disease"></i></div>
-                <h3 class="dt-service-title">علاج أمراض وجراحة اللثة</h3>
-                <p class="dt-service-desc">أحدث طرق علاج التهابات وتراجع اللثة للحصول على دعامة قوية للأسنان وابتسامة صحية ومشرقة.</p>
-                <a href="{{ route('site.home') }}#booking" class="dt-service-btn">احجز الآن <i class="fa-solid fa-arrow-left"></i></a>
+                <div class="dt-service-icon"><i class="fa-solid fa-gauge-high"></i></div>
+                <h3 class="dt-service-title">لوحات التحكم الإدارية وأنظمة الـ CMS</h3>
+                <p class="dt-service-desc">إنشاء لوحات تحكم شاملة متعدّدة اللغات والصلاحيات (Roles & Permissions) مع تقارير إحصائية وجداول تفاعلية.</p>
+                <a href="{{ route('site.home') }}#booking" class="dt-service-btn">اطلب الخدمة <i class="fa-solid fa-arrow-left"></i></a>
             </div>
 
             <!-- Service 5 -->
             <div class="dt-service-card">
-                <div class="dt-service-icon"><i class="fa-solid fa-sun"></i></div>
-                <h3 class="dt-service-title">تبييض وتنظيف جير الأسنان</h3>
-                <p class="dt-service-desc">إزالة الجير والتصبغات بجلسات تبييض احترافية تضمن لك أسنان ناصعة البياض وابتسامة جذابة.</p>
-                <a href="{{ route('site.home') }}#booking" class="dt-service-btn">احجز الآن <i class="fa-solid fa-arrow-left"></i></a>
+                <div class="dt-service-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                <h3 class="dt-service-title">المتاجر الإلكترونية وبوابات الدفع</h3>
+                <p class="dt-service-desc">تطوير منصات التجارة الإلكترونية المتكاملة وربطها مع بوابات الدفع الإلكتروني وشركات الشحن وإدارة المخزون.</p>
+                <a href="{{ route('site.home') }}#booking" class="dt-service-btn">اطلب الخدمة <i class="fa-solid fa-arrow-left"></i></a>
             </div>
 
             <!-- Service 6 -->
             <div class="dt-service-card">
-                <div class="dt-service-icon"><i class="fa-solid fa-child"></i></div>
-                <h3 class="dt-service-title">طب أسنان الأطفال</h3>
-                <p class="dt-service-desc">رعاية خاصة وممتعة للأطفال لعلاج أسنانهم وتوجيههم للعادات الصحية بطرق تحببهم في زيارة طبيب الأسنان.</p>
-                <a href="{{ route('site.home') }}#booking" class="dt-service-btn">احجز الآن <i class="fa-solid fa-arrow-left"></i></a>
-            </div>
-
-            <!-- Service 7 -->
-            <div class="dt-service-card">
-                <div class="dt-service-icon"><i class="fa-solid fa-align-center"></i></div>
-                <h3 class="dt-service-title">تقويم أسنان</h3>
-                <p class="dt-service-desc">تقويم شفاف ومعدني لتصحيح اصطفاف الأسنان ومعالجة مشاكل الإطباق بأحدث التقنيات للحصول على نتائج مبهرة.</p>
-                <a href="{{ route('site.home') }}#booking" class="dt-service-btn">احجز الآن <i class="fa-solid fa-arrow-left"></i></a>
-            </div>
-
-            <!-- Service 8 -->
-            <div class="dt-service-card">
-                <div class="dt-service-icon"><i class="fa-solid fa-screw"></i></div>
-                <h3 class="dt-service-title">زراعة أسنان</h3>
-                <p class="dt-service-desc">استبدال الأسنان المفقودة بزراعات آمنة وقوية تدوم مدى الحياة وتعيد لك قدرتك على المضغ والابتسام بثقة.</p>
-                <a href="{{ route('site.home') }}#booking" class="dt-service-btn">احجز الآن <i class="fa-solid fa-arrow-left"></i></a>
-            </div>
-
-            <!-- Service 9 -->
-            <div class="dt-service-card">
-                <div class="dt-service-icon"><i class="fa-solid fa-face-smile-beam"></i></div>
-                <h3 class="dt-service-title">ابتسامة هوليود وفينير</h3>
-                <p class="dt-service-desc">قشور خزفية رقيقة (فينير) وابتسامة هوليود المتكاملة لتغيير جذري ومثالي في شكل ولون الأسنان.</p>
-                <a href="{{ route('site.home') }}#booking" class="dt-service-btn">احجز الآن <i class="fa-solid fa-arrow-left"></i></a>
-            </div>
-
-            <!-- Service 10 -->
-            <div class="dt-service-card">
-                <div class="dt-service-icon"><i class="fa-solid fa-bolt"></i></div>
-                <h3 class="dt-service-title">علاج جذور وسحب عصب</h3>
-                <p class="dt-service-desc">علاج آمن وبدون ألم لالتهابات العصب للحفاظ على السن الطبيعي من التلف بفضل التقنيات الحديثة والميكروسكوب.</p>
-                <a href="{{ route('site.home') }}#booking" class="dt-service-btn">احجز الآن <i class="fa-solid fa-arrow-left"></i></a>
+                <div class="dt-service-icon"><i class="fa-solid fa-database"></i></div>
+                <h3 class="dt-service-title">تصميم وتحسين قواعد البيانات</h3>
+                <p class="dt-service-desc">تحليل وتصميم قواعد بيانات MySQL علائقية مترابطة وتحسين الاستعلامات (Query Optimization) لضمان أقصى سرعة.</p>
+                <a href="{{ route('site.home') }}#booking" class="dt-service-btn">اطلب الخدمة <i class="fa-solid fa-arrow-left"></i></a>
             </div>
 
         </div>

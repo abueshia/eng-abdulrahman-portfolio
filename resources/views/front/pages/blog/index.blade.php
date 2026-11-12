@@ -1,8 +1,8 @@
 @extends('front.layouts.app')
 
-@section('title', 'المقالات - د.محمد حمزة')
+@section('title', 'المقالات التقنية - م. عبدالرحمن أبو عيشة')
 @section('meta')
-    <meta name="description" content="اقرأ أحدث المقالات والنصائح الطبية من عيادات د.محمد حمزة.">
+    <meta name="description" content="اقرأ أحدث المقالات والشروحات التقنية في هندسة البرمجيات وتطوير الويب باستخدام PHP Laravel و React.js بقلم المهندس عبدالرحمن أبو عيشة.">
 @endsection
 
 @section('content')
@@ -97,8 +97,8 @@
 
 <div class="dt-blog-hero">
     <div class="dt-blog-hero__inner">
-        <h1 class="dt-blog-hero__title">المقالات والتوعية الطبية</h1>
-        <p class="dt-blog-hero__desc">مكتبة شاملة للمقالات والنصائح الطبية بإشراف الدكتور محمد حمزة لضمان الحفاظ على صحة أسنانك وابتسامتك.</p>
+        <h1 class="dt-blog-hero__title">المقالات والمدونة التقنية</h1>
+        <p class="dt-blog-hero__desc">مكتبة مقالات وشروحات برمجية متخصصة في تطوير الويب وهندسة البرمجيات بقلم المهندس عبدالرحمن أبو عيشة.</p>
     </div>
 </div>
 
@@ -454,8 +454,8 @@
                     </div>
                     <div class="dt-blog-card__body">
                         <div class="dt-author">
-                            <img src="{{ asset('front/assets/img/drr.jpg') }}" onerror="this.src='https://ui-avatars.com/api/?name=Dr+Hamza&background=E9D9B0&color=3F3323'">
-                            د. محمد حمزة
+                            <img src="{{ asset('front/assets/img/drr.jpg') }}" onerror="this.src='https://ui-avatars.com/api/?name=Abdelrahman+AbuAishah&background=E9D9B0&color=3F3323'">
+                            م. عبدالرحمن أبو عيشة
                         </div>
                         <h3 class="dt-blog-card__title">{{ $article['title'] }}</h3>
                         <p class="dt-blog-card__desc">{{ $article['intro'] }}</p>
@@ -473,8 +473,8 @@
         <img id="modalImg" src="" alt="" class="dt-modal-img">
         <div class="dt-modal-body">
             <div class="dt-author" style="margin-bottom: 24px; font-size:16px;">
-                <img src="{{ asset('front/assets/img/drr.jpg') }}" onerror="this.src='https://ui-avatars.com/api/?name=Dr+Hamza&background=E9D9B0&color=3F3323'">
-                بقلم: د. محمد حمزة
+                <img src="{{ asset('front/assets/img/drr.jpg') }}" onerror="this.src='https://ui-avatars.com/api/?name=Abdelrahman+AbuAishah&background=E9D9B0&color=3F3323'">
+                بقلم: م. عبدالرحمن أبو عيشة
             </div>
             <h2 id="modalTitle" class="dt-modal-title"></h2>
             <div id="modalContent" class="dt-modal-content"></div>

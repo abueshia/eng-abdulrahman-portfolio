@@ -210,9 +210,9 @@
 <div class="dt-cases-page">
     <div class="dt-cases-hero">
         <div class="dt-cases-hero__inner dt-container">
-            <span class="dt-eyebrow-free">معرض الحالات</span>
-            <h1 class="dt-h2">نتائج حقيقية، قبل وبعد</h1>
-            <p class="dt-p">استكشف التغيير الحقيقي الذي نصنعه في عيادتنا. تصفح أحدث الحالات وشاهد كيف يمكننا تحويل ابتسامتك إلى الأفضل.</p>
+            <span class="dt-eyebrow-free">معرض أعمالي ومشاريعي</span>
+            <h1 class="dt-h2">مشاريع وأنظمة برمجية متكاملة</h1>
+            <p class="dt-p">استكشف أحدث المشاريع والأنظمة التي قمت بتطويرها باستخدام PHP Laravel و React.js لتحويل أفكار العملاء إلى منصات رقمية ناجحة.</p>
         </div>
     </div>
 
@@ -236,20 +236,20 @@
                             style="background-image: url('{{ $beforeImage }}');">
                         </div>
 
-                        <span class="dt-ba__tag dt-ba__tag--start">{{ app()->getLocale() == 'ar' ? 'قبل' : 'Before' }}</span>
-                        <span class="dt-ba__tag dt-ba__tag--end">{{ app()->getLocale() == 'ar' ? 'بعد' : 'After' }}</span>
+                        <span class="dt-ba__tag dt-ba__tag--start">{{ app()->getLocale() == 'ar' ? 'واجهة 1' : 'View 1' }}</span>
+                        <span class="dt-ba__tag dt-ba__tag--end">{{ app()->getLocale() == 'ar' ? 'واجهة 2' : 'View 2' }}</span>
 
                         <div class="dt-ba__handle">
                             <i class="fa-solid fa-arrows-left-right"></i>
                         </div>
                     </div>
                     
-                    <h3 class="dt-case-title">{{ $case->title ?? 'حالة مميزة' }}</h3>
+                    <h3 class="dt-case-title">{{ $case->title ?? 'مشروع برمجي مميز' }}</h3>
                     <p class="dt-case-desc">{{ $case->description ?? 'لا يوجد وصف متاح.' }}</p>
                 </div>
             @empty
                 <div style="text-align: center; width: 100%; grid-column: 1 / -1; padding: 50px 0;">
-                    <h3 class="dt-h3" style="color: var(--dt-teal);">لا توجد حالات مضافة حالياً.</h3>
+                    <h3 class="dt-h3" style="color: var(--dt-teal);">لا توجد مشاريع مضافة حالياً.</h3>
                 </div>
             @endforelse
         </div>

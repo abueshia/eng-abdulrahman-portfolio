@@ -229,27 +229,28 @@
     <div class="dt-footer__cta">
         <div class="dt-footer__cta-inner">
             <div>
-                <h3>جاهز تبتسم بثقة؟</h3>
-                <p>احجز استشارتك الأولى مجانًا، وخلي فريقنا يرسملك خطة العلاج المناسبة.</p>
+                <h3>جاهز لتحويل فكرتك إلى مشروع ناجح؟</h3>
+                <p>تواصل معي الآن لمناقشة تفاصيل مشروعك وبناء نظام برمجي متكامل بأعلى معايير الجودة والأداء.</p>
             </div>
-            <a href="#booking" class="dt-cta">احجز موعدك الآن</a>
+            <a href="#booking" class="dt-cta">اطلب مشروعك الآن</a>
         </div>
     </div>
 
     <div class="dt-footer__main">
         <div class="dt-footer__col dt-footer__col--brand">
             <a href="{{ route('site.home') }}" class="dt-logo dt-logo--light">
-                <img src="{{asset('front/assets/img/logo/Silver-blue.png')}}" alt="Dr Mohamed Hamza Dental Clinic" class="dt-logo__img">
+                <img src="{{asset('front/assets/img/logo/Silver-blue.png')}}" alt="Eng. Abdelrahman Abu Aishah Portfolio" class="dt-logo__img">
             </a>
             <p class="dt-footer__about">
-                عيادة متخصصة في طب وتجميل الأسنان، بخبرة تمتد لأكثر من 5 عامًا في رعاية ابتسامتك بأحدث التقنيات وأيدٍ
-                خبيرة.
+                مهندس برمجيات متكامل (Full-Stack Software Engineer) بخبرة تمتد لأكثر من 4 سنوات في تطوير الباك إند باستخدام PHP Laravel وبناء واجهات المستخدم التفاعلية باستخدام JavaScript و React.js.
             </p>
             <div class="dt-footer__social">
-                <a href="https://www.facebook.com/share/1K38YMq8sL/" target="_blank" aria-label="فيسبوك"><i
+                <a href="https://www.facebook.com/" target="_blank" aria-label="فيسبوك"><i
                         class="fa-brands fa-facebook-f"></i></a>
-                <a href="https://www.instagram.com/dt.mhamza61?stkn=dW12N3ZxNWR5cXlv" target="_blank"
-                    aria-label="انستغرام"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://github.com/" target="_blank"
+                    aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/" target="_blank"
+                    aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
                 <a href="https://wa.me/201042917680" target="_blank" aria-label="واتساب"><i
                         class="fa-brands fa-whatsapp"></i></a>
             </div>
@@ -259,36 +260,37 @@
             <h4>روابط سريعة</h4>
             <ul>
                 <li><a href="{{ route('site.home') }}">الرئيسية</a></li>
-                <li><a href="{{ route('services') }}">خدماتنا</a></li>
-                <li><a href="{{ route('site.home') }}#before-after">قبل وبعد</a></li>
+                <li><a href="{{ route('services') }}">خدماتي التقنية</a></li>
+                <li><a href="{{ route('site.home') }}#before-after">أعمالي ومشاريعي</a></li>
                 <li><a href="{{ route('site.home') }}#reviews">آراء العملاء</a></li>
-                <li><a href="{{ route('about') }}">من نحن</a></li>
-                <li><a href="{{ route('message_contact') }}">تواصل معنا</a></li>
+                <li><a href="{{ route('about') }}">نبذة عني</a></li>
+                <li><a href="{{ route('message_contact') }}">تواصل معي</a></li>
             </ul>
         </div>
 
         <div class="dt-footer__col">
-            <h4>مواعيد العمل</h4>
+            <h4>التقنيات الأساسية</h4>
             <ul class="dt-footer__hours">
-                <li><span>السبت - الخميس</span><b>10ص - 10م</b></li>
-                <li><span>الجمعة</span><b>مغلق</b></li>
+                <li><span>Backend</span><b>PHP 8.3 & Laravel</b></li>
+                <li><span>Frontend</span><b>React.js & JS</b></li>
+                <li><span>Database & API</span><b>MySQL & REST API</b></li>
             </ul>
         </div>
 
         <div class="dt-footer__col">
-            <h4>تواصل معنا</h4>
+            <h4>تواصل معي</h4>
             <ul class="dt-footer__contact">
                 <li><i class="fa-solid fa-location-dot"></i> 
-                الاسكندرية ـ  عيادات بايو كلينك التخصصية ـ أول كوبري راغب بجوار مستشفى الجمهورية العام ـ أعلى صيدلية د سحر على محور المحمودية مباشرة
+                مصر — متاح للعمل عن بُعد (Remote) وتنفيذ المشاريع للشركات والأفراد
                     </li>
                 <li><i class="fa-solid fa-phone"></i> <span dir="ltr">0 10 42917680</span></li>
-                <li><i class="fa-solid fa-envelope"></i> info.dr.mohamed.hamza@gmail.com</li>
+                <li><i class="fa-solid fa-envelope"></i> info@abdelrahman-portfolio.com</li>
             </ul>
         </div>
     </div>
 
     <div class="dt-footer__bottom">
-        <span>جميع الحقوق محفوظة لعيادة د.محمد حمزة لطب الاسنان © 2026</span>
-        <span>تصميم وبرمجة شركة <a href="https://icodetech7.com/" target="_blank" rel="noopener noreferrer">iCode Tech</a></span>
+        <span>جميع الحقوق محفوظة للمهندس عبدالرحمن أبو عيشة (Eng. Abdelrahman Abu Aishah) © 2026</span>
+        <span>تصميم وتطوير <a href="{{ route('site.home') }}">Eng. Abdelrahman Abu Aishah</a></span>
     </div>
 </footer>

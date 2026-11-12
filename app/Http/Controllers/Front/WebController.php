@@ -1,125 +1,86 @@
 <?php
 
+/**
+ * Frontend WebController
+ *
+ * Handles public-facing portfolio pages and contact/project inquiry submissions.
+ * Will be connected to the new Portfolio Services in Phase 4 & Phase 7.
+ */
+
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Front;
 
 use App\Helpers\TranslationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Front\Booking\ApplyFormRequest;
-use App\Http\Requests\Front\Flight\FlightMultiSearchRequest;
-use App\Http\Requests\Front\Flight\FlightSearchRequest;
-use App\Http\Requests\Front\ProgrammeBooking\ProgrammeBookingCheckoutRequest;
-use App\Models\About;
-use App\Models\AirMaster;
-use App\Models\Airport;
-use App\Models\Banner;
-use App\Models\Blog;
-use App\Models\Category;
-use App\Models\Categorygallery;
-use App\Models\City;
-use App\Models\Contact;
-use App\Models\Country;
-use App\Models\Gallery;
-use App\Models\HotelCity;
-use App\Models\Informationflight;
-use App\Models\Informationhotel;
-use App\Models\Informationtour;
 use App\Models\Message;
-use App\Models\Privacypolicy;
-use App\Models\Product;
-use App\Models\Productcategory;
-use App\Models\Programme;
-use App\Models\ProgrammeBooking;
-use App\Models\Setting;
-use App\Models\Tag;
-use App\Models\Termsandcondition;
 use App\Models\Testimonial;
-use App\Models\TourType;
-use App\Models\User;
-use Carbon\Carbon;
-use GuzzleHttp\Client;
+use Exception;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\File;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+
 class WebController extends Controller
 {
-    public function index()
+    /**
+     * Display the portfolio home page.
+     */
+    public function index(): View
     {
-        $about = About::first();
-        $banners = Banner::latest()->take(15)->get();
-        $brands = Gallery::get();
-        $products = Product::orderBy('created_at', 'desc')->limit(12)->get();
-        $testimonials = Testimonial::latest()->take(5)->get();
-        return view('front.index', get_defined_vars());
+        $about = null;
+        $banners = collect();
+        $testimonials = Testimonial::query()->latest()->take(5)->get();
+
+        return view('front.index', compact('about', 'banners', 'testimonials'));
     }
 
-    public function cases()
+    /**
+     * Display the portfolio projects / case studies page.
+     */
+    public function cases(): View
     {
-        $cases = Banner::latest()->paginate(20);
-        return view('front.pages.cases', get_defined_vars());
+        $cases = new LengthAwarePaginator([], 0, 20);
+
+        return view('front.pages.cases', compact('cases'));
     }
 
-
-
-    public function gallery($id)
+    /**
+     * Display the about page for Eng. Abdelrahman Abu Aishah.
+     */
+    public function about(): View
     {
-        $category = Categorygallery::find($id);
-        $galleries = Gallery::where('categorygallery_id', $id)->get();
-        return view('front.pages.gallery', compact('category', 'galleries'));
+        $about = null;
+
+        return view('front.pages.about', compact('about'));
     }
 
-
-    public function photo_gallery()
-    {
-        $photoGallery = Categorygallery::get();
-        return view('front.pages.photo_gallery', compact('photoGallery'));
-    }
-
-
-   
-
-    public function all_about_us()
-    {
-        $about_us = Testimonial::all();
-        $cities = City::with('country')->latest()->take(8)->get();
-        return view('front.pages.about_us', get_defined_vars());
-    }
-
-
-    public function about()
-    {
-        $about = About::first();
-        return view('front.pages.about', get_defined_vars());
-    }
-
-    public function services()
+    /**
+     * Display the software engineering services page.
+     */
+    public function services(): View
     {
         return view('front.pages.services');
     }
 
-
-    public function privacypolicy()
+    /**
+     * Display the contact and project inquiry page.
+     */
+    public function message_contact(): View
     {
-        $privacypolicy = Privacypolicy::first();
-        return view('front.pages.privacypolicy', get_defined_vars());
+        $contact = null;
+
+        return view('front.pages.message', compact('contact'));
     }
 
-    public function termsandcondition()
+    /**
+     * Store a new contact message or project inquiry from the public form.
+     */
+    public function store(Request $request): RedirectResponse
     {
-        $termsandcondition = Termsandcondition::first();
-        return view('front.pages.termsandcondition', get_defined_vars());
-    }
-
-
-
-
-
-    public function store(Request $request)
-    {
-        // Honeypot check to block bots
-        if (!empty($request->website_url)) {
+        if (! empty($request->website_url)) {
             return back();
         }
 
@@ -136,20 +97,17 @@ class WebController extends Controller
             'name.required' => TranslationHelper::translate('Please enter your name'),
             'name.string' => TranslationHelper::translate('Name must be a valid string'),
             'name.max' => TranslationHelper::translate('Name must not be more than 255 characters'),
-
             'email.required' => TranslationHelper::translate('Please enter your email'),
             'email.email' => TranslationHelper::translate('Email must be a valid email address'),
             'email.max' => TranslationHelper::translate('Email must not be more than 255 characters'),
-
             'phone.required' => TranslationHelper::translate('Please enter your phone number'),
             'phone.string' => TranslationHelper::translate('Phone number must be a valid string'),
             'phone.max' => TranslationHelper::translate('Phone number must not exceed 20 characters'),
-
             'message.required' => TranslationHelper::translate('Please enter your message'),
             'message.string' => TranslationHelper::translate('Message must be a valid string'),
         ]);
 
-        Message::create([
+        Message::query()->create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -159,48 +117,31 @@ class WebController extends Controller
         ]);
 
         try {
-            $html_content = "<div dir='rtl' style='font-family: Tahoma, Arial, sans-serif;'>";
-            $html_content .= "<h3 style='color: #B8863A;'>إشعار بطلب حجز جديد من الموقع</h3>";
-            $html_content .= "<p><strong>الاسم:</strong> " . $request->name . "</p>";
-            $html_content .= "<p><strong>رقم الهاتف:</strong> " . $request->phone . "</p>";
+            $htmlContent = "<div dir='rtl' style='font-family: Tahoma, Arial, sans-serif;'>";
+            $htmlContent .= "<h3 style='color: #B8863A;'>إشعار بطلب مشروع / تواصل جديد من الموقع</h3>";
+            $htmlContent .= '<p><strong>الاسم:</strong> '.e((string) $request->name).'</p>';
+            $htmlContent .= '<p><strong>رقم الهاتف:</strong> '.e((string) $request->phone).'</p>';
             if ($request->email) {
-                $html_content .= "<p><strong>البريد الإلكتروني:</strong> " . $request->email . "</p>";
+                $htmlContent .= '<p><strong>البريد الإلكتروني:</strong> '.e((string) $request->email).'</p>';
             }
             if ($request->service) {
-                $html_content .= "<p><strong>الخدمة المطلوبة:</strong> " . $request->service . "</p>";
+                $htmlContent .= '<p><strong>الخدمة / المشروع المطلوب:</strong> '.e((string) $request->service).'</p>';
             }
             if ($request->message) {
-                $html_content .= "<p><strong>ملاحظات إضافية:</strong> " . $request->message . "</p>";
+                $htmlContent .= '<p><strong>تفاصيل المشروع / الرسالة:</strong> '.e((string) $request->message).'</p>';
             }
-            $html_content .= "<br><hr><p style='font-size: 12px; color: #777;'>هذه الرسالة تم إرسالها تلقائياً من نظام الحجز بموقع عيادة د. محمد حمزة.</p></div>";
-            
-            \Illuminate\Support\Facades\Mail::html($html_content, function ($mail) {
-                $mail->to('info.dr.mohamed.hamza@gmail.com')
-                     ->subject('🔔 طلب حجز جديد من موقع العيادة');
+            $htmlContent .= "<br><hr><p style='font-size: 12px; color: #777;'>هذه الرسالة تم إرسالها تلقائياً من موقع المهندس عبدالرحمن أبو عيشة (Eng. Abdelrahman Abu Aishah Portfolio).</p></div>";
+
+            Mail::html($htmlContent, static function ($mail): void {
+                $mail->to(config('mail.from.address', 'info@abdelrahman-portfolio.com'))
+                    ->subject('🔔 طلب مشروع / تواصل جديد من موقع م. عبدالرحمن أبو عيشة');
             });
-        } catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error('Mail sending failed: ' . $e->getMessage());
+        } catch (Exception $e) {
+            Log::error('Mail sending failed: '.$e->getMessage());
         }
 
-        session()->flash('success', 'تم إرسال رسالتك بنجاح. سيتم التواصل معك قريباً.');
+        session()->flash('success', 'تم إرسال طلبك بنجاح! سيتواصل معك المهندس عبدالرحمن أبو عيشة قريباً.');
+
         return redirect()->back();
     }
-
-
-
-    public function message_contact()
-    {
-        $contact = Contact::first();
-        return view('front.pages.message', get_defined_vars());
-    }
-
-
-     public function brands()
-    {
-        $brands = Gallery::get();
-        return view('front.pages.brands', get_defined_vars());
-    }
-
-    
-
 }

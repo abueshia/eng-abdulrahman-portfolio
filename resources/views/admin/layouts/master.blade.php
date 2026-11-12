@@ -15,19 +15,19 @@ License: For each use you must have a valid license purchased only from above li
 <!--begin::Head-->
 
 <head>
-    <title>{{ \App\Helpers\TranslationHelper::translate('Dr-Mohamed hamza') }}</title>
+    <title>{{ \App\Helpers\TranslationHelper::translate('Eng. Abdelrahman Abu Aishah') }}</title>
     {{-- {{setting('title_one')}}  --}}
     <meta charset="utf-8"/>
     <meta name="description"
-          content="Dr-Mohamed hamza Dashboard"/>
+          content="Eng. Abdelrahman Abu Aishah Portfolio Dashboard"/>
     <meta name="keywords"
-          content="Dr-Mohamed hamzaDashboard"/>
+          content="Eng. Abdelrahman Abu Aishah, Software Engineer, Portfolio Dashboard"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta property="og:locale" content="en_US"/>
     <meta property="og:type" content="article"/>
-    <meta property="og:title" content="Dr-Mohamed hamza Dashboard"/>
+    <meta property="og:title" content="Eng. Abdelrahman Abu Aishah Portfolio Dashboard"/>
     <meta property="og:url" content=""/>
-    <meta property="og:site_name" content="Dr-Mohamed hamza"/>
+    <meta property="og:site_name" content="Eng. Abdelrahman Abu Aishah"/>
     <link rel="canonical" href=""/>
     <link rel="shortcut icon" href="{{asset('dashboard/assets/media/logos/user.png')}}"/>
     <!--begin::Fonts(mandatory for all pages)-->

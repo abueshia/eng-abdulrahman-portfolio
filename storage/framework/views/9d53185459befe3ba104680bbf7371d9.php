@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js" lang="<?php echo e(app()->getLocale()); ?>">
+<html class="no-js" lang="<?php echo e(app()->getLocale()); ?>" dir="<?php echo e(app()->getLocale() == 'ar' ? 'rtl' : 'ltr'); ?>">
 <head>
 
     <link
@@ -10,69 +10,46 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $__env->yieldContent('title', 'افضل دكتور اسنان فى اسكندرية | عيادة دكتور محمد حمزة الشيخ'); ?></title>
+    <title><?php echo $__env->yieldContent('title', 'المهندس عبدالرحمن أبو عيشة | Eng. Abdelrahman Abu Aishah — Full-Stack Software Engineer (PHP Laravel & React.js)'); ?></title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="<?php echo e(asset('front/assets/img/favicon.png')); ?>" />
     <link rel="apple-touch-icon" href="<?php echo e(asset('front/assets/img/favicon.png')); ?>" />
     <!-- SEO & Open Graph Meta Tags -->
-    <meta name="description" content="تبحث عن افضل دكتور اسنان فى اسكندرية؟ عيادة الدكتور محمد حمزة الشيخ تقدم لك أحدث تقنيات زراعة وتقويم وتجميل الأسنان (ابتسامة هوليود) في أفضل عيادة أسنان بالإسكندرية." />
-    <meta name="keywords" content="افضل دكتور اسنان فى اسكندرية, افضل عيادة اسنان, دكتور محمد حمزة, دكتور محمد حمزة الشيخ, دكتور اسنان, عيادة اسنان الاسكندرية, زراعة اسنان, تقويم اسنان, تجميل اسنان, ابتسامة هوليود" />
-    <meta name="author" content="دكتور محمد حمزة الشيخ" />
+    <meta name="description" content="الموقع الرسمي ومعرض أعمال المهندس عبدالرحمن أبو عيشة (Eng. Abdelrahman Abu Aishah) — مهندس برمجيات متكامل Full-Stack بخبرة +4 سنوات في تطوير الباك إند باستخدام PHP و Laravel وبناء واجهات المستخدم الحديثة باستخدام JavaScript و React.js." />
+    <meta name="keywords" content="عبدالرحمن أبو عيشة, مهندس عبدالرحمن أبو عيشة, Eng Abdelrahman Abu Aishah, Software Engineer, Full Stack Developer, PHP Laravel Developer, React.js Developer, Backend Engineer, Frontend Developer, برمجة مواقع, تطوير أنظمة, لارافيل, ريأكت" />
+    <meta name="author" content="المهندس عبدالرحمن أبو عيشة | Eng. Abdelrahman Abu Aishah" />
     <meta name="robots" content="index, follow" />
     
     <!-- Open Graph (Facebook/WhatsApp) -->
-    <meta property="og:title" content="افضل دكتور اسنان فى اسكندرية | عيادة دكتور محمد حمزة الشيخ" />
-    <meta property="og:description" content="عيادة الدكتور محمد حمزة الشيخ - أفضل عيادة أسنان بالإسكندرية. تجميل، زراعة، وتقويم الأسنان بأحدث التقنيات." />
+    <meta property="og:title" content="المهندس عبدالرحمن أبو عيشة | Eng. Abdelrahman Abu Aishah — Software Engineer" />
+    <meta property="og:description" content="مهندس برمجيات متكامل (PHP Laravel & React.js) بخبرة أكثر من 4 سنوات في تصميم وتطوير الأنظمة والمواقع الاحترافية." />
     <meta property="og:image" itemprop="image" content="<?php echo e(asset('front/assets/img/logo/Silver-blue.png')); ?>?v=4" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="800" />
     <meta property="og:image:height" content="800" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="<?php echo e(url('/')); ?>" />
-    <meta property="og:site_name" content="عيادة دكتور محمد حمزة الشيخ" />
+    <meta property="og:site_name" content="المهندس عبدالرحمن أبو عيشة | Eng. Abdelrahman Abu Aishah" />
     <meta property="og:locale" content="ar_EG" />
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="افضل دكتور اسنان فى اسكندرية | عيادة دكتور محمد حمزة الشيخ" />
-    <meta name="twitter:description" content="عيادة الدكتور محمد حمزة الشيخ - أفضل عيادة أسنان بالإسكندرية لطب وتجميل الأسنان." />
+    <meta name="twitter:title" content="المهندس عبدالرحمن أبو عيشة | Eng. Abdelrahman Abu Aishah — Software Engineer" />
+    <meta name="twitter:description" content="معرض أعمال المهندس عبدالرحمن أبو عيشة — تطوير باك إند PHP Laravel وفرونت إند React.js." />
     <meta name="twitter:image" content="<?php echo e(asset('front/assets/img/dr_og.jpg')); ?>?v=3" />
 
-    <!-- Google Structured Data (JSON-LD) for Local Business & Dentist -->
+    <!-- Google Structured Data (JSON-LD) for Software Engineer Portfolio -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Dentist",
-      "name": "عيادة الدكتور محمد حمزة الشيخ لطب الأسنان",
+      "@type": "Person",
+      "name": "المهندس عبدالرحمن أبو عيشة | Eng. Abdelrahman Abu Aishah",
+      "jobTitle": "Full-Stack Software Engineer (PHP Laravel & React.js)",
       "image": "<?php echo e(asset('front/assets/img/dr.jpg')); ?>",
       "@id": "<?php echo e(url('/')); ?>",
       "url": "<?php echo e(url('/')); ?>",
-      "telephone": "+201042917680",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "أول كوبري راغب بجوار مستشفى الجمهورية العام",
-        "addressLocality": "الاسكندرية",
-        "addressRegion": "محافظة الإسكندرية",
-        "addressCountry": "EG"
-      },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Saturday",
-          "Sunday",
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday"
-        ],
-        "opens": "10:00",
-        "closes": "22:00"
-      },
-      "sameAs": [
-        "https://www.facebook.com/share/1K38YMq8sL/",
-        "https://www.instagram.com/dt.mhamza61"
-      ]
+      "knowsAbout": ["PHP", "Laravel", "JavaScript", "React.js", "RESTful APIs", "MySQL", "HTML5", "CSS3", "Bootstrap", "Full-Stack Web Development"]
     }
     </script>
 
@@ -300,16 +277,16 @@
     <div class="dt-popup-box">
         <button class="dt-popup-close" id="dtPopupClose">&times;</button>
         <div class="dt-popup-icon">
-            <i class="fa-solid fa-gift"></i>
+            <i class="fa-solid fa-laptop-code"></i>
         </div>
-        <h3 class="dt-popup-title">احصل على كشف واستشارة مجانية!</h3>
-        <p class="dt-popup-desc">ابتسامتك تستحق الأفضل. تواصل معنا الآن واحجز موعدك مع نخبة من أطباء الأسنان.</p>
+        <h3 class="dt-popup-title">هل لديك فكرة مشروع برمجي؟</h3>
+        <p class="dt-popup-desc">تواصل معي الآن لتحويل فكرتك إلى نظام أو موقع احترافي متكامل بأحدث تقنيات PHP Laravel و React.js.</p>
         <div class="dt-popup-actions">
             <a href="https://wa.me/201042917680" target="_blank" class="dt-popup-btn dt-popup-btn--wa">
                 <i class="fa-brands fa-whatsapp"></i> تواصل عبر الواتساب
             </a>
-            <a href="tel:+201042917680" class="dt-popup-btn dt-popup-btn--phone">
-                <i class="fa-solid fa-phone"></i> اتصل بنا الآن
+            <a href="<?php echo e(route('message_contact')); ?>" class="dt-popup-btn dt-popup-btn--phone">
+                <i class="fa-solid fa-paper-plane"></i> اطلب مشروعك الآن
             </a>
         </div>
     </div>

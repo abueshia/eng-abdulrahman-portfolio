@@ -137,51 +137,26 @@
 
         <nav class="dt-nav dt-nav--start" id="dtNavStart">
             <a href="{{ route('site.home') }}" class="dt-nav__link is-active">الرئيسية</a>
-            <a href="{{ route('site.home') }}#services" class="dt-nav__link">خدماتنا</a>
-            <a href="{{ route('site.home') }}#before-after" class="dt-nav__link">قبل وبعد</a>
-            <a href="{{ route('blogs.index') }}" class="dt-nav__link">المقالات</a>
+            <a href="{{ route('site.home') }}#services" class="dt-nav__link">خدماتي التقنية</a>
+            <a href="{{ route('site.home') }}#before-after" class="dt-nav__link">أعمالي ومشاريعي</a>
+            <a href="{{ route('blogs.index') }}" class="dt-nav__link">المقالات التقنية</a>
         </nav>
-
-        {{-- <a href="{{ route('site.home') }}" class="dt-logo">
-            <span class="dt-logo__mark">
-                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 6c-4.4 0-7 2.6-9 2.6-2.3 0-4-1.4-4-1.4s-.6 5.4 1.3 12.4c1.7 6.2 4 12.4 6.9 12.4 2.1 0 2.1-4.6 4.8-4.6s2.7 4.6 4.8 4.6c2.9 0 5.2-6.2 6.9-12.4C33.6 12.6 33 7.2 33 7.2s-1.7 1.4-4 1.4c-2 0-4.6-2.6-9-2.6z"
-                        stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                </svg>
-            </span>
-            <span class="dt-logo__text">
-                <strong>د.محمد حمزة</strong>
-                <em>عيادة اسنان</em>
-            </span>
-        </a> --}}
-
-
-         {{-- <a href="{{ route('site.home') }}" class="dt-logo">
-            <span class="dt-logo__mark" style="background:#fff; border: 1px solid var(--dt-line); box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                <img src="{{asset('front/assets/img/logo/Silver-blue.png')}}" alt="د.محمد حمزة" style="width: 25px; height: 25px; object-fit: contain;">
-            </span>
-            <span class="dt-logo__text">
-                <strong>د.محمد حمزة</strong>
-                <em>عيادة اسنان</em>
-            </span>
-        </a> --}}
-
 
          <a href="{{ route('site.home') }}" class="dt-logo">
             <span class="dt-logo__mark" style="background:#fff; border: 1px solid var(--dt-line); box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                <img src="{{asset('front/assets/img/logo/Silver-blue.png')}}" alt="د.محمد حمزة" style="width: 45px; height: 28px; object-fit: contain;">
+                <img src="{{asset('front/assets/img/logo/Silver-blue.png')}}" alt="م. عبدالرحمن أبو عيشة" style="width: 45px; height: 28px; object-fit: contain;">
             </span>
             <span class="dt-logo__text dt-logo-stacked">
-                <span class="dt-stack-top">عيادة الدكتور</span>
-                <strong class="dt-stack-mid">محمد حمزة</strong>
-                <span class="dt-stack-bot">لطب الأسنان</span>
+                <span class="dt-stack-top">المهندس</span>
+                <strong class="dt-stack-mid">عبدالرحمن أبو عيشة</strong>
+                <span class="dt-stack-bot">Software Engineer</span>
             </span>
         </a>
 
         <nav class="dt-nav dt-nav--end" id="dtNavEnd">
-            <a href="{{ route('about') }}" class="dt-nav__link">من نحن</a>
+            <a href="{{ route('about') }}" class="dt-nav__link">نبذة عني</a>
             <a href="{{ route('site.home') }}#reviews" class="dt-nav__link">آراء العملاء</a>
-            <a href="{{ route('message_contact') }}" class="dt-nav__link">تواصل معنا</a>
+            <a href="{{ route('message_contact') }}" class="dt-nav__link">تواصل معي</a>
         </nav>
 
         <div class="dt-header__actions">
@@ -198,18 +173,18 @@
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .7 3a2 2 0 0 1-.4 2.1L8 10.2a16 16 0 0 0 6 6l1.4-1.4a2 2 0 0 1 2.1-.4c1 .4 2 .6 3 .7a2 2 0 0 1 1.7 2z"/></svg>
                 <span>0 10 42917680</span>
             </a>
-            <a href="{{ route('site.home') }}#booking" class="dt-cta">احجز موعدك</a>
+            <a href="{{ route('site.home') }}#booking" class="dt-cta">اطلب مشروعك</a>
         </div>
     </div>
 
     <div class="dt-mobile-panel" id="dtMobilePanel">
         <a href="{{ route('site.home') }}" class="dt-mobile-link">الرئيسية</a>
-        <a href="{{ route('site.home') }}#services" class="dt-mobile-link">خدماتنا</a>
-        <a href="{{ route('site.home') }}#before-after" class="dt-mobile-link">قبل وبعد</a>
-        <a href="{{ route('about') }}" class="dt-mobile-link">من نحن</a>
+        <a href="{{ route('site.home') }}#services" class="dt-mobile-link">خدماتي التقنية</a>
+        <a href="{{ route('site.home') }}#before-after" class="dt-mobile-link">أعمالي ومشاريعي</a>
+        <a href="{{ route('about') }}" class="dt-mobile-link">نبذة عني</a>
         <a href="{{ route('site.home') }}#reviews" class="dt-mobile-link">آراء العملاء</a>
-        <a href="{{ route('blogs.index') }}" class="dt-mobile-link">المقالات</a>
-        <a href="{{ route('message_contact') }}" class="dt-mobile-link">تواصل معنا</a>
+        <a href="{{ route('blogs.index') }}" class="dt-mobile-link">المقالات التقنية</a>
+        <a href="{{ route('message_contact') }}" class="dt-mobile-link">تواصل معي</a>
         @if(app()->getLocale() == 'ar')
             <a href="{{ LaravelLocalization::getLocalizedURL('en', null, [], true) }}" class="dt-mobile-link">
                 <i class="fa-solid fa-globe"></i> English
@@ -219,7 +194,7 @@
                 <i class="fa-solid fa-globe"></i> العربية
             </a>
         @endif
-        <a href="{{ route('site.home') }}#booking" class="dt-cta dt-cta--block">احجز موعدك</a>
+        <a href="{{ route('site.home') }}#booking" class="dt-cta dt-cta--block">اطلب مشروعك</a>
     </div>
 </header>
 

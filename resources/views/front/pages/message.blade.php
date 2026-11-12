@@ -380,8 +380,8 @@
     <section class="dt-contact-hero">
         <div class="dt-hero-pattern"></div>
         <div class="dt-contact-hero__inner">
-            <h1 class="dt-contact-hero__title">تواصل معنا</h1>
-            <p class="dt-contact-hero__desc">يسعدنا دائماً الاستماع إليك والرد على كافة استفساراتك. فريقنا الطبي متاح لمساعدتك في كل خطوة نحو ابتسامتك المثالية.</p>
+            <h1 class="dt-contact-hero__title">تواصل معي</h1>
+            <p class="dt-contact-hero__desc">يسعدني دائماً الاستماع إلى أفكارك ومشاريعك البرمجية والرد على كافة استفساراتك التقنية لبناء نظامك القادم بأعلى جودة.</p>
         </div>
     </section>
 
@@ -392,19 +392,20 @@
                 
                 {{-- Info Side --}}
                 <div class="dt-contact-info-card" data-aos="fade-left">
-                    <h3>معلومات الاتصال</h3>
+                    <h3>معلومات التواصل</h3>
                     
                     <ul class="dt-contact-list">
                         <li>
-                            <div class="dt-contact-list__icon"><i class="fa-solid fa-location-dot"></i></div>
+                            <div class="dt-contact-list__icon"><i class="fa-solid fa-user-tie"></i></div>
                             <div class="dt-contact-list__text">
-                                <strong>العنوان</strong>
-الاسكندرية ـ عيادات بايو كلينك التخصصية  ـ أول كوبري راغب بجوار مستشفى الجمهورية العام ـ أعلى صيدلية د سحر على محور المحمودية مباشرة                            </div>
+                                <strong>الاسم والمسمى الوظيفي</strong>
+                                المهندس عبدالرحمن أبو عيشة — Full-Stack Software Engineer (PHP Laravel & React.js)
+                            </div>
                         </li>
                         <li>
                             <div class="dt-contact-list__icon"><i class="fa-solid fa-phone"></i></div>
                             <div class="dt-contact-list__text">
-                                <strong>رقم الهاتف</strong>
+                                <strong>رقم الهاتف / واتساب</strong>
                                 <span dir="ltr">0 10 42917680</span>
                             </div>
                         </li>
@@ -412,43 +413,30 @@
                             <div class="dt-contact-list__icon"><i class="fa-solid fa-envelope"></i></div>
                             <div class="dt-contact-list__text">
                                 <strong>البريد الإلكتروني</strong>
-                              info.dr.mohamed.hamza@gmail.com
-                            </div>
-                        </li>
-                        <li>
-                            <div class="dt-contact-list__icon" style="background: var(--dt-mint-soft); color: var(--dt-teal-deep);"><i class="fa-solid fa-money-bill-transfer"></i></div>
-                            <div class="dt-contact-list__text">
-                                <strong>الدفع عبر انستاباي (InstaPay)</strong>
-                                <a href="https://ipn.eg/S/hamzawy25/instapay/3gbii5" target="_blank" style="color: var(--dt-coral); text-decoration: none; font-weight: 700; display: inline-block; margin-bottom: 8px; transition: 0.3s;">اضغط هنا لإرسال الدفعة</a>
-                                <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
-                                    <span dir="ltr" style="font-size: 14px; background: var(--dt-porcelain-2); padding: 4px 10px; border-radius: 6px; border: 1px solid var(--dt-line);">hamzawy25@instapay</span>
-                                    <a href="{{ asset('front/assets/img/PM.jpeg') }}" target="_blank" title="عرض رمز الدفع (QR Code)" style="display: block; border-radius: 6px; overflow: hidden; border: 2px solid var(--dt-line); transition: transform 0.3s; width: 35px; height: 35px; flex-shrink: 0; background: #fff;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-                                        <img src="{{ asset('front/assets/img/PM.jpeg') }}" alt="QR Code" style="width: 100%; height: 100%; object-fit: contain;">
-                                    </a>
-                                </div>
+                                info@abdelrahman-portfolio.com
                             </div>
                         </li>
                     </ul>
 
                     <div class="dt-contact-hours">
-                        <h4><i class="fa-regular fa-clock"></i> مواعيد العمل</h4>
+                        <h4><i class="fa-solid fa-laptop-code"></i> التفرغ والعمل</h4>
                         <ul>
-                            <li><span>السبت - الخميس</span> <b>10:00 صباحاً - 10:00 مساءً</b></li>
-                            <li><span>الجمعة</span> <b>مغلق</b></li>
+                            <li><span>العمل عن بُعد (Remote)</span> <b>متاح للمشاريع والتعاقد</b></li>
+                            <li><span>الرد على الاستفسارات</span> <b>طوال أيام الأسبوع</b></li>
                         </ul>
                     </div>
 
                     <div class="dt-contact-social">
-                        <a href="https://www.facebook.com/share/1K38YMq8sL/" target="_blank" aria-label="فيسبوك"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="https://www.instagram.com/dt.mhamza61?stkn=dW12N3ZxNWR5cXlv" target="_blank" aria-label="انستغرام"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="https://wa.me/201028546190" target="_blank" aria-label="واتساب"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="https://github.com/" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                        <a href="https://www.linkedin.com/" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="https://wa.me/201042917680" target="_blank" aria-label="واتساب"><i class="fa-brands fa-whatsapp"></i></a>
                     </div>
                 </div>
 
                 {{-- Form Side --}}
                 <div class="dt-contact-form-wrapper" data-aos="fade-right">
-                    <h3>أرسل لنا رسالة</h3>
-                    <p>املأ النموذج التالي وسيقوم فريقنا بالتواصل معك في أقرب وقت ممكن.</p>
+                    <h3>أرسل تفاصيل مشروعك أو رسالتك</h3>
+                    <p>املأ النموذج التالي وسأتواصل معك في أقرب وقت ممكن.</p>
 
                     <form action="{{ route('create_message') }}" method="POST">
                         @csrf

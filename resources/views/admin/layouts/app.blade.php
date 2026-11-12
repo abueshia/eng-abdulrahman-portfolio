@@ -6,7 +6,7 @@
 <head>
     <base href="">
    
-    <title>Dr-Mohamed Hamza - @yield('title') </title>
+    <title>Eng. Abdelrahman Abu Aishah - @yield('title') </title>
 {{-- {{__('dashboard.CGI')}} --}}
     <meta name="description" content="{{ $title ?? '' }}"/>
     <meta name="keywords" content=""/>

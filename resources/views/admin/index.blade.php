@@ -77,10 +77,10 @@
         <div class="row g-5 mb-8">
             <div class="col-xl-4 col-md-6">
                 <div class="dt-stat-card">
-                    <div class="dt-stat-icon"><i class="fas fa-calendar-check"></i></div>
+                    <div class="dt-stat-icon"><i class="fas fa-laptop-code"></i></div>
                     <div class="dt-stat-info">
                         <h3>{{ $totalBookings ?? 0 }}</h3>
-                        <p>إجمالي الحجوزات</p>
+                        <p>إجمالي طلبات المشاريع</p>
                     </div>
                 </div>
             </div>
@@ -98,7 +98,7 @@
                     <div class="dt-stat-icon" style="color: #ffb822; background: rgba(255, 184, 34, 0.1);"><i class="fas fa-star"></i></div>
                     <div class="dt-stat-info">
                         <h3>{{ $totalTestimonials ?? 0 }}</h3>
-                        <p>آراء العملاء</p>
+                        <p>آراء وتقييمات العملاء</p>
                     </div>
                 </div>
             </div>
@@ -110,7 +110,7 @@
             <div class="col-xl-6">
                 <div class="dt-table-card">
                     <div class="dt-table-title">
-                        أحدث الحجوزات
+                        أحدث طلبات المشاريع
                         <a href="{{ route('admin.message.index') }}" class="btn btn-sm btn-light-primary">الكل</a>
                     </div>
                     <div class="table-responsive">
@@ -119,7 +119,7 @@
                                 <tr class="fw-bold text-muted bg-light">
                                     <th class="ps-4 min-w-150px rounded-start">الاسم</th>
                                     <th class="min-w-120px">رقم الهاتف</th>
-                                    <th class="min-w-120px">الخدمة المطلوبة</th>
+                                    <th class="min-w-120px">نوع المشروع / الخدمة</th>
                                     <th class="min-w-120px rounded-end">التاريخ</th>
                                 </tr>
                             </thead>
@@ -132,7 +132,7 @@
                                     <td><span class="text-muted fw-semibold d-block fs-7">{{ $booking->created_at->format('Y-m-d') }}</span></td>
                                 </tr>
                                 @empty
-                                <tr><td colspan="4" class="text-center text-muted py-4">لا توجد حجوزات حالياً</td></tr>
+                                <tr><td colspan="4" class="text-center text-muted py-4">لا توجد طلبات مشاريع حالياً</td></tr>
                                 @endforelse
                             </tbody>
                         </table>

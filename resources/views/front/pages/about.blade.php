@@ -350,20 +350,20 @@
         <section class="dt-about-hero">
             <div class="dt-container">
                 <div class="dt-about-hero__inner">
-                    <h1 class="dt-about-hero__title">صناعة الابتسامة المشرقة</h1>
+                    <h1 class="dt-about-hero__title">هندسة البرمجيات باحترافية</h1>
                     <p class="dt-about-hero__desc">
-                        في بايو كلينك، نحن لا نقدم فقط خدمات علاجية، بل نصنع تجربة طبية فريدة تجمع بين الراحة النفسية وأعلى مستويات الدقة الطبية.
+                        نبني حلولاً برمجية متكاملة تجمع بين قوة الباك إند (PHP Laravel) وحداثة وتفاعلية الفرونت إند (JavaScript & React.js).
                     </p>
                 </div>
             </div>
         </section>
 
-        {{-- ================= ABOUT DOCTOR ================= --}}
+        {{-- ================= ABOUT ENGINEER ================= --}}
         <section class="dt-about-dr">
             <div class="dt-container dt-about-dr__grid">
                <div class="dt-about-dr__visual">
     <a href="{{ asset('front/assets/img/vvid.mp4') }}" data-fancybox data-type="html5video" class="dt-video-card">
-        <img src="{{ asset('front/assets/img/blog4.jpg') }}" alt="Dr. Mohamed Hamza" class="dt-video-card__img" onerror="this.src='{{ asset('front/assets/img/dr.jpg') }}'">
+        <img src="{{ asset('front/assets/img/blog4.jpg') }}" alt="Eng. Abdelrahman Abu Aishah" class="dt-video-card__img" onerror="this.src='{{ asset('front/assets/img/dr.jpg') }}'">
         <div class="dt-video-card__overlay"></div>
         <span class="dt-video-card__play">
             <i class="fa-solid fa-play"></i>
@@ -371,23 +371,23 @@
     </a>
 </div>
                 <div class="dt-about-dr__copy">
-                    <span class="dt-eyebrow-free">المدير الطبي والمؤسس</span>
-                    <h2 class="dt-h2">د. محمد حمزة الشيخ</h2>
+                    <span class="dt-eyebrow-free">Full-Stack Software Engineer</span>
+                    <h2 class="dt-h2">المهندس عبدالرحمن أبو عيشة</h2>
                     <p class="dt-p">
-                        كرّس د. محمد حمزة مسيرته المهنية لتطوير معايير طب وتجميل الأسنان، معتمداً على أحدث الأبحاث العلمية والتقنيات الرقمية. يتميز بنظرته الفنية الدقيقة التي تضمن لك ابتسامة طبيعية متناسقة مع ملامح وجهك.
+                        مهندس برمجيات متكامل (Full-Stack Developer) بخبرة تمتد لأكثر من 4 سنوات في تصميم وتطوير تطبيقات الويب والأنظمة السحابية. متخصص في بناء الباك إند ولوحات التحكم والـ RESTful APIs باستخدام PHP و Laravel، وتطوير واجهات المستخدم الحديثة باستخدام HTML5, CSS3, JavaScript, و React.js.
                     </p>
                     <p class="dt-p">
-                        يؤمن دكتور محمد بأن زيارة طبيب الأسنان يجب أن تكون تجربة إيجابية وخالية من التوتر، ولذلك قام بتصميم عيادة بايو كلينك لتكون واحة للرعاية الصحية الهادئة.
+                        أؤمن بأن البرمجة الناجحة تبدأ من فهم احتياجات العميل وتحويلها إلى هيكل برمجي نظيف (Clean Architecture) يضمن السرعة، الأمان، وقابلية التوسع مستقبلاً.
                     </p>
                     
                     <div class="dt-stats-grid">
                         <div class="dt-stat-box">
-                            <b>+5</b>
-                            <span>سنة خبرة مهنية</span>
+                            <b>+4</b>
+                            <span>سنوات خبرة برمجية</span>
                         </div>
                         <div class="dt-stat-box">
-                            <b>+1500</b>
-                            <span>حالة تجميل ناجحة</span>
+                            <b>+45</b>
+                            <span>مشروع ونظام مكتمل</span>
                         </div>
                     </div>
                 </div>
@@ -401,9 +401,9 @@
                     <div class="dt-vision-card__icon">
                         <i class="fa-solid fa-eye"></i>
                     </div>
-                    <h3>رؤيتنا</h3>
+                    <h3>رؤيتي</h3>
                     <p class="dt-p">
-                        أن نكون الوجهة الأولى والموثوقة في مجال طب وتجميل الأسنان، من خلال تقديم رعاية صحية متكاملة تتجاوز توقعات مرضانا، باستخدام أحدث التقنيات الرقمية المتاحة عالمياً.
+                        تقديم حلول برمجية وتقنية عالية الجودة تساعد الشركات ورواد الأعمال على التحول الرقمي والنمو من خلال أنظمة ومواقع سريعة، آمنة، وسهلة الاستخدام.
                     </p>
                 </div>
                 
@@ -411,9 +411,9 @@
                     <div class="dt-vision-card__icon" style="background: #E8F0EE; color: var(--dt-teal-deep);">
                         <i class="fa-solid fa-bullseye"></i>
                     </div>
-                    <h3>مهمتنا</h3>
+                    <h3>مهمتي</h3>
                     <p class="dt-p">
-                        توفير بيئة علاجية آمنة ومريحة، حيث نستمع بعناية لاحتياجات كل مريض ونقدم له خطة علاجية مخصصة تضمن له صحة فموية مستدامة وابتسامة تعزز من ثقته بنفسه.
+                        كتابة كود برمجي نظيف وقابل للصيانة والتطوير، مع الالتزام بأفضل معايير الأداء (Performance) وتجربة المستخدم (UX/UI) وأمن المعلومات في كل مشروع.
                     </p>
                 </div>
             </div>
@@ -422,24 +422,24 @@
         {{-- ================= MASONRY GALLERY ================= --}}
      @php
     $clinicGallery = [
-        ['file' => 'gallery2.jpeg',  'title' => 'غرفة الكشف والمتابعة'],
-        ['file' => 'gallery3.jpeg',  'title' => 'وحدة التعقيم المتطورة'],
-        ['file' => 'gallery4.jpeg',  'title' => 'أجهزة التشخيص والفحص'],
-        ['file' => 'gallery5.jpeg',  'title' => 'تصميم العيادة الداخلي'],
-        ['file' => 'gallery6.jpeg',  'title' => 'كرسي العلاج وتجهيزاته'],
-        ['file' => 'gallery7.jpeg',  'title' => 'ركن الراحة للمرضى'],
-        ['file' => 'gallery8.jpeg',  'title' => 'المعدات والأدوات الطبية'],
-        ['file' => 'gallery9.jpeg',  'title' => 'إضاءة ومساحة العيادة'],
-        ['file' => 'gallery10.jpeg', 'title' => 'تفاصيل التعقيم والسلامة'],
+        ['file' => 'gallery2.jpeg',  'title' => 'تطوير لوحات التحكم الإدارية'],
+        ['file' => 'gallery3.jpeg',  'title' => 'بناء RESTful APIs متكاملة'],
+        ['file' => 'gallery4.jpeg',  'title' => 'واجهات تفاعلية بـ React.js'],
+        ['file' => 'gallery5.jpeg',  'title' => 'تصميم قواعد البيانات MySQL'],
+        ['file' => 'gallery6.jpeg',  'title' => 'أنظمة الحجوزات والإدارة'],
+        ['file' => 'gallery7.jpeg',  'title' => 'المتاجر الإلكترونية وبوابات الدفع'],
+        ['file' => 'gallery8.jpeg',  'title' => 'تحسين الأداء والـ SEO'],
+        ['file' => 'gallery9.jpeg',  'title' => 'تطبيقات الويب التقدمية'],
+        ['file' => 'gallery10.jpeg', 'title' => 'الأمان وحماية البيانات'],
     ];
 @endphp
 
 <section class="dt-masonry-section">
     <div class="dt-container">
         <div class="dt-masonry-head">
-            <span class="dt-eyebrow-free">جولة مصورة</span>
-            <h2 class="dt-h2">نظرة من داخل العيادة</h2>
-            <p class="dt-p" style="text-align: center;">مساحات مصممة خصيصاً لراحتك النفسية ولضمان أعلى معايير التعقيم</p>
+            <span class="dt-eyebrow-free">معرض الصور</span>
+            <h2 class="dt-h2">لقطات من المشاريع وبيئة العمل</h2>
+            <p class="dt-p" style="text-align: center;">تطوير مستمر باستخدام أحدث الأدوات والتقنيات البرمجية</p>
         </div>
 
         <div class="dt-masonry">
