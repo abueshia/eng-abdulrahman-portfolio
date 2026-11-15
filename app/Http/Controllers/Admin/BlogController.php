@@ -1,14 +1,22 @@
 <?php
 
+/**
+ * BlogController
+ *
+ * Thin Admin Controller for managing bilingual technical articles and tutorials.
+ * Delegates all business logic, media uploads, and cache invalidation to BlogService.
+ */
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\BlogStatusEnum;
 use App\Helpers\TranslationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Blog\BlogRequest;
+use App\Http\Requests\Admin\Blog\StoreBlogRequest;
+use App\Http\Requests\Admin\Blog\UpdateBlogRequest;
 use App\Models\Blog;
-use App\Models\Tag;
 use App\Services\BlogService;
 use App\ViewModels\BlogViewModel;
 use Illuminate\Http\JsonResponse;
@@ -19,137 +27,173 @@ use Yajra\DataTables\DataTables;
 
 class BlogController extends Controller
 {
-    private $blog;
-
-    public function __construct()
-    {
-        $this->middleware(['auth:admin', 'permission:blogs.view_all'], ['only' => ['index']]);
+    public function __construct(
+        private readonly BlogService $blogService,
+    ) {
+        $this->middleware(['auth:admin', 'permission:blogs.view_all'], ['only' => ['index', 'table']]);
         $this->middleware(['auth:admin', 'permission:blogs.view_details'], ['only' => ['show']]);
-        $this->middleware(['auth:admin', 'permission:blogs.create'], ['only' => ['create', 'update']]);
-        $this->middleware(['auth:admin', 'permission:blogs.edit'], ['only' => ['edit', 'store']]);
+        $this->middleware(['auth:admin', 'permission:blogs.create'], ['only' => ['create', 'store']]);
+        $this->middleware(['auth:admin', 'permission:blogs.edit'], ['only' => ['edit', 'update']]);
         $this->middleware(['auth:admin', 'permission:blogs.delete'], ['only' => ['destroy']]);
         $this->middleware(['auth:admin', 'permission:blogs.sort'], ['only' => ['reorder', 'saveReorder']]);
-        $this->blog = new BlogService;
     }
 
     /**
-     * Display a listing of the blog.
+     * Display the blogs listing page.
      */
-    public function index(Request $request): View
+    public function index(): View
     {
+        $this->authorize('viewAny', Blog::class);
+
         return view('admin.pages.blog.index');
     }
 
-    public function table(DataTables $dataTables, Request $request)
+    /**
+     * Return Yajra DataTables JSON payload for the blogs table.
+     */
+    public function table(DataTables $dataTables, Request $request): JsonResponse
     {
-        $model = Blog::with('categories')->ordered();
-        if ($request->has('search') && ! empty($request->search['value'])) {
-            $search = $request->search['value'];
-            $model = $model->where(function ($query) use ($search): void {
-                $query->where('name', 'LIKE', '%'.$search.'%') // البحث عن اسم المدونة
-                    ->orWhereHas('categories', function ($query) use ($search): void {
-                        $query->where('name', 'LIKE', '%'.$search.'%'); // البحث عن اسم القسم
-                    });
+        $this->authorize('viewAny', Blog::class);
+
+        $query = $this->blogService->getAdminDataTableQuery();
+
+        if ($request->filled('search.value')) {
+            $search = (string) $request->input('search.value');
+            $query->where(static function ($builder) use ($search): void {
+                $builder->where('name->ar', 'like', "%{$search}%")
+                    ->orWhere('name->en', 'like', "%{$search}%")
+                    ->orWhere('slug', 'like', "%{$search}%");
             });
         }
 
-        return $dataTables->eloquent($model)->addIndexColumn()
-            ->editColumn('id', function (Blog $blog) {
-                return $blog->id ?? '-';
-            })->editColumn('name', function (Blog $blog) {
-                return $blog->name;
-            })->editColumn('category', function (Blog $blog) {
-                return $blog->categories->name ?? '-'; // عرض اسم القسم
+        return $dataTables->eloquent($query)
+            ->addIndexColumn()
+            ->editColumn('image', static function (Blog $blog): string {
+                $imageUrl = $blog->getFirstMediaUrl('blogs')
+                    ?: ($blog->getFirstMediaUrl('blogs_image') ?: asset('dashboard/assets/media/avatars/blank.png'));
 
-            })->editColumn('image', function (Blog $blog) {
-                $imageUrl = $blog->getFirstMediaUrl('blogs_image') ?: asset('path/to/default/image.jpg');
-
-                return "<img width='100' src='{$imageUrl}' alt='Blog Image'/>";
-
-            })->editColumn('created_at', function (Blog $blog) {
-                return $blog->created_at->format('d-m-Y h:i A') ?? '-';
-            })->addColumn('action', function (Blog $blog) {
-                return view('admin.pages.blog.buttons', compact('blog'));
+                return '<img width="65" height="45" style="object-fit:cover;border-radius:6px;" src="'.e($imageUrl).'" alt="'.e((string) $blog->name).'"/>';
             })
-            ->rawColumns(['image', 'action'])
-            ->startsWithSearch()
+            ->editColumn('name', static fn (Blog $blog): string => e((string) $blog->name))
+            ->addColumn('category', static fn (Blog $blog): string => e((string) ($blog->category?->name ?? '-')))
+            ->editColumn('status', static function (Blog $blog): string {
+                $status = $blog->status instanceof BlogStatusEnum
+                    ? $blog->status
+                    : BlogStatusEnum::tryFrom((string) $blog->status);
+
+                if ($status === null) {
+                    return '-';
+                }
+
+                return '<span class="badge badge-light-'.$status->color().'">'.e($status->label()).'</span>';
+            })
+            ->editColumn('published_at', static fn (Blog $blog): string => $blog->published_at?->format('Y-m-d') ?? '-')
+            ->editColumn('created_at', static fn (Blog $blog): string => $blog->created_at?->format('Y-m-d') ?? '-')
+            ->addColumn('action', static fn (Blog $blog): string => view('admin.pages.blog.buttons', compact('blog'))->render())
+            ->rawColumns(['image', 'status', 'action'])
             ->make(true);
     }
 
     /**
-     * Display a Single Row of the resource.
-     */
-    public function Show($id): View
-    {
-
-        $blog = Blog::with('categories')->find($id);
-
-        return view('admin.pages.blog.show', get_defined_vars());
-    }
-
-    /**
-     * Show the form for creating a new blog.
+     * Show the form for creating a new blog article.
      */
     public function create(): View
     {
-        $tags = Tag::get();
+        $this->authorize('create', Blog::class);
 
-        return view('admin.pages.blog.form', new BlogViewModel, get_defined_vars());
+        return view('admin.pages.blog.form', new BlogViewModel);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created blog article in storage.
      */
-    public function store(BlogRequest $request)
+    public function store(StoreBlogRequest $request): RedirectResponse
     {
-        // return $request;
-        $this->blog->createBlog($request->validated());
+        $this->authorize('create', Blog::class);
+
+        $this->blogService->create($request->validated(), $request->file('image'));
+
         session()->flash('success', TranslationHelper::translate('Operation Success'));
 
-        return back();
+        return redirect()->route('admin.blog.index');
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Display the specified blog article details.
+     */
+    public function show(Blog $blog): View
+    {
+        $this->authorize('view', $blog);
+        $blog->load(['category', 'media']);
+
+        return view('admin.pages.blog.show', compact('blog'));
+    }
+
+    /**
+     * Show the form for editing the specified blog article.
      */
     public function edit(Blog $blog): View
     {
-        $tags = Tag::get();
+        $this->authorize('update', $blog);
+        $blog->load(['category', 'media']);
 
-        return view('admin.pages.blog.form', new BlogViewModel($blog), get_defined_vars());
+        return view('admin.pages.blog.form', new BlogViewModel($blog));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified blog article in storage.
      */
-    public function update(BlogRequest $request, Blog $blog): RedirectResponse
+    public function update(UpdateBlogRequest $request, Blog $blog): RedirectResponse
     {
-        //        return $request;
-        $this->blog->updateBlog($blog, $request->validated());
+        $this->authorize('update', $blog);
+
+        $this->blogService->update($blog, $request->validated(), $request->file('image'));
+
         session()->flash('success', TranslationHelper::translate('Successfully Updated'));
 
-        return back();
+        return redirect()->route('admin.blog.index');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified blog article from storage.
      */
     public function destroy(Blog $blog): JsonResponse
     {
-        $this->blog->deleteBlog($blog);
+        $this->authorize('delete', $blog);
 
-        return response()->json(['status' => 'success', 'message' => TranslationHelper::translate('Successfully Deleted')]);
+        $this->blogService->delete($blog);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => TranslationHelper::translate('Successfully Deleted'),
+        ]);
     }
 
-    public function reorder(Blog $blog)
+    /**
+     * Display the drag-and-drop reorder page for blog articles.
+     */
+    public function reorder(): View
     {
-        return $this->blog->reorder($blog, 'name', 'admin.pages.blog.reorder', 1);
+        $this->authorize('reorder', Blog::class);
+
+        $items = $this->blogService->getAllForReorder();
+
+        return view('admin.pages.blog.reorder', compact('items'));
     }
 
-    public function saveReorder(Request $request, Blog $blog)
+    /**
+     * Persist the new sort order of blog articles.
+     */
+    public function saveReorder(Request $request): JsonResponse
     {
-        $all_entries = $request->input('tree');
+        $this->authorize('reorder', Blog::class);
 
-        return $this->blog->saveReorder($all_entries, $blog);
+        $items = (array) ($request->input('items') ?? $request->input('tree') ?? []);
+        $this->blogService->reorder($items);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => TranslationHelper::translate('Done, Sorting Has Been Saved'),
+        ]);
     }
 }

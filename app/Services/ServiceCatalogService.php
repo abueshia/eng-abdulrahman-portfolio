@@ -16,6 +16,7 @@ use App\Repositories\Contracts\ServiceRepositoryInterface;
 use App\Services\Support\PortfolioCache;
 use App\Services\Support\SlugGenerator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -82,6 +83,32 @@ class ServiceCatalogService
     public function paginateForAdmin(int $perPage = 15, array $filters = []): LengthAwarePaginator
     {
         return $this->serviceRepository->paginateForAdmin($perPage, $filters);
+    }
+
+    /**
+     * Build an ordered Eloquent query with eager-loaded relations for Admin Yajra DataTables.
+     *
+     * @return Builder<Service>
+     */
+    public function getAdminDataTableQuery(): Builder
+    {
+        /** @var Builder<Service> $query */
+        $query = $this->serviceRepository->adminQuery(['media']);
+
+        return $query;
+    }
+
+    /**
+     * Get all services ordered by sort_order for the Admin drag-and-drop reorder screen.
+     *
+     * @return Collection<int, Service>
+     */
+    public function getAllForReorder(): Collection
+    {
+        /** @var Collection<int, Service> $services */
+        $services = $this->serviceRepository->all(['*'], ['media']);
+
+        return $services;
     }
 
     /**
@@ -198,4 +225,3 @@ class ServiceCatalogService
         $this->cache->flush([self::CACHE_MODULE]);
     }
 }
-

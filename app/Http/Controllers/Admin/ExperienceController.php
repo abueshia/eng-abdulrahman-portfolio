@@ -44,6 +44,8 @@ class ExperienceController extends Controller
      */
     public function index(): View
     {
+        $this->authorize('viewAny', Experience::class);
+
         return view('admin.pages.experience.index');
     }
 
@@ -52,6 +54,8 @@ class ExperienceController extends Controller
      */
     public function table(DataTables $dataTables, Request $request): JsonResponse
     {
+        $this->authorize('viewAny', Experience::class);
+
         $query = $this->experienceService->getAdminDataTableQuery();
 
         if ($request->filled('search.value')) {
@@ -100,6 +104,8 @@ class ExperienceController extends Controller
      */
     public function create(): View
     {
+        $this->authorize('create', Experience::class);
+
         return view('admin.pages.experience.form', new ExperienceViewModel);
     }
 
@@ -108,6 +114,8 @@ class ExperienceController extends Controller
      */
     public function store(StoreExperienceRequest $request): RedirectResponse
     {
+        $this->authorize('create', Experience::class);
+
         $this->experienceService->create($request->validated(), $request->file('image'));
 
         session()->flash('success', TranslationHelper::translate('Operation Success'));
@@ -120,6 +128,7 @@ class ExperienceController extends Controller
      */
     public function show(Experience $experience): View
     {
+        $this->authorize('view', $experience);
         $experience->load(['technologies', 'media']);
 
         return view('admin.pages.experience.show', compact('experience'));
@@ -130,6 +139,7 @@ class ExperienceController extends Controller
      */
     public function edit(Experience $experience): View
     {
+        $this->authorize('update', $experience);
         $experience->load(['technologies', 'media']);
 
         return view('admin.pages.experience.form', new ExperienceViewModel($experience));
@@ -140,6 +150,8 @@ class ExperienceController extends Controller
      */
     public function update(UpdateExperienceRequest $request, Experience $experience): RedirectResponse
     {
+        $this->authorize('update', $experience);
+
         $this->experienceService->update($experience, $request->validated(), $request->file('image'));
 
         session()->flash('success', TranslationHelper::translate('Successfully Updated'));
@@ -152,6 +164,8 @@ class ExperienceController extends Controller
      */
     public function destroy(Experience $experience): JsonResponse
     {
+        $this->authorize('delete', $experience);
+
         $this->experienceService->delete($experience);
 
         return response()->json([
@@ -165,6 +179,8 @@ class ExperienceController extends Controller
      */
     public function reorder(): View
     {
+        $this->authorize('reorder', Experience::class);
+
         $items = $this->experienceService->getAllForReorder();
 
         return view('admin.pages.experience.reorder', compact('items'));
@@ -175,6 +191,8 @@ class ExperienceController extends Controller
      */
     public function saveReorder(Request $request): JsonResponse
     {
+        $this->authorize('reorder', Experience::class);
+
         $items = (array) ($request->input('items') ?? $request->input('tree') ?? []);
         $this->experienceService->reorder($items);
 
@@ -184,4 +202,3 @@ class ExperienceController extends Controller
         ]);
     }
 }
-

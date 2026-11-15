@@ -1,400 +1,187 @@
 @extends('admin.layouts.app')
 
-@push('admin_css')
-    <link href="{{asset('dashboard/assets/css/tags-input.min.css')}}" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
-
-    @if(App::getLocale() == 'ar')
-
-@endif
-
-@endpush
-
-@if ($method == 'PUT')
+@if ($method === 'PUT')
     @section('title', \App\Helpers\TranslationHelper::translate('Edit Blog'))
 @else
-    @section('title', \App\Helpers\TranslationHelper::translate('Add Blog'))
+    @section('title', \App\Helpers\TranslationHelper::translate('Create Blog'))
 @endif
 
 @section('crumb')
     <x-bread-crumb :breadcrumbs="[
         ['text' => \App\Helpers\TranslationHelper::translate('Blogs'), 'link' => route('admin.blog.index')],
-        ['text' => __('methods.' . getLastKeyRoute(request()->route()->getName()))],
-    ]"
-                   :button="['text' => \App\Helpers\TranslationHelper::translate('Go to Blog'), 'link' => route('admin.blog.index')]">
+        ['text' => $method === 'PUT' ? \App\Helpers\TranslationHelper::translate('Edit') : \App\Helpers\TranslationHelper::translate('Create')],
+    ]" :button="['text' => \App\Helpers\TranslationHelper::translate('Go to Blogs'), 'link' => route('admin.blog.index')]">
     </x-bread-crumb>
 @endsection
 
 @section('content')
-
-    <!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-        <!--begin::Post-->
         <div class="post d-flex flex-column-fluid" id="kt_post">
-            <!--begin::Container-->
             <div id="kt_content_container" class="container-xxl">
-                <!--begin::Card-->
                 <div class="card">
-                    <!--begin::Card header-->
-                    <div class="card-header border-0 pt-6">
-
-                        <!--begin::Card body-->
-
-                        <div class="card-body pt-0">
-                            <!--begin::Form-->
-                            <form action="{{ $action }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                @if ($method == 'PUT')
-                                    @method('PUT')
-                                    <input type="hidden" name="id" value="{{ $blog->id }}">
+                    <div class="card-body pt-6">
+                        <form action="{{ $action }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @if ($method === 'PUT')
+                                @method('PUT')
                             @endif
-                            <!--begin::Input group-->
-                                <div class="fv-row mb-10">
-                                    <div class="row">
 
-                                        {{-- @foreach (Config('language') as $key => $lang) --}}
-                                        {{-- <div class="col-6 mb-5">
-                                            <label class="fs-5 fw-bold form-label mb-5">
-                                                {{ \App\Helpers\TranslationHelper::translate('Name') }}
-                                                :
-                                            </label>
-                                            <!--end::Label-->
-                                            <!--begin::Input-->
-                                            <input type="text" class="form-control form-control-solid"
-                                                   value="{{ old('name') ?? $blog->name }}"
-                                                   placeholder="{{ \App\Helpers\TranslationHelper::translate('Name') }}"
-                                                   name="name"/>
-                                            @error('name')
-                                            <span class="text-danger" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div> --}}
+                            <!-- Bilingual Content Tabs (ar / en) -->
+                            <ul class="nav nav-tabs nav-line-tabs mb-6 fs-6" role="tablist">
+                                @foreach (Config('language') as $key => $lang)
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link fw-bold @if ($loop->first) active @endif"
+                                           data-bs-toggle="tab"
+                                           href="#kt_blog_tab_{{ $key }}"
+                                           role="tab">
+                                            {{ __('methods.' . $lang) }} ({{ strtoupper($key) }})
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
 
-                                                 @foreach (Config('language') as $key => $lang)
-                                            <div class="col-6 mb-5">
-                                                <label class="fs-5 fw-bold form-label mb-5">
-                                                    {{\App\Helpers\TranslationHelper::translate('name in')}} {{__('methods.' . $lang)}}
-                                                    :
+                            <div class="tab-content mb-8" id="kt_blog_tabs_content">
+                                @foreach (Config('language') as $key => $lang)
+                                    <div class="tab-pane fade @if ($loop->first) show active @endif"
+                                         id="kt_blog_tab_{{ $key }}"
+                                         role="tabpanel">
+                                        <div class="row g-6">
+                                            <div class="col-md-12">
+                                                <label class="fs-6 fw-bold form-label mb-2">
+                                                    {{ \App\Helpers\TranslationHelper::translate('Title in') }} {{ __('methods.' . $lang) }} *
                                                 </label>
-                                                <!--end::Label-->
-                                                <!--begin::Input-->
-                                                <input type="text" class="form-control form-control-solid"
-                                                       value="{{ old('name.'.$key) ?? $blog->getTranslation('name',$key)}}"
-                                                       placeholder="{{\App\Helpers\TranslationHelper::translate('name in')}} {{__('methods.' . $lang)}}"
-                                                       name="name[{{ $key}}]"/>
-                                                @error('name.'.$key)
-                                                <span class="text-danger" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
+                                                <input type="text"
+                                                       class="form-control form-control-solid"
+                                                       name="name[{{ $key }}]"
+                                                       value="{{ old('name.' . $key, $blog->getTranslation('name', $key, false)) }}"
+                                                       required/>
+                                                @error('name.' . $key)
+                                                    <span class="text-danger d-block mt-1"><strong>{{ $message }}</strong></span>
                                                 @enderror
                                             </div>
-                                        @endforeach
 
+                                            <div class="col-md-12">
+                                                <label class="fs-6 fw-bold form-label mb-2">
+                                                    {{ \App\Helpers\TranslationHelper::translate('Short Description in') }} {{ __('methods.' . $lang) }}
+                                                </label>
+                                                <textarea class="form-control form-control-solid"
+                                                          name="short_description[{{ $key }}]"
+                                                          rows="3">{{ old('short_description.' . $key, $blog->getTranslation('short_description', $key, false)) }}</textarea>
+                                                @error('short_description.' . $key)
+                                                    <span class="text-danger d-block mt-1"><strong>{{ $message }}</strong></span>
+                                                @enderror
+                                            </div>
 
-                      @foreach (Config('language') as $key => $lang)
-    <div class="col-12 mb-5">
-        <label class="fs-5 fw-bold form-label mb-5">
-            {{ \App\Helpers\TranslationHelper::translate('Description in') }} {{ __('methods.' . $lang) }}
-        </label>
-        <textarea class="form-control form-control-solid full-editor" name="description[{{ $key }}]" rows="5" id="description{{$key}}"
-                  style="height: 300px; direction: rtl;">{{ old('description.'.$key) ?? $blog->getTranslation('description', $key) }}</textarea>
-        @error('description.'.$key)
-            <span class="text-danger" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-        @enderror
-    </div>
-@endforeach
-
-                                        
-{{-- <div class="col-12 mb-5">
-    <label class="fs-5 fw-bold form-label mb-5">{{ \App\Helpers\TranslationHelper::translate('Description') }}</label>
-    <textarea 
-        class="form-control form-control-solid full-editor arabic-numbers" 
-        name="description" 
-        rows="5" 
-        id="description1" 
-        style="height: 300px; direction: rtl; unicode-bidi: bidi-override; font-family: 'Tajawal', Arial, sans-serif;">
-        {{ old('description') ?? $blog->description }}
-    </textarea>
-
-    @error('description')
-        <span class="text-danger" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-    @enderror
-</div> --}}
-
-
-                                   <div class="col-6  mb-5">
-                                            <label
-                                                class="fs-5 fw-bold form-label mb-5">{{ \App\Helpers\TranslationHelper::translate('Image') }}
-                                                : <span class="text-danger">
-                                                    {{ \App\Helpers\TranslationHelper::translate('Size') }} <span
-                                                        dir="ltr">400 x 400</span></span></label>
-                                            <input type="file" class="form-control form-control-solid" name="image"/>
-                                            @error('image')
-                                            <span class="text-danger" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                            @if ($blog->getFirstMediaUrl('blogs_image') != null)
-                                                <img src="{{ $blog->getFirstMediaUrl('blogs_image') }}" alt="blogs"
-                                                     width="100px" style="border-radius: 5px">
-                                            @endif
+                                            <div class="col-md-12">
+                                                <label class="fs-6 fw-bold form-label mb-2">
+                                                    {{ \App\Helpers\TranslationHelper::translate('Description in') }} {{ __('methods.' . $lang) }} *
+                                                </label>
+                                                <textarea class="form-control form-control-solid"
+                                                          name="description[{{ $key }}]"
+                                                          rows="6"
+                                                          required>{{ old('description.' . $key, $blog->getTranslation('description', $key, false)) }}</textarea>
+                                                @error('description.' . $key)
+                                                    <span class="text-danger d-block mt-1"><strong>{{ $message }}</strong></span>
+                                                @enderror
+                                            </div>
                                         </div>
-
-
-
-{{-- 
-                                        <div class="col-6  mb-5">
-                                            <!--begin::Label-->
-                                            <label class="fs-5 fw-bold form-label mb-5">
-                                                {{ \App\Helpers\TranslationHelper::translate('Category') }}
-                                                :
-                                            </label>
-                                            <!--end::Label-->
-                                            <select class="form-select form-select-solid" name="category_id">
-                                                <option
-                                                    value="">{{ \App\Helpers\TranslationHelper::translate('Choose Category') }}</option>
-                                                @foreach ($categories as $category)
-                                                    <option
-                                                        value="{{ $category->id }}" {{ $blog->category_id == $category->id ? 'selected' : '' }}>
-                                                        {{ $category->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            @error('category_id')
-                                            <span class="text-danger" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div> --}}
-
-                                        {{-- @endforeach --}}
-
-                          
-
-                                        {{-- <div class="col-12  mb-5">
-                                            <!--begin::Label-->
-                                            <label
-                                                class="fs-5 fw-bold form-label mb-5">{{ \App\Helpers\TranslationHelper::translate('Description') }}
-                                            </label>
-                                            <!--end::Label-->
-                                            <textarea class="form-control form-control-solid full-editor"
-                                                      name="description" rows="5" id="description1"
-                                                      style="height: 300px; direction: rtl;">{{ old('description') ?? $blog->description }}</textarea>
-
-                                                       <textarea
-    class="form-control form-control-solid full-editor"
-    name="description"
-    rows="5"
-    id="description1"
-    style="height: 300px; direction: rtl; text-align: right;">
-    {{ old('description') ?? $blog->description }}
-     </textarea>
-
-
-                                            @error('description')
-                                            <span class="text-danger" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div> --}}
-
-
-
-
-{{-- 
-                                        <div class="col-6  mb-5">
-                                            <!--begin::Label-->
-                                            <label
-                                                class="fs-5 fw-bold form-label mb-5">{{ \App\Helpers\TranslationHelper::translate('meta_Image') }}
-                                                : <span class="text-danger">
-                                                    {{ \App\Helpers\TranslationHelper::translate('Size') }} <span
-                                                        dir="ltr">400 x 400</span></span></label>
-                                            <!--end::Label-->
-                                            <input type="file" class="form-control form-control-solid"
-                                                   name="meta_image"/>
-                                            @error('meta_image')
-                                            <span class="text-danger" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                            @if ($blog->getFirstMediaUrl('blogs_meta_image') != null)
-                                                <img src="{{ $blog->getFirstMediaUrl('blogs_meta_image') }}" alt="blogs"
-                                                     width="100px" style="border-radius: 5px">
-                                            @endif
-                                        </div>
-
-                                        <div class="col-6  mb-5">
-                                            <!--begin::Label-->
-                                            <label
-                                                class="fs-5 fw-bold form-label mb-5">{{ \App\Helpers\TranslationHelper::translate('meta_Title') }}
-                                            </label>
-                                            <!--end::Label-->
-                                            <input type="text" class="form-control form-control-solid" name="meta_title"
-                                                   value="{{ old('meta_title') ?? $blog->meta_title }}"/>
-                                            @error('meta_title')
-                                            <span class="text-danger" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div> --}}
-
-{{-- 
-                                        <div class="col-6  mb-5">
-                                            <!--begin::Label-->
-                                            <label
-                                                class="fs-5 fw-bold form-label mb-5">{{ \App\Helpers\TranslationHelper::translate('alt_text') }}
-                                            </label>
-                                            <!--end::Label-->
-                                            <input type="text" class="form-control form-control-solid" name="alt_text"
-                                                   value="{{ old('alt_text') ?? $blog->alt_text }}"/>
-                                            @error('alt_text')
-                                            <span class="text-danger" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-
-                                        <div class="col-6  mb-5" id="-meta-tags">
-                                            <label
-                                                class="fs-5 fw-bold form-label mb-5">{{ \App\Helpers\TranslationHelper::translate('meta_tags') }}
-                                            </label>
-                                            <select name="meta_tags[]" id="meta_tags" class="form-control" multiple>
-                                                @if(isset($tags) && $tags->count() > 0)
-                                                    @if($method == 'PUT')
-                                                        @foreach($tags as $tag)
-                                                            <option value="{{$tag->id}}" {{in_array($tag->id, $blog->tags()->pluck('tag_id')->toArray()) ? 'selected' : ''}}>{{$tag->name}}</option>
-                                                        @endforeach
-                                                    @else
-                                                        @foreach($tags as $tag)
-                                                            <option value="{{$tag->id}}" {{old('meta_tags') ? (in_array($tag->id, old('meta_tags')) ? 'selected' : '') : ''}}>{{$tag->name}}</option>
-                                                        @endforeach
-                                                    @endif
-                                                @endif
-                                            </select>
-
-                                            @error('meta_tags')
-                                            <span class="text-danger" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div> --}}
-
-                                        {{-- <div class="col-6 form-group lang_form col-6"
-                                              id="-meta-tags">
-                                             <label class="col-6"
-                                                    class="title-color">{{ \App\Helpers\TranslationHelper::translate('meta_tags') }}
-
-                                                 </label>
-                                             <input type="text" class="form-control"
-                                                    name="meta_tags[]"
-                                                    value=""
-                                                    id="_meta_tags" data-role="tagsinput">
-                                         </div> --}}
-
-
-                                        {{-- <div class="col-6  mb-5">
-                                            <!--begin::Label-->
-                                            <label
-                                                class="fs-5 fw-bold form-label mb-5">{{ \App\Helpers\TranslationHelper::translate('meta_Description') }}
-                                            </label>
-                                            <!--end::Label-->
-                                            <textarea class="form-control form-control-solid" name="meta_description"
-                                                      rows="5"
-                                                      style="">{{ old('meta_description') ?? $blog->meta_description }}</textarea>
-                                            @error('meta_description')
-                                            <span class="text-danger" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div> --}}
-
-
-
-
                                     </div>
-                                    <!--begin::Label-->
+                                @endforeach
+                            </div>
+
+                            <hr class="my-6"/>
+
+                            <div class="row g-6 mb-8">
+                                <div class="col-md-4">
+                                    <label class="fs-6 fw-bold form-label mb-2">{{ \App\Helpers\TranslationHelper::translate('Category') }}</label>
+                                    <select class="form-select form-select-solid" name="category_id">
+                                        <option value="">{{ \App\Helpers\TranslationHelper::translate('Choose Category') }}</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}" @selected((int) old('category_id', $blog->category_id) === $category->id)>
+                                                {{ $category->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('category_id')
+                                        <span class="text-danger d-block mt-1"><strong>{{ $message }}</strong></span>
+                                    @enderror
                                 </div>
-                                <!--end::Input group-->
 
-                                <!--begin::Actions-->
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-primary mb-5">
-                                        <span
-                                            class="indicator-label">{{ \App\Helpers\TranslationHelper::translate('Save') }}</span>
-                                    </button>
+                                <div class="col-md-4">
+                                    <label class="fs-6 fw-bold form-label mb-2">{{ \App\Helpers\TranslationHelper::translate('Status') }} *</label>
+                                    @php($currentStatus = old('status', $blog->status?->value ?? \App\Enums\BlogStatusEnum::Published->value))
+                                    <select class="form-select form-select-solid" name="status" required>
+                                        @foreach ($blogStatuses as $statusValue => $statusLabel)
+                                            <option value="{{ $statusValue }}" @selected($currentStatus === $statusValue)>{{ $statusLabel }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('status')
+                                        <span class="text-danger d-block mt-1"><strong>{{ $message }}</strong></span>
+                                    @enderror
                                 </div>
-                                <!--end::Actions-->
-                            </form>
-                            <!--end::Form-->
-                        </div>
 
+                                <div class="col-md-4">
+                                    <label class="fs-6 fw-bold form-label mb-2">{{ \App\Helpers\TranslationHelper::translate('Published At') }}</label>
+                                    <input type="date" class="form-control form-control-solid" name="published_at"
+                                           value="{{ old('published_at', $blog->published_at?->format('Y-m-d')) }}"/>
+                                    @error('published_at')
+                                        <span class="text-danger d-block mt-1"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
 
-                        <!--end::Card body-->
+                                <div class="col-md-4">
+                                    <label class="fs-6 fw-bold form-label mb-2">{{ \App\Helpers\TranslationHelper::translate('Reading Time (Minutes)') }}</label>
+                                    <input type="number" min="1" max="240" class="form-control form-control-solid"
+                                           name="reading_time_minutes"
+                                           value="{{ old('reading_time_minutes', $blog->reading_time_minutes ?? 5) }}"/>
+                                    @error('reading_time_minutes')
+                                        <span class="text-danger d-block mt-1"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                </div>
+
+                                <div class="col-md-8">
+                                    <label class="fs-6 fw-bold form-label mb-2">{{ \App\Helpers\TranslationHelper::translate('Cover Image') }}</label>
+                                    <input type="file" class="form-control form-control-solid" name="image" accept="image/*"/>
+                                    @error('image')
+                                        <span class="text-danger d-block mt-1"><strong>{{ $message }}</strong></span>
+                                    @enderror
+                                    @if ($blog->exists && $blog->getFirstMediaUrl('blogs'))
+                                        <img src="{{ $blog->getFirstMediaUrl('blogs') }}" alt="cover" class="mt-3 rounded" width="120"/>
+                                    @endif
+                                </div>
+
+                                <div class="col-md-4 d-flex align-items-center mt-4">
+                                    <div class="form-check form-switch form-check-custom form-check-solid">
+                                        <input type="hidden" name="is_featured" value="0"/>
+                                        <input class="form-check-input" type="checkbox" name="is_featured" value="1" id="is_featured"
+                                               @checked((bool) old('is_featured', $blog->is_featured))/>
+                                        <label class="form-check-label fw-bold ms-3" for="is_featured">
+                                            {{ \App\Helpers\TranslationHelper::translate('Featured') }}
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 d-flex align-items-center mt-4">
+                                    <div class="form-check form-switch form-check-custom form-check-solid">
+                                        <input type="hidden" name="is_active" value="0"/>
+                                        <input class="form-check-input" type="checkbox" name="is_active" value="1" id="is_active"
+                                               @checked((bool) old('is_active', $blog->exists ? $blog->is_active : true))/>
+                                        <label class="form-check-label fw-bold ms-3" for="is_active">
+                                            {{ \App\Helpers\TranslationHelper::translate('Active') }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary px-8">
+                                    {{ \App\Helpers\TranslationHelper::translate('Save') }}
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                    <!--end::Card-->
                 </div>
-                <!--end::Container-->
             </div>
-            <!--end::Post-->
         </div>
     </div>
-    <!--end::Content-->
-
 @endsection
-
-@push('admin_js')
-{{-- <script src="/path-to-your-js-file/custom.js"></script> --}}
-    <script src="{{asset('dashboard/assets/js/tags-input.min.js')}}"></script>
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-
-
-    <script src="https://cdn.tiny.cloud/1/YOUR_API_KEY/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-
-
-
-
-
-
-
-
-    <script>
-        $(document).ready(function() {
-            $('#meta_tags').select2({
-                tags: true,
-                placeholder: 'Select or create options',
-                allowClear: true
-            });
-        });
-    </script>
-
-
-
-{{-- <script>
-    tinymce.init({
-    selector: '#description1',
-    directionality: 'rtl',
-    content_css: '//fonts.googleapis.com/css?family=Tajawal',
-    plugins: 'directionality',
-    toolbar: 'ltr rtl',
-    setup: function (editor) {
-        editor.on('init', function () {
-            if (document.documentElement.lang === 'ar') {
-                editor.getBody().style.direction = 'rtl';
-                editor.getBody().style.fontFamily = "'Tajawal', Arial, sans-serif";
-            }
-        });
-    }
-});
-</script> --}}
-
-
-
-
- 
-@endpush
-

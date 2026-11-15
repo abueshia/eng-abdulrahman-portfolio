@@ -1,128 +1,108 @@
 @extends('admin.layouts.app')
-@section('title', \App\Helpers\TranslationHelper::translate('Message Details'))
+@section('title', \App\Helpers\TranslationHelper::translate('Contact Message Details'))
+
 @section('crumb')
     <x-bread-crumb :breadcrumbs="[
-        ['text'=>\App\Helpers\TranslationHelper::translate('Messages'),'link'=>route('admin.message.index')],
-        ['text'=> \App\Helpers\TranslationHelper::translate('Details')]
-        ]" :button="[]">
+        ['text' => \App\Helpers\TranslationHelper::translate('Contact Messages'), 'link' => route('admin.message.index')],
+        ['text' => \App\Helpers\TranslationHelper::translate('Details')],
+    ]" :button="['text' => \App\Helpers\TranslationHelper::translate('Go to Messages'), 'link' => route('admin.message.index')]">
     </x-bread-crumb>
 @endsection
+
 @section('content')
-
-
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-        <!--begin::Post-->
         <div class="post d-flex flex-column-fluid" id="kt_post">
-            <!--begin::Container-->
             <div id="kt_content_container" class="container-xxl">
-                <!--begin::Card-->
-                <div class="card">
-                    <!--begin::Card header-->
-                    <div class="card-header border-0 pt-6">
-
-                        <!--begin::Card body-->
-                        <div class="card-body py-4 px-0" dir="{{Config::get('app.locale') == 'en' ? 'ltr' : 'rtl'}}">
-
-                            <div class="row px-0 mt-3">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-6 text-left">
-                                    <h4 class="d-inline-block  py-3">{{\App\Helpers\TranslationHelper::translate('Message Details')}}</h4>
-                                </div>
-{{--                                @if( auth()->user()->id == 1 || auth()->user()->can('Region Edit'))--}}
-
-{{--                                @endif--}}
-                            </div>
-
-
-                            <div class="row px-0 mt-3">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-12 m-auto text-left ">
-                                    <div class="row">
-                                        <div
-                                            class="col-lg-3 col-md-3 col-sm-3 col-6  text-left details_item bold">
-                                            {{\App\Helpers\TranslationHelper::translate('Name')}} :
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6  text-left details_item ">
-                                            {{$message->name}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row px-0 mt-3">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-12 m-auto text-left ">
-                                    <div class="row">
-                                        <div
-                                            class="col-lg-3 col-md-3 col-sm-3 col-6  text-left details_item bold">
-                                            {{\App\Helpers\TranslationHelper::translate('Email')}} :
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6  text-left details_item ">
-                                            {{$message->email}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                                 {{-- <div class="row px-0 mt-3">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-12 m-auto text-left ">
-                                    <div class="row">
-                                        <div
-                                            class="col-lg-3 col-md-3 col-sm-3 col-6  text-left details_item bold">
-                                            {{\App\Helpers\TranslationHelper::translate('city')}} :
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6  text-left details_item ">
-                                            {{$message->city}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
-                            
-                            {{-- <div class="row px-0 mt-3">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-12 m-auto text-left ">
-                                    <div class="row">
-                                        <div
-                                            class="col-lg-3 col-md-3 col-sm-3 col-6  text-left details_item bold">
-                                            {{\App\Helpers\TranslationHelper::translate('Phone')}} :
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6  text-left details_item ">
-                                            {{$message->phone}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
-                            
-                            <div class="row px-0 mt-3">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-12 m-auto text-left ">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-6  text-left details_item bold">
-                                            {{\App\Helpers\TranslationHelper::translate('Message')}} :
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-6  details_item " style="text-align: justify;">
-                                            {{$message->message}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                        </div>
-
-
+                <div class="card mb-7">
+                    <div class="card-header border-0 pt-6 d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">{{ $message->subject ?: \App\Helpers\TranslationHelper::translate('Contact Message Details') }}</h4>
+                        <span class="badge badge-light-{{ $message->status?->color() ?? 'primary' }}">
+                            {{ $message->status?->label() ?? '-' }}
+                        </span>
                     </div>
-
-                    <!--end::Card body-->
+                    <div class="card-body py-6">
+                        <div class="row g-5">
+                            <div class="col-md-4">
+                                <strong>{{ \App\Helpers\TranslationHelper::translate('Name') }}:</strong>
+                                <p class="mt-1">{{ $message->name }}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <strong>{{ \App\Helpers\TranslationHelper::translate('Email') }}:</strong>
+                                <p class="mt-1" dir="ltr">{{ $message->email }}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <strong>{{ \App\Helpers\TranslationHelper::translate('Phone') }}:</strong>
+                                <p class="mt-1" dir="ltr">{{ $message->phone ?: '-' }}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <strong>{{ \App\Helpers\TranslationHelper::translate('Type') }}:</strong>
+                                <p class="mt-1">{{ $message->type?->label() ?? '-' }}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <strong>{{ \App\Helpers\TranslationHelper::translate('Project Budget') }}:</strong>
+                                <p class="mt-1">{{ $message->budget_range ?: '-' }}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <strong>{{ \App\Helpers\TranslationHelper::translate('Received At') }}:</strong>
+                                <p class="mt-1">{{ $message->created_at?->format('Y-m-d H:i') ?? '-' }}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <strong>{{ \App\Helpers\TranslationHelper::translate('Read At') }}:</strong>
+                                <p class="mt-1">{{ $message->read_at?->format('Y-m-d H:i') ?? '-' }}</p>
+                            </div>
+                            <div class="col-md-12">
+                                <strong>{{ \App\Helpers\TranslationHelper::translate('Message') }}:</strong>
+                                <div class="p-4 bg-light rounded mt-2">
+                                    {{ $message->message }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!--end::Card-->
+
+                @if (auth()->guard('admin')->user()?->can('messages.edit', 'admin'))
+                    <div class="card">
+                        <div class="card-header border-0 pt-6">
+                            <h4 class="mb-0">{{ \App\Helpers\TranslationHelper::translate('Update Status & Admin Notes') }}</h4>
+                        </div>
+                        <div class="card-body py-6">
+                            <form action="{{ route('admin.message.update', $message->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+
+                                <div class="row g-6 mb-6">
+                                    <div class="col-md-4">
+                                        <label class="fs-6 fw-bold form-label mb-2">{{ \App\Helpers\TranslationHelper::translate('Status') }} *</label>
+                                        @php($currentStatus = old('status', $message->status?->value))
+                                        <select class="form-select form-select-solid" name="status" required>
+                                            @foreach ($messageStatuses as $statusValue => $statusLabel)
+                                                <option value="{{ $statusValue }}" @selected($currentStatus === $statusValue)>{{ $statusLabel }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('status')
+                                            <span class="text-danger d-block mt-1"><strong>{{ $message }}</strong></span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <label class="fs-6 fw-bold form-label mb-2">{{ \App\Helpers\TranslationHelper::translate('Admin Notes') }}</label>
+                                        <textarea class="form-control form-control-solid" name="admin_notes" rows="3">{{ old('admin_notes', $message->admin_notes) }}</textarea>
+                                        @error('admin_notes')
+                                            <span class="text-danger d-block mt-1"><strong>{{ $message }}</strong></span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-primary px-8">
+                                        {{ \App\Helpers\TranslationHelper::translate('Save') }}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                @endif
             </div>
-            <!--end::Container-->
         </div>
-        <!--end::Post-->
     </div>
-    <!--end::Content-->
-    </div>
-
-@stop
-@section('script')
-    <script>
-
-    </script>
-@stop
+@endsection

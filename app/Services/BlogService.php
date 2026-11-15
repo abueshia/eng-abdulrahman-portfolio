@@ -18,6 +18,7 @@ use App\Repositories\Contracts\BlogRepositoryInterface;
 use App\Services\Support\PortfolioCache;
 use App\Services\Support\SlugGenerator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -122,6 +123,32 @@ class BlogService
     public function paginateForAdmin(int $perPage = 15, array $filters = []): LengthAwarePaginator
     {
         return $this->blogRepository->paginateForAdmin($perPage, $filters);
+    }
+
+    /**
+     * Build an ordered Eloquent query with eager-loaded relations for Admin Yajra DataTables.
+     *
+     * @return Builder<Blog>
+     */
+    public function getAdminDataTableQuery(): Builder
+    {
+        /** @var Builder<Blog> $query */
+        $query = $this->blogRepository->adminQuery(['category', 'media']);
+
+        return $query;
+    }
+
+    /**
+     * Get all blogs ordered by sort_order for the Admin drag-and-drop reorder screen.
+     *
+     * @return Collection<int, Blog>
+     */
+    public function getAllForReorder(): Collection
+    {
+        /** @var Collection<int, Blog> $blogs */
+        $blogs = $this->blogRepository->all(['*'], ['category', 'media']);
+
+        return $blogs;
     }
 
     /**

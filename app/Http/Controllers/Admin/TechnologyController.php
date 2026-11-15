@@ -43,6 +43,8 @@ class TechnologyController extends Controller
      */
     public function index(): View
     {
+        $this->authorize('viewAny', Technology::class);
+
         return view('admin.pages.technology.index');
     }
 
@@ -51,6 +53,8 @@ class TechnologyController extends Controller
      */
     public function table(DataTables $dataTables, Request $request): JsonResponse
     {
+        $this->authorize('viewAny', Technology::class);
+
         $query = $this->technologyService->getAdminDataTableQuery();
 
         if ($request->filled('search.value')) {
@@ -103,6 +107,8 @@ class TechnologyController extends Controller
      */
     public function create(): View
     {
+        $this->authorize('create', Technology::class);
+
         return view('admin.pages.technology.form', new TechnologyViewModel);
     }
 
@@ -111,6 +117,8 @@ class TechnologyController extends Controller
      */
     public function store(StoreTechnologyRequest $request): RedirectResponse
     {
+        $this->authorize('create', Technology::class);
+
         $this->technologyService->create($request->validated(), $request->file('image'));
 
         session()->flash('success', TranslationHelper::translate('Operation Success'));
@@ -123,6 +131,7 @@ class TechnologyController extends Controller
      */
     public function show(Technology $technology): View
     {
+        $this->authorize('view', $technology);
         $technology->load(['projects', 'experiences', 'media']);
 
         return view('admin.pages.technology.show', compact('technology'));
@@ -133,6 +142,8 @@ class TechnologyController extends Controller
      */
     public function edit(Technology $technology): View
     {
+        $this->authorize('update', $technology);
+
         return view('admin.pages.technology.form', new TechnologyViewModel($technology));
     }
 
@@ -141,6 +152,8 @@ class TechnologyController extends Controller
      */
     public function update(UpdateTechnologyRequest $request, Technology $technology): RedirectResponse
     {
+        $this->authorize('update', $technology);
+
         $this->technologyService->update($technology, $request->validated(), $request->file('image'));
 
         session()->flash('success', TranslationHelper::translate('Successfully Updated'));
@@ -153,6 +166,8 @@ class TechnologyController extends Controller
      */
     public function destroy(Technology $technology): JsonResponse
     {
+        $this->authorize('delete', $technology);
+
         $this->technologyService->delete($technology);
 
         return response()->json([
@@ -166,6 +181,8 @@ class TechnologyController extends Controller
      */
     public function reorder(): View
     {
+        $this->authorize('reorder', Technology::class);
+
         $items = $this->technologyService->getAllForReorder();
 
         return view('admin.pages.technology.reorder', compact('items'));
@@ -176,6 +193,8 @@ class TechnologyController extends Controller
      */
     public function saveReorder(Request $request): JsonResponse
     {
+        $this->authorize('reorder', Technology::class);
+
         $items = (array) ($request->input('items') ?? $request->input('tree') ?? []);
         $this->technologyService->reorder($items);
 
@@ -185,4 +204,3 @@ class TechnologyController extends Controller
         ]);
     }
 }
-

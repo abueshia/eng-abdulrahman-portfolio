@@ -325,4 +325,3 @@ class AdminPhase5AControllersTest extends TestCase
         $this->assertDatabaseMissing('experiences', ['id' => $experience->id]);
     }
 }
-

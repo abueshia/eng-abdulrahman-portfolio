@@ -48,4 +48,3 @@ class TechnologyViewModel extends ViewModel
         return TechnologyCategoryEnum::options();
     }
 }
-

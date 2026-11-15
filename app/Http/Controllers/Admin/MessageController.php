@@ -1,69 +1,76 @@
 <?php
 
 /**
- * Admin MessageController
+ * MessageController
  *
- * Manages incoming ContactMessages (project inquiries, job offers, and general messages)
- * in the admin dashboard.
+ * Thin Admin Controller for viewing, filtering, updating status/admin notes,
+ * and deleting incoming ContactMessages. Automatically marks unread messages
+ * as read when viewed. No create/edit endpoints are exposed.
  */
 
 declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\ContactMessageStatusEnum;
 use App\Enums\ContactMessageTypeEnum;
 use App\Helpers\TranslationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ContactMessage\UpdateContactMessageRequest;
 use App\Models\ContactMessage;
-use Illuminate\Contracts\View\View;
+use App\Services\ContactMessageService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 
 class MessageController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(
+        private readonly ContactMessageService $contactMessageService,
+    ) {
         $this->middleware(['auth:admin', 'permission:messages.view_all'], ['only' => ['index', 'table']]);
-        $this->middleware(['auth:admin', 'permission:messages.view_details'], ['only' => ['show', 'Show']]);
+        $this->middleware(['auth:admin', 'permission:messages.view_details'], ['only' => ['show']]);
+        $this->middleware(['auth:admin', 'permission:messages.edit'], ['only' => ['update']]);
         $this->middleware(['auth:admin', 'permission:messages.delete'], ['only' => ['destroy']]);
     }
 
     /**
-     * Display the contact messages listing page.
+     * Display the contact messages listing page with type and status filters.
      */
     public function index(): View
     {
-        return view('admin.pages.message.index');
+        $this->authorize('viewAny', ContactMessage::class);
+
+        $messageTypes = ContactMessageTypeEnum::options();
+        $messageStatuses = ContactMessageStatusEnum::options();
+        $unreadCount = $this->contactMessageService->countUnread();
+
+        return view('admin.pages.message.index', compact('messageTypes', 'messageStatuses', 'unreadCount'));
     }
 
     /**
-     * Return DataTables JSON payload for contact messages.
+     * Return Yajra DataTables JSON payload for contact messages with type/status filters.
      */
     public function table(DataTables $dataTables, Request $request): JsonResponse
     {
-        $model = ContactMessage::query()->ordered();
+        $this->authorize('viewAny', ContactMessage::class);
 
-        if ($request->has('search') && ! empty($request->search['value'])) {
-            $search = (string) $request->search['value'];
+        $filters = [
+            'type' => $request->input('type'),
+            'status' => $request->input('status'),
+            'search' => $request->input('search.value'),
+        ];
 
-            $model->where(static function ($query) use ($search): void {
-                $query->where('name', 'LIKE', '%'.$search.'%')
-                    ->orWhere('phone', 'LIKE', '%'.$search.'%')
-                    ->orWhere('email', 'LIKE', '%'.$search.'%');
-            });
-        }
+        $query = $this->contactMessageService->getAdminDataTableQuery($filters);
 
-        if ($request->filled('type')) {
-            $model->where('type', (string) $request->type);
-        }
-
-        return $dataTables->eloquent($model)
+        return $dataTables->eloquent($query)
             ->addIndexColumn()
             ->editColumn('id', static fn (ContactMessage $message): int => (int) $message->id)
-            ->editColumn('name', static fn (ContactMessage $message): string => $message->name ?? '-')
-            ->editColumn('email', static fn (ContactMessage $message): string => $message->email ?? '-')
-            ->editColumn('phone', static fn (ContactMessage $message): string => $message->phone ?? '-')
+            ->editColumn('name', static fn (ContactMessage $message): string => e((string) ($message->name ?? '-')))
+            ->editColumn('email', static fn (ContactMessage $message): string => e((string) ($message->email ?? '-')))
+            ->editColumn('phone', static fn (ContactMessage $message): string => e((string) ($message->phone ?? '-')))
             ->editColumn('type', static function (ContactMessage $message): string {
                 $typeEnum = $message->type instanceof ContactMessageTypeEnum
                     ? $message->type
@@ -75,21 +82,53 @@ class MessageController extends Controller
 
                 return '<span class="badge badge-light-primary">'.e(TranslationHelper::translate('Contact')).'</span>';
             })
-            ->editColumn('service', static fn (ContactMessage $message): string => $message->service ?? '-')
-            ->editColumn('created_at', static fn (ContactMessage $message): string => $message->created_at ? $message->created_at->format('d-m-Y') : '-')
-            ->addColumn('action', static fn (ContactMessage $message): View => view('admin.pages.message.buttons', compact('message')))
-            ->rawColumns(['action', 'type'])
+            ->editColumn('status', static function (ContactMessage $message): string {
+                $statusEnum = $message->status instanceof ContactMessageStatusEnum
+                    ? $message->status
+                    : ContactMessageStatusEnum::tryFrom((string) $message->getRawOriginal('status'));
+
+                if ($statusEnum !== null) {
+                    return '<span class="badge badge-light-'.$statusEnum->color().'">'.e($statusEnum->label()).'</span>';
+                }
+
+                return '-';
+            })
+            ->editColumn('created_at', static fn (ContactMessage $message): string => $message->created_at?->format('Y-m-d H:i') ?? '-')
+            ->addColumn('action', static fn (ContactMessage $message): string => view('admin.pages.message.buttons', compact('message'))->render())
+            ->rawColumns(['type', 'status', 'action'])
             ->make(true);
     }
 
     /**
-     * Display details of a single contact message.
+     * Display details of a single contact message and automatically mark it as read.
      */
-    public function show(int|string $id): View
+    public function show(ContactMessage $message): View
     {
-        $message = ContactMessage::query()->findOrFail((int) $id);
+        $this->authorize('view', $message);
 
-        return view('admin.pages.message.show', compact('message'));
+        $message = $this->contactMessageService->markAsRead($message);
+        $messageStatuses = ContactMessageStatusEnum::options();
+        $statuses = $messageStatuses;
+
+        return view('admin.pages.message.show', compact('message', 'messageStatuses', 'statuses'));
+    }
+
+    /**
+     * Update the status and/or admin notes of a contact message.
+     */
+    public function update(UpdateContactMessageRequest $request, ContactMessage $message): RedirectResponse
+    {
+        $this->authorize('update', $message);
+
+        $validated = $request->validated();
+        $status = ContactMessageStatusEnum::from((string) $validated['status']);
+        $adminNotes = isset($validated['admin_notes']) ? (string) $validated['admin_notes'] : null;
+
+        $this->contactMessageService->updateStatus($message, $status, $adminNotes);
+
+        session()->flash('success', TranslationHelper::translate('Successfully Updated'));
+
+        return redirect()->route('admin.message.show', $message->id);
     }
 
     /**
@@ -97,7 +136,9 @@ class MessageController extends Controller
      */
     public function destroy(ContactMessage $message): JsonResponse
     {
-        $message->delete();
+        $this->authorize('delete', $message);
+
+        $this->contactMessageService->delete($message);
 
         return response()->json([
             'status' => 'success',

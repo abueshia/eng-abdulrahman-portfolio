@@ -14,6 +14,7 @@ use App\Models\Faq;
 use App\Repositories\Contracts\FaqRepositoryInterface;
 use App\Services\Support\PortfolioCache;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -55,6 +56,32 @@ class FaqService
     public function paginateForAdmin(int $perPage = 15, array $filters = []): LengthAwarePaginator
     {
         return $this->faqRepository->paginateForAdmin($perPage, $filters);
+    }
+
+    /**
+     * Build an ordered Eloquent query for Admin Yajra DataTables.
+     *
+     * @return Builder<Faq>
+     */
+    public function getAdminDataTableQuery(): Builder
+    {
+        /** @var Builder<Faq> $query */
+        $query = $this->faqRepository->adminQuery();
+
+        return $query;
+    }
+
+    /**
+     * Get all FAQs ordered by sort_order for the Admin drag-and-drop reorder screen.
+     *
+     * @return Collection<int, Faq>
+     */
+    public function getAllForReorder(): Collection
+    {
+        /** @var Collection<int, Faq> $faqs */
+        $faqs = $this->faqRepository->all();
+
+        return $faqs;
     }
 
     /**

@@ -1,11 +1,11 @@
-<?php $__env->startSection('title', \App\Helpers\TranslationHelper::translate('Messages')); ?>
+<?php $__env->startSection('title', \App\Helpers\TranslationHelper::translate('Contact Messages')); ?>
 
 <?php $__env->startSection('crumb'); ?>
     <?php if (isset($component)) { $__componentOriginalc2072a121b282e859e8bdea9c58b76d8 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalc2072a121b282e859e8bdea9c58b76d8 = $attributes; } ?>
 <?php $component = App\View\Components\BreadCrumb::resolve(['breadcrumbs' => [
-    ['text'=> \App\Helpers\TranslationHelper::translate('Messages'),'link'=>route('admin.message.index')],
-    ['text'=> \App\Helpers\TranslationHelper::translate('List')]
+        ['text' => \App\Helpers\TranslationHelper::translate('Contact Messages'), 'link' => route('admin.message.index')],
+        ['text' => \App\Helpers\TranslationHelper::translate('List')],
     ],'button' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('bread-crumb'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -26,115 +26,108 @@
 <?php endif; ?>
 <?php $__env->stopSection(); ?>
 
-<?php $__env->startPush('admin_css'); ?>
-
-<?php $__env->stopPush(); ?>
-
 <?php $__env->startSection('content'); ?>
-
     <div id="kt_app_content" class="app-content flex-column-fluid">
-        <!--begin::Content container-->
         <div id="kt_app_content_container" class="app-container container-xxl">
-            <!--begin::Card toolbar-->
-            <div class="card-toolbar w-100 mb-7">
-                <!--begin::Toolbar-->
-                <div class="d-flex justify-content-between w-100 data-kt-Customer-table-toolbar">
-                    <div class="left-part">
-                        <select id="type_filter" class="form-select form-select-solid" style="width: 200px;">
-                            <option value=""><?php echo e(\App\Helpers\TranslationHelper::translate('All Messages')); ?></option>
-                            <option value="contact"><?php echo e(\App\Helpers\TranslationHelper::translate('Contact Messages')); ?></option>
-                            <option value="booking"><?php echo e(\App\Helpers\TranslationHelper::translate('Booking Messages')); ?></option>
-                        </select>
+            <div class="card mb-6">
+                <div class="card-body py-5">
+                    <div class="row g-4 align-items-end">
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold"><?php echo e(\App\Helpers\TranslationHelper::translate('Filter by Type')); ?></label>
+                            <select id="filter_message_type" class="form-select form-select-solid">
+                                <option value=""><?php echo e(\App\Helpers\TranslationHelper::translate('All Types')); ?></option>
+                                <?php $__currentLoopData = $messageTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $typeValue => $typeLabel): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($typeValue); ?>"><?php echo e($typeLabel); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold"><?php echo e(\App\Helpers\TranslationHelper::translate('Filter by Status')); ?></label>
+                            <select id="filter_message_status" class="form-select form-select-solid">
+                                <option value=""><?php echo e(\App\Helpers\TranslationHelper::translate('All Statuses')); ?></option>
+                                <?php $__currentLoopData = $messageStatuses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $statusValue => $statusLabel): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($statusValue); ?>"><?php echo e($statusLabel); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>
+                        </div>
                     </div>
-
                 </div>
-                <!--end::Toolbar-->
-                <!--begin::Group actions-->
-            </div>
-            <!--end::Card toolbar-->
-            <!--begin::Table-->
-
-            <div class="table-responsive">
-                <table class="table table-rounded align-middle table-striped border gy-5 gs-7 dataTable no-footer"
-                       id="kt_table_users">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th><?php echo e(\App\Helpers\TranslationHelper::translate('Name')); ?></th>
-                        <th><?php echo e(\App\Helpers\TranslationHelper::translate('email')); ?></th>
-                        <th><?php echo e(\App\Helpers\TranslationHelper::translate('Phone')); ?></th>
-                        <th><?php echo e(\App\Helpers\TranslationHelper::translate('Type')); ?></th>
-                        <th><?php echo e(\App\Helpers\TranslationHelper::translate('Service')); ?></th>
-                        <th><?php echo e(\App\Helpers\TranslationHelper::translate('Created_at')); ?></th>
-                        <th><?php echo e(\App\Helpers\TranslationHelper::translate('Actions')); ?></th>
-                    </tr>
-                    </thead>
-                </table>
             </div>
 
-            <!--end::Table-->
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-rounded align-middle table-striped border gy-5 gs-7 dataTable no-footer"
+                           id="kt_table_messages">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th><?php echo e(\App\Helpers\TranslationHelper::translate('Name')); ?></th>
+                            <th><?php echo e(\App\Helpers\TranslationHelper::translate('Email')); ?></th>
+                            <th><?php echo e(\App\Helpers\TranslationHelper::translate('Phone')); ?></th>
+                            <th><?php echo e(\App\Helpers\TranslationHelper::translate('Type')); ?></th>
+                            <th><?php echo e(\App\Helpers\TranslationHelper::translate('Subject')); ?></th>
+                            <th><?php echo e(\App\Helpers\TranslationHelper::translate('Status')); ?></th>
+                            <th><?php echo e(\App\Helpers\TranslationHelper::translate('Date')); ?></th>
+                            <th><?php echo e(\App\Helpers\TranslationHelper::translate('Actions')); ?></th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
-    <?php echo $__env->make('admin.layouts.delete-modal',['action_message' => \App\Helpers\TranslationHelper::translate('This Item')], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
+    <?php echo $__env->make('admin.layouts.delete-modal', ['action_message' => \App\Helpers\TranslationHelper::translate('This Item')], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('admin_js'); ?>
-
-
+    <script src="<?php echo e(asset('dashboard/assets/plugins/custom/datatables/datatables.bundle.js')); ?>"></script>
     <script>
-        // begin first table
-      var table1 = $('#kt_table_users').DataTable({
-    serverSide: true,
-    orderCellsTop: true,
-    fixedHeader: true,
-    language: {
-        <?php if(App::getLocale()=='ar'): ?>
-        url: "//cdn.datatables.net/plug-ins/1.11.3/i18n/ar.json",
-        <?php else: ?>
-        url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json",
-        <?php endif; ?>
-    },
-    processing: true,
+        const messagesTable = $('#kt_table_messages').DataTable({
+            serverSide: true,
+            processing: true,
+            fixedHeader: true,
+            orderCellsTop: true,
+            language: {
+                <?php if(App::getLocale() === 'ar'): ?>
+                url: "//cdn.datatables.net/plug-ins/1.11.3/i18n/ar.json",
+                <?php else: ?>
+                url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json",
+                <?php endif; ?>
+            },
+            dom: `<'row'<'col-sm-6 text-left'f><'col-sm-6 text-end'B>>
+                  <'row'<'col-sm-12'tr>>
+                  <'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
+            buttons: ['print', 'copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'],
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            order: [[0, "desc"]],
+            ajax: {
+                url: '<?php echo e(route('admin.message.table')); ?>',
+                data: function (d) {
+                    d.type = $('#filter_message_type').val();
+                    d.status = $('#filter_message_status').val();
+                }
+            },
+            columns: [
+                {data: 'id', name: 'id', defaultContent: '-'},
+                {data: 'name', name: 'name', defaultContent: '-'},
+                {data: 'email', name: 'email', defaultContent: '-'},
+                {data: 'phone', name: 'phone', defaultContent: '-'},
+                {data: 'type', name: 'type', defaultContent: '-'},
+                {data: 'subject', name: 'subject', defaultContent: '-'},
+                {data: 'status', name: 'status', defaultContent: '-'},
+                {data: 'created_at', name: 'created_at', defaultContent: '-'},
+                {data: 'action', orderable: false, searchable: false, className: 'text-center'}
+            ],
+            createdRow: function (row, data) {
+                $(row).attr('id', 'row-' + data['id']);
+            }
+        });
 
-    dom: `<'row'<'col-sm-6 text-left'f><'col-sm-6 text-end ' B>>
-              <'row'<'col-sm-12'tr>>
-              <'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>`,
-
-    buttons: ['print', 'copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'],
-    lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-    order: [[0, "desc"]],
-    ajax: {
-        url: '<?php echo e(route('admin.message.table')); ?>',
-        data: function (d) {
-            d.name = $('#name').val();    
-            d.email = $('#email').val();  
-            d.created_at = $('#created_at').val();  
-            d.type = $('#type_filter').val();
-        }
-    },
-    columns: [
-        {data: 'id', name: 'id', defaultContent: '-'},
-        {data: 'name', name: 'name', defaultContent: '-'},
-        {data: 'email', name: 'email', defaultContent: '-'},
-        {data: 'phone', name: 'phone', defaultContent: '-'},
-        {data: 'type', name: 'type', defaultContent: '-'},
-        {data: 'service', name: 'service', defaultContent: '-'},
-        {data: 'created_at', name: 'created_at', defaultContent: '-'},
-        {data: 'action', orderable: false, searchable: false, className: 'text-center'}
-    ],
-    createdRow: function (row, data, index) {
-        $(row).attr('id', 'row-' + data['id']);
-    }
-});
-
-$('#name, #email, #phone, #type_filter').on('keyup change', function () {
-    table1.draw();  
-});
-
+        $('#filter_message_type, #filter_message_status').on('change', function () {
+            messagesTable.ajax.reload();
+        });
     </script>
-
     <script src="<?php echo e(asset('dashboard/assets/js/delete-item.js')); ?>" type="text/javascript"></script>
 <?php $__env->stopPush(); ?>
 

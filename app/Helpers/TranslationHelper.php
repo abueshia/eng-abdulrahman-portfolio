@@ -4,45 +4,29 @@ declare(strict_types=1);
 
 namespace App\Helpers;
 
+use Illuminate\Support\Facades\Lang;
+
 class TranslationHelper
 {
-    public static function translate($key, $file = 'all')
+    /**
+     * Translate a UI key from the specified translation file or fall back to a readable label.
+     */
+    public static function translate(string $key, string $file = 'all'): string
     {
-        $local = app()->getLocale();
-        app()->setLocale($local);
+        $translationKey = $file.'.'.$key;
 
-        $lang_array = include base_path('resources/lang/en/'.$file.'.php');
-
-        $processed_key = ucfirst(str_replace('_', ' ', TranslationHelper::remove_invalid_charcaters($key)));
-
-        if (! array_key_exists($key, $lang_array)) {
-            $lang_array[$key] = $processed_key;
-            $str = '<?php return '.var_export($lang_array, true).';';
-            // file_put_contents(base_path('resources/lang/en/'.$file.'.php'), $str);
-            $result = $processed_key;
-        } else {
-            $result = __($file.'.'.$key);
+        if (Lang::has($translationKey)) {
+            return (string) __($translationKey);
         }
 
-        $lang_array = include base_path('resources/lang/ar/'.$file.'.php');
-        $processed_key = ucfirst(str_replace('_', ' ', TranslationHelper::remove_invalid_charcaters($key)));
-
-        if (! array_key_exists($key, $lang_array)) {
-            $lang_array[$key] = $processed_key;
-            $str = '<?php return '.var_export($lang_array, true).';';
-            // file_put_contents(base_path('resources/lang/ar/'.$file.'.php'), $str);
-            $result = $processed_key;
-        } else {
-            $result = __($file.'.'.$key);
-        }
-
-        $result = __($file.'.'.$key);
-
-        return $result;
+        return ucfirst(str_replace('_', ' ', self::remove_invalid_charcaters($key)));
     }
 
-    public static function remove_invalid_charcaters($str)
+    /**
+     * Strip invalid characters from a translation key fallback.
+     */
+    public static function remove_invalid_charcaters(string $str): string
     {
-        return str_ireplace(['\'', '"', ',', ';', '<', '>', '?'], ' ', $str);
+        return (string) str_ireplace(['\'', '"', ',', ';', '<', '>', '?'], ' ', $str);
     }
 }

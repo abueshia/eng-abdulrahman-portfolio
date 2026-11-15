@@ -16,6 +16,7 @@ use App\Repositories\Contracts\CategoryRepositoryInterface;
 use App\Services\Support\PortfolioCache;
 use App\Services\Support\SlugGenerator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -63,6 +64,32 @@ class CategoryService
     public function paginateForAdmin(int $perPage = 15, array $filters = []): LengthAwarePaginator
     {
         return $this->categoryRepository->paginateForAdmin($perPage, $filters);
+    }
+
+    /**
+     * Build an ordered Eloquent query with eager-loaded relations for Admin Yajra DataTables.
+     *
+     * @return Builder<Category>
+     */
+    public function getAdminDataTableQuery(): Builder
+    {
+        /** @var Builder<Category> $query */
+        $query = $this->categoryRepository->adminQuery(['media'])->withCount(['projects', 'blogs']);
+
+        return $query;
+    }
+
+    /**
+     * Get all categories ordered by sort_order for the Admin drag-and-drop reorder screen.
+     *
+     * @return Collection<int, Category>
+     */
+    public function getAllForReorder(): Collection
+    {
+        /** @var Collection<int, Category> $categories */
+        $categories = $this->categoryRepository->all(['*'], ['media']);
+
+        return $categories;
     }
 
     /**

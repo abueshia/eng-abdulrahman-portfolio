@@ -14,6 +14,7 @@ use App\Models\Stat;
 use App\Repositories\Contracts\StatRepositoryInterface;
 use App\Services\Support\PortfolioCache;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -51,6 +52,32 @@ class StatService
     public function paginateForAdmin(int $perPage = 15, array $filters = []): LengthAwarePaginator
     {
         return $this->statRepository->paginateForAdmin($perPage, $filters);
+    }
+
+    /**
+     * Build an ordered Eloquent query for Admin Yajra DataTables.
+     *
+     * @return Builder<Stat>
+     */
+    public function getAdminDataTableQuery(): Builder
+    {
+        /** @var Builder<Stat> $query */
+        $query = $this->statRepository->adminQuery();
+
+        return $query;
+    }
+
+    /**
+     * Get all stats ordered by sort_order for the Admin drag-and-drop reorder screen.
+     *
+     * @return Collection<int, Stat>
+     */
+    public function getAllForReorder(): Collection
+    {
+        /** @var Collection<int, Stat> $stats */
+        $stats = $this->statRepository->all();
+
+        return $stats;
     }
 
     /**

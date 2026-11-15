@@ -1,64 +1,66 @@
 @extends('admin.layouts.app')
-@section('title', \App\Helpers\TranslationHelper::translate('Reorder Categories'))
+@section('title', \App\Helpers\TranslationHelper::translate('Reorder Blogs'))
+
 @section('crumb')
     <x-bread-crumb :breadcrumbs="[
-        ['text'=>\App\Helpers\TranslationHelper::translate('Categories'),'link'=>route('admin.blog.index')],
-        ['text'=> \App\Helpers\TranslationHelper::translate('Reorder Categories')]
-        ]" :button="[]">
+        ['text' => \App\Helpers\TranslationHelper::translate('Blogs'), 'link' => route('admin.blog.index')],
+        ['text' => \App\Helpers\TranslationHelper::translate('Sort Items')],
+    ]" :button="[]">
     </x-bread-crumb>
 @endsection
-@push('admin_css')
-    @include('admin.layouts.reorder.css')
-@endpush
+
 @section('content')
-
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-        <!--begin::Post-->
         <div class="post d-flex flex-column-fluid" id="kt_post">
-            <!--begin::Container-->
             <div id="kt_content_container" class="container-xxl">
-                <!--begin::Card-->
                 <div class="card">
-                    <!--begin::Card header-->
-                    <div class="card-header border-0 pt-6">
-
-                        <!--begin::Card body-->
-
-                        <div class="card-body py-4 px-0" >
-
-                            <div class="row px-0 mt-3">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-6 text-left">
-                                    <h4 class="d-inline-block  py-3">{{\App\Helpers\TranslationHelper::translate('Reorder Categories')}}</h4>
-
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-6 text-end">
-                                    <a class="btn btn-primary btn-sm" href="{{route('admin.blog.index')}}">{{\App\Helpers\TranslationHelper::translate('Go to Categories')}}</a>
-
-                                </div>
-                            </div>
-                            {{--                            Here Go Reorder--}}
-                            {{--                            <input type="hidden" id="route_inp" value="{{}}">--}}
-                            {{--                            <input type="hidden" id="max_inp" value="{{  }}">--}}
-                            @include('admin.layouts.reorder.view', ['data' => $data, 'label' => $label])
-
-
-                        </div>
-
-
+                    <div class="card-header border-0 pt-6 d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">{{ \App\Helpers\TranslationHelper::translate('Sort Items') }}</h4>
+                        <a class="btn btn-light-primary btn-sm" href="{{ route('admin.blog.index') }}">
+                            {{ \App\Helpers\TranslationHelper::translate('Go to Blogs') }}
+                        </a>
                     </div>
-
-                    <!--end::Card body-->
+                    <div class="card-body py-6">
+                        <ul id="sortable-list" class="list-group mb-5">
+                            @foreach ($items as $item)
+                                <li class="list-group-item d-flex justify-content-between align-items-center py-4 cursor-move"
+                                    data-id="{{ $item->id }}">
+                                    <span><i class="ki-solid ki-abstract-14 me-3"></i> {{ $item->name }}</span>
+                                    <span class="badge badge-light">{{ $item->sort_order }}</span>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <button type="button" id="save-reorder-btn" class="btn btn-success">
+                            {{ \App\Helpers\TranslationHelper::translate('Save') }}
+                        </button>
+                    </div>
                 </div>
-                <!--end::Card-->
             </div>
-            <!--end::Container-->
         </div>
-        <!--end::Post-->
     </div>
-    <!--end::Content-->
-    </div>
+@endsection
 
-@stop
 @push('admin_js')
-    @include('admin.layouts.reorder.js', ['max' => $max_num ?? 3, 'route' => route('admin.blog.reorder.save')] )
+    <script src="{{ asset('dashboard/assets/js/jquery-ui-dist/jquery-ui.min.js') }}"></script>
+    <script>
+        $(function () {
+            $('#sortable-list').sortable();
+            $('#save-reorder-btn').on('click', function () {
+                const items = [];
+                $('#sortable-list li').each(function () {
+                    items.push($(this).data('id'));
+                });
+                $.post('{{ route('admin.blog.reorder.save') }}', {
+                    _token: '{{ csrf_token() }}',
+                    items: items
+                }).done(function (response) {
+                    Swal.fire({
+                        title: '{{ \App\Helpers\TranslationHelper::translate('Done') }}',
+                        icon: 'success',
+                        text: response.message
+                    });
+                });
+            });
+        });
+    </script>
 @endpush

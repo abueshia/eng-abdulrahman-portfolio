@@ -13,9 +13,11 @@ namespace App\Services;
 
 use App\DTOs\ContactMessageData;
 use App\Enums\ContactMessageStatusEnum;
+use App\Enums\ContactMessageTypeEnum;
 use App\Models\ContactMessage;
 use App\Repositories\Contracts\ContactMessageRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -33,6 +35,44 @@ class ContactMessageService
     public function paginateFiltered(int $perPage = 15, array $filters = []): LengthAwarePaginator
     {
         return $this->contactMessageRepository->paginateFiltered($perPage, $filters);
+    }
+
+    /**
+     * Build a filtered Eloquent query for Admin Yajra DataTables.
+     *
+     * @param  array{type?: string|null, status?: string|null, search?: string|null}  $filters
+     * @return Builder<ContactMessage>
+     */
+    public function getAdminDataTableQuery(array $filters = []): Builder
+    {
+        /** @var Builder<ContactMessage> $query */
+        $query = $this->contactMessageRepository->adminQuery();
+
+        if (! empty($filters['type'])) {
+            $typeEnum = ContactMessageTypeEnum::tryFrom((string) $filters['type']);
+            if ($typeEnum !== null) {
+                $query->ofType($typeEnum);
+            }
+        }
+
+        if (! empty($filters['status'])) {
+            $statusEnum = ContactMessageStatusEnum::tryFrom((string) $filters['status']);
+            if ($statusEnum !== null) {
+                $query->withStatus($statusEnum);
+            }
+        }
+
+        if (! empty($filters['search'])) {
+            $search = (string) $filters['search'];
+            $query->where(static function (Builder $builder) use ($search): void {
+                $builder->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%")
+                    ->orWhere('subject', 'like', "%{$search}%");
+            });
+        }
+
+        return $query;
     }
 
     /**

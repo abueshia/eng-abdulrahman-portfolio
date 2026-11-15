@@ -16,6 +16,7 @@ use App\Models\Testimonial;
 use App\Repositories\Contracts\TestimonialRepositoryInterface;
 use App\Services\Support\PortfolioCache;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -80,6 +81,48 @@ class TestimonialService
     public function paginateForAdmin(int $perPage = 15, array $filters = []): LengthAwarePaginator
     {
         return $this->testimonialRepository->paginateForAdmin($perPage, $filters);
+    }
+
+    /**
+     * Build an ordered Eloquent query with eager-loaded relations for Admin Yajra DataTables.
+     *
+     * @return Builder<Testimonial>
+     */
+    public function getAdminDataTableQuery(): Builder
+    {
+        /** @var Builder<Testimonial> $query */
+        $query = $this->testimonialRepository->adminQuery(['project', 'media']);
+
+        return $query;
+    }
+
+    /**
+     * Get all testimonials ordered by sort_order for the Admin drag-and-drop reorder screen.
+     *
+     * @return Collection<int, Testimonial>
+     */
+    public function getAllForReorder(): Collection
+    {
+        /** @var Collection<int, Testimonial> $testimonials */
+        $testimonials = $this->testimonialRepository->all(['*'], ['project', 'media']);
+
+        return $testimonials;
+    }
+
+    /**
+     * Count active testimonials.
+     */
+    public function countActive(): int
+    {
+        return $this->testimonialRepository->countActive();
+    }
+
+    /**
+     * Get average testimonial rating.
+     */
+    public function averageRating(): float
+    {
+        return $this->testimonialRepository->averageRating();
     }
 
     /**

@@ -95,4 +95,3 @@ class ProjectViewModel extends ViewModel
             ->all();
     }
 }
-

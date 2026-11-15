@@ -44,6 +44,8 @@ class ProjectController extends Controller
      */
     public function index(): View
     {
+        $this->authorize('viewAny', Project::class);
+
         return view('admin.pages.project.index');
     }
 
@@ -52,6 +54,8 @@ class ProjectController extends Controller
      */
     public function table(DataTables $dataTables, Request $request): JsonResponse
     {
+        $this->authorize('viewAny', Project::class);
+
         $query = $this->projectService->getAdminDataTableQuery();
 
         if ($request->filled('search.value')) {
@@ -108,6 +112,8 @@ class ProjectController extends Controller
      */
     public function create(): View
     {
+        $this->authorize('create', Project::class);
+
         return view('admin.pages.project.form', new ProjectViewModel);
     }
 
@@ -116,6 +122,8 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request): RedirectResponse
     {
+        $this->authorize('create', Project::class);
+
         $this->projectService->create($request->toDto());
 
         session()->flash('success', TranslationHelper::translate('Operation Success'));
@@ -129,6 +137,7 @@ class ProjectController extends Controller
     public function show(int $id): View
     {
         $project = $this->projectService->findById($id);
+        $this->authorize('view', $project);
 
         return view('admin.pages.project.show', compact('project'));
     }
@@ -139,6 +148,7 @@ class ProjectController extends Controller
     public function edit(int $id): View
     {
         $project = $this->projectService->findById($id);
+        $this->authorize('update', $project);
 
         return view('admin.pages.project.form', new ProjectViewModel($project));
     }
@@ -148,6 +158,8 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project): RedirectResponse
     {
+        $this->authorize('update', $project);
+
         $this->projectService->update($project, $request->toDto());
 
         session()->flash('success', TranslationHelper::translate('Successfully Updated'));
@@ -160,6 +172,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project): JsonResponse
     {
+        $this->authorize('delete', $project);
+
         $this->projectService->delete($project);
 
         return response()->json([
@@ -173,6 +187,8 @@ class ProjectController extends Controller
      */
     public function reorder(): View
     {
+        $this->authorize('reorder', Project::class);
+
         $items = $this->projectService->getAllForReorder();
 
         return view('admin.pages.project.reorder', compact('items'));
@@ -183,6 +199,8 @@ class ProjectController extends Controller
      */
     public function saveReorder(Request $request): JsonResponse
     {
+        $this->authorize('reorder', Project::class);
+
         $items = (array) ($request->input('items') ?? $request->input('tree') ?? []);
         $this->projectService->reorder($items);
 
@@ -192,4 +210,3 @@ class ProjectController extends Controller
         ]);
     }
 }
-

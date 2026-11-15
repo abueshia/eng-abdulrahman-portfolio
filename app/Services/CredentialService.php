@@ -16,6 +16,7 @@ use App\Models\Credential;
 use App\Repositories\Contracts\CredentialRepositoryInterface;
 use App\Services\Support\PortfolioCache;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -58,6 +59,32 @@ class CredentialService
     public function paginateForAdmin(int $perPage = 15, array $filters = []): LengthAwarePaginator
     {
         return $this->credentialRepository->paginateForAdmin($perPage, $filters);
+    }
+
+    /**
+     * Build an ordered Eloquent query with eager-loaded relations for Admin Yajra DataTables.
+     *
+     * @return Builder<Credential>
+     */
+    public function getAdminDataTableQuery(): Builder
+    {
+        /** @var Builder<Credential> $query */
+        $query = $this->credentialRepository->adminQuery(['media']);
+
+        return $query;
+    }
+
+    /**
+     * Get all credentials ordered by sort_order for the Admin drag-and-drop reorder screen.
+     *
+     * @return Collection<int, Credential>
+     */
+    public function getAllForReorder(): Collection
+    {
+        /** @var Collection<int, Credential> $credentials */
+        $credentials = $this->credentialRepository->all(['*'], ['media']);
+
+        return $credentials;
     }
 
     /**
