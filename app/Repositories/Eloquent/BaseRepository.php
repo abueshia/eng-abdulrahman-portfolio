@@ -127,15 +127,23 @@ abstract class BaseRepository implements BaseRepositoryInterface
     public function reorder(array $items): void
     {
         DB::transaction(function () use ($items): void {
-            foreach ($items as $index => $item) {
-                $id = is_array($item) ? (int) ($item['id'] ?? 0) : (int) $item;
+            $position = 1;
+
+            foreach ($items as $item) {
+                $id = is_array($item)
+                    ? (int) ($item['id'] ?? $item['item_id'] ?? 0)
+                    : (int) $item;
+
+                if ($id <= 0) {
+                    continue;
+                }
+
                 $sortOrder = is_array($item) && isset($item['sort_order'])
                     ? (int) $item['sort_order']
-                    : ((int) $index + 1);
+                    : $position;
 
-                if ($id > 0) {
-                    $this->query()->whereKey($id)->update(['sort_order' => $sortOrder]);
-                }
+                $this->query()->whereKey($id)->update(['sort_order' => $sortOrder]);
+                $position++;
             }
         });
     }
@@ -146,6 +154,20 @@ abstract class BaseRepository implements BaseRepositoryInterface
     public function nextSortOrder(): int
     {
         return ((int) $this->query()->max('sort_order')) + 1;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function adminQuery(array $relations = []): Builder
+    {
+        $query = $this->query()->with($relations);
+
+        if (method_exists($this->model, 'scopeOrdered')) {
+            $query->ordered();
+        }
+
+        return $query;
     }
 
     /**

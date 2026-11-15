@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ServiceService
+ * ServiceCatalogService
  *
  * Manages software engineering service offerings, unique slug generation,
  * cover/icon media uploads, reordering, and cache invalidation.
@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 
-class ServiceService
+class ServiceCatalogService
 {
     public const CACHE_MODULE = 'services';
 
@@ -198,3 +198,4 @@ class ServiceService
         $this->cache->flush([self::CACHE_MODULE]);
     }
 }
+

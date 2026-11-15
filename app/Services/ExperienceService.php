@@ -15,6 +15,7 @@ use App\Models\Experience;
 use App\Repositories\Contracts\ExperienceRepositoryInterface;
 use App\Services\Support\PortfolioCache;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -53,6 +54,32 @@ class ExperienceService
     public function paginateForAdmin(int $perPage = 15, array $filters = []): LengthAwarePaginator
     {
         return $this->experienceRepository->paginateForAdmin($perPage, $filters);
+    }
+
+    /**
+     * Build an ordered Eloquent query with eager-loaded relations for Admin Yajra DataTables.
+     *
+     * @return Builder<Experience>
+     */
+    public function getAdminDataTableQuery(): Builder
+    {
+        /** @var Builder<Experience> $query */
+        $query = $this->experienceRepository->adminQuery(['technologies', 'media']);
+
+        return $query;
+    }
+
+    /**
+     * Get all experiences ordered by sort_order for the Admin drag-and-drop reorder screen.
+     *
+     * @return Collection<int, Experience>
+     */
+    public function getAllForReorder(): Collection
+    {
+        /** @var Collection<int, Experience> $experiences */
+        $experiences = $this->experienceRepository->all(['*'], ['technologies', 'media']);
+
+        return $experiences;
     }
 
     /**

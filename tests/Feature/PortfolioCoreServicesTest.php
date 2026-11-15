@@ -79,7 +79,7 @@ use App\Services\CredentialService;
 use App\Services\ExperienceService;
 use App\Services\FaqService;
 use App\Services\ProjectService;
-use App\Services\ServiceService;
+use App\Services\ServiceCatalogService;
 use App\Services\StatService;
 use App\Services\TechnologyService;
 use App\Services\TestimonialService;
@@ -369,9 +369,9 @@ class PortfolioCoreServicesTest extends TestCase
         $this->assertCount(1, $credentialService->getActive(CredentialTypeEnum::AcademicDegree));
         $this->assertTrue($credentialService->delete($cred));
 
-        // 4. ServiceService
-        /** @var ServiceService $serviceOfferingService */
-        $serviceOfferingService = app(ServiceService::class);
+        // 4. ServiceCatalogService
+        /** @var ServiceCatalogService $serviceOfferingService */
+        $serviceOfferingService = app(ServiceCatalogService::class);
         $srv = $serviceOfferingService->create([
             'title' => ['ar' => 'بناء الأنظمة والـ REST APIs', 'en' => 'Backend Systems & REST APIs'],
             'short_description' => ['ar' => 'وصف مختصر', 'en' => 'Short description'],

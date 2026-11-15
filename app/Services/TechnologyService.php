@@ -17,6 +17,7 @@ use App\Repositories\Contracts\TechnologyRepositoryInterface;
 use App\Services\Support\PortfolioCache;
 use App\Services\Support\SlugGenerator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -96,6 +97,32 @@ class TechnologyService
     public function paginateForAdmin(int $perPage = 15, array $filters = []): LengthAwarePaginator
     {
         return $this->technologyRepository->paginateForAdmin($perPage, $filters);
+    }
+
+    /**
+     * Build an ordered Eloquent query with eager-loaded relations for Admin Yajra DataTables.
+     *
+     * @return Builder<Technology>
+     */
+    public function getAdminDataTableQuery(): Builder
+    {
+        /** @var Builder<Technology> $query */
+        $query = $this->technologyRepository->adminQuery(['media']);
+
+        return $query;
+    }
+
+    /**
+     * Get all technologies ordered by sort_order for the Admin drag-and-drop reorder screen.
+     *
+     * @return Collection<int, Technology>
+     */
+    public function getAllForReorder(): Collection
+    {
+        /** @var Collection<int, Technology> $technologies */
+        $technologies = $this->technologyRepository->all(['*'], ['media']);
+
+        return $technologies;
     }
 
     /**

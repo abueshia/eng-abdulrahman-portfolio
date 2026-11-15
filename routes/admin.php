@@ -13,9 +13,12 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ExperienceController;
 use App\Http\Controllers\Admin\MessageController;
+use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\TechnologyController;
 use App\Http\Controllers\Admin\TestimonialController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -60,6 +63,48 @@ Route::group(
                 Route::get('/{admin}/edit', [AdminController::class, 'edit'])->name('admin.edit');
                 Route::put('/{admin}', [AdminController::class, 'update'])->name('admin.update');
                 Route::delete('/{admin}', [AdminController::class, 'destroy'])->name('admin.destroy');
+            });
+
+            // Portfolio Projects & Case Studies
+            Route::group(['prefix' => 'project'], static function (): void {
+                Route::get('/', [ProjectController::class, 'index'])->name('project.index');
+                Route::get('/create', [ProjectController::class, 'create'])->name('project.create');
+                Route::post('/', [ProjectController::class, 'store'])->name('project.store');
+                Route::get('/reorder/project', [ProjectController::class, 'reorder'])->name('project.reorder');
+                Route::post('/reorder/save', [ProjectController::class, 'saveReorder'])->name('project.reorder.save');
+                Route::get('/table/show', [ProjectController::class, 'table'])->name('project.table');
+                Route::get('/{project}', [ProjectController::class, 'show'])->name('project.show');
+                Route::get('/{project}/edit', [ProjectController::class, 'edit'])->name('project.edit');
+                Route::put('/{project}', [ProjectController::class, 'update'])->name('project.update');
+                Route::delete('/{project}', [ProjectController::class, 'destroy'])->name('project.destroy');
+            });
+
+            // Technologies & Technical Stack
+            Route::group(['prefix' => 'technology'], static function (): void {
+                Route::get('/', [TechnologyController::class, 'index'])->name('technology.index');
+                Route::get('/create', [TechnologyController::class, 'create'])->name('technology.create');
+                Route::post('/', [TechnologyController::class, 'store'])->name('technology.store');
+                Route::get('/reorder/technology', [TechnologyController::class, 'reorder'])->name('technology.reorder');
+                Route::post('/reorder/save', [TechnologyController::class, 'saveReorder'])->name('technology.reorder.save');
+                Route::get('/table/show', [TechnologyController::class, 'table'])->name('technology.table');
+                Route::get('/{technology}', [TechnologyController::class, 'show'])->name('technology.show');
+                Route::get('/{technology}/edit', [TechnologyController::class, 'edit'])->name('technology.edit');
+                Route::put('/{technology}', [TechnologyController::class, 'update'])->name('technology.update');
+                Route::delete('/{technology}', [TechnologyController::class, 'destroy'])->name('technology.destroy');
+            });
+
+            // Professional Work Experiences
+            Route::group(['prefix' => 'experience'], static function (): void {
+                Route::get('/', [ExperienceController::class, 'index'])->name('experience.index');
+                Route::get('/create', [ExperienceController::class, 'create'])->name('experience.create');
+                Route::post('/', [ExperienceController::class, 'store'])->name('experience.store');
+                Route::get('/reorder/experience', [ExperienceController::class, 'reorder'])->name('experience.reorder');
+                Route::post('/reorder/save', [ExperienceController::class, 'saveReorder'])->name('experience.reorder.save');
+                Route::get('/table/show', [ExperienceController::class, 'table'])->name('experience.table');
+                Route::get('/{experience}', [ExperienceController::class, 'show'])->name('experience.show');
+                Route::get('/{experience}/edit', [ExperienceController::class, 'edit'])->name('experience.edit');
+                Route::put('/{experience}', [ExperienceController::class, 'update'])->name('experience.update');
+                Route::delete('/{experience}', [ExperienceController::class, 'destroy'])->name('experience.destroy');
             });
 
             // Technical Articles (Blogs)

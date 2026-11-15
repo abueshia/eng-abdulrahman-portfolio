@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Repositories\Contracts;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -77,4 +78,12 @@ interface BaseRepositoryInterface
      * Get the next available `sort_order` value (current maximum + 1).
      */
     public function nextSortOrder(): int;
+
+    /**
+     * Build an ordered Eloquent query with optional eager-loaded relations for Admin DataTables.
+     *
+     * @param  array<int, string>  $relations
+     * @return Builder<Model>
+     */
+    public function adminQuery(array $relations = []): Builder;
 }

@@ -18,6 +18,7 @@ use App\Repositories\Contracts\ProjectRepositoryInterface;
 use App\Services\Support\PortfolioCache;
 use App\Services\Support\SlugGenerator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -98,13 +99,41 @@ class ProjectService
     /**
      * Find a project by ID with relations for Admin editing.
      */
-    public function findById(int $id): ?Project
+    public function findById(int $id): Project
     {
-        return $this->projectRepository->findById(
+        /** @var Project $project */
+        $project = $this->projectRepository->findById(
             $id,
-            ['*'],
             ['category', 'technologies', 'testimonials', 'media']
         );
+
+        return $project;
+    }
+
+    /**
+     * Build an ordered Eloquent query with eager-loaded relations for Admin Yajra DataTables.
+     *
+     * @return Builder<Project>
+     */
+    public function getAdminDataTableQuery(): Builder
+    {
+        /** @var Builder<Project> $query */
+        $query = $this->projectRepository->adminQuery(['category', 'technologies', 'media']);
+
+        return $query;
+    }
+
+    /**
+     * Get all projects ordered by sort_order for the Admin drag-and-drop reorder screen.
+     *
+     * @return Collection<int, Project>
+     */
+    public function getAllForReorder(): Collection
+    {
+        /** @var Collection<int, Project> $projects */
+        $projects = $this->projectRepository->all(['*'], ['category', 'media']);
+
+        return $projects;
     }
 
     /**
