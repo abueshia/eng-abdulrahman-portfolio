@@ -83,4 +83,3 @@ class EloquentSettingRepository extends BaseRepository implements SettingReposit
         return $setting;
     }
 }
-

@@ -437,4 +437,3 @@ enum SettingKeyEnum: string
         return array_column(self::cases(), 'value');
     }
 }
-

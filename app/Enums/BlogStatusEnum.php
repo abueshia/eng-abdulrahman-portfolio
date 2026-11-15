@@ -61,4 +61,3 @@ enum BlogStatusEnum: string
         return $options;
     }
 }
-

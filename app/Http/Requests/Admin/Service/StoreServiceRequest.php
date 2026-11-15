@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * StoreServiceRequest
+ *
+ * Validates creation of a new software engineering service offering.
+ */
+
+declare(strict_types=1);
+
+namespace App\Http\Requests\Admin\Service;
+
+use App\Http\Requests\BasePortfolioFormRequest;
+
+class StoreServiceRequest extends BasePortfolioFormRequest
+{
+    public function authorize(): bool
+    {
+        return $this->authorizeAdminPermission('services.create');
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function rules(): array
+    {
+        return [
+            'title' => ['required', 'array'],
+            'title.ar' => ['required', 'string', 'max:255'],
+            'title.en' => ['required', 'string', 'max:255'],
+            'slug' => ['nullable', 'string', 'max:255', 'unique:services,slug'],
+            'subtitle' => ['nullable', 'array'],
+            'subtitle.ar' => ['nullable', 'string', 'max:255'],
+            'subtitle.en' => ['nullable', 'string', 'max:255'],
+            'short_description' => ['required', 'array'],
+            'short_description.ar' => ['required', 'string', 'max:1000'],
+            'short_description.en' => ['required', 'string', 'max:1000'],
+            'description' => ['required', 'array'],
+            'description.ar' => ['required', 'string'],
+            'description.en' => ['required', 'string'],
+            'features' => ['nullable', 'array'],
+            'features.ar' => ['nullable', 'string'],
+            'features.en' => ['nullable', 'string'],
+            'icon' => ['nullable', 'string', 'max:150'],
+            'is_featured' => ['nullable', 'boolean'],
+            'is_active' => ['nullable', 'boolean'],
+            'sort_order' => ['nullable', 'integer', 'min:0'],
+            'image' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,svg', 'max:2048'],
+        ];
+    }
+}
+

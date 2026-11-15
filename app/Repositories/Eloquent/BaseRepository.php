@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Repositories\Eloquent;
 
 use App\Repositories\Contracts\BaseRepositoryInterface;
+use App\Support\PortfolioLocale;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -135,6 +136,62 @@ abstract class BaseRepository implements BaseRepositoryInterface
                 if ($id > 0) {
                     $this->query()->whereKey($id)->update(['sort_order' => $sortOrder]);
                 }
+            }
+        });
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function nextSortOrder(): int
+    {
+        return ((int) $this->query()->max('sort_order')) + 1;
+    }
+
+    /**
+     * Determine whether a slug is already taken, optionally ignoring a specific record.
+     *
+     * Only meaningful for repositories implementing SluggableRepositoryInterface.
+     */
+    public function slugExists(string $slug, ?int $ignoreId = null): bool
+    {
+        return $this->query()
+            ->where('slug', $slug)
+            ->when($ignoreId !== null, fn (Builder $query) => $query->whereKeyNot($ignoreId))
+            ->exists();
+    }
+
+    /**
+     * Apply a case-insensitive "contains" search across translatable JSON and plain columns.
+     *
+     * @param  Builder<Model>  $query
+     * @param  array<int, string>  $translatableColumns  JSON columns searched in every supported locale.
+     * @param  array<int, string>  $plainColumns  Regular string columns.
+     * @return Builder<Model>
+     */
+    protected function applySearch(
+        Builder $query,
+        ?string $term,
+        array $translatableColumns = [],
+        array $plainColumns = []
+    ): Builder {
+        $term = trim((string) $term);
+
+        if ($term === '') {
+            return $query;
+        }
+
+        $like = '%'.str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $term).'%';
+
+        return $query->where(function (Builder $builder) use ($translatableColumns, $plainColumns, $like): void {
+            foreach ($translatableColumns as $column) {
+                foreach (PortfolioLocale::SUPPORTED as $locale) {
+                    $builder->orWhere("{$column}->{$locale}", 'like', $like);
+                }
+            }
+
+            foreach ($plainColumns as $column) {
+                $builder->orWhere($column, 'like', $like);
             }
         });
     }

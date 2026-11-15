@@ -72,4 +72,9 @@ interface BaseRepositoryInterface
      * @param  array<int, int|array<string, mixed>>  $items
      */
     public function reorder(array $items): void;
+
+    /**
+     * Get the next available `sort_order` value (current maximum + 1).
+     */
+    public function nextSortOrder(): int;
 }

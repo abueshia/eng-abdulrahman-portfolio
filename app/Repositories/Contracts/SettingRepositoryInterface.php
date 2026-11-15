@@ -42,4 +42,3 @@ interface SettingRepositoryInterface extends BaseRepositoryInterface
      */
     public function upsertByKey(string $key, array $attributes): Setting;
 }
-

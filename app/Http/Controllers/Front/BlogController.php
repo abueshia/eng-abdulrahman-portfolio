@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Models\Category;
-use App\Models\Tag;
 
 class BlogController extends Controller
 {
@@ -42,16 +41,5 @@ class BlogController extends Controller
         $categories = Category::all();
 
         return view('front.pages.blog.category', compact('category', 'categories'));
-    }
-
-    public function tag($tag_slug)
-    {
-        $tag = Tag::where('slug', $tag_slug)->first();
-        $blogs = Blog::query()->whereHas('tags', function ($q) use ($tag_slug): void {
-            $q->where('tags.slug', $tag_slug);
-        })->get();
-        $categories = Category::get();
-
-        return view('front.pages.blog.tag', compact('blogs', 'tag', 'categories'));
     }
 }

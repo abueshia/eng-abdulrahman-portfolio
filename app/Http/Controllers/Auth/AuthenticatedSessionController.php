@@ -37,21 +37,8 @@ class AuthenticatedSessionController extends Controller
         return view('admin.auth.login');
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
-    // كنترول الصحيح ل نظام العملية
-    // public function store(LoginRequest $request): RedirectResponse
-    // {
-    //     $request->authenticate();
-
-    //     $request->session()->regenerate();
-
-    //     return redirect()->intended(RouteServiceProvider::HOME);
-    // }
     public function store(LoginRequest $request): RedirectResponse
     {
-        // تحقق من المصادقة باستخدام الحارس الخاص بالأدمن
         $request->authenticate('admin');
 
         $request->session()->regenerate();
@@ -64,12 +51,11 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        // تسجيل الخروج من الحارس الخاص بالأدمن
         Auth::guard('admin')->logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/admin'); // توجيه المستخدم إلى الصفحة الرئيسية أو أي صفحة أخرى
+        return redirect('/admin');
     }
 }

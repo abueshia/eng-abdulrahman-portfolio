@@ -316,4 +316,3 @@ class SettingService
         return ['value' => (string) $submittedValue];
     }
 }
-

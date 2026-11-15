@@ -42,4 +42,3 @@ class SettingObserver
         Cache::forget('settings');
     }
 }
-
