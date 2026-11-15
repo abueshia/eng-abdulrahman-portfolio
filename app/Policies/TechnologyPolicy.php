@@ -17,4 +17,3 @@ class TechnologyPolicy extends BaseAdminPolicy
         return 'technologies';
     }
 }
-

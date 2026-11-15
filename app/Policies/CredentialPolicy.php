@@ -17,4 +17,3 @@ class CredentialPolicy extends BaseAdminPolicy
         return 'credentials';
     }
 }
-

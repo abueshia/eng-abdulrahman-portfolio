@@ -56,4 +56,3 @@ class StoreBlogRequest extends BasePortfolioFormRequest
         ];
     }
 }
-

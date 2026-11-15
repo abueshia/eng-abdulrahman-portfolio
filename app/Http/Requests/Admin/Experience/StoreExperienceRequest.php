@@ -55,4 +55,3 @@ class StoreExperienceRequest extends BasePortfolioFormRequest
         ];
     }
 }
-

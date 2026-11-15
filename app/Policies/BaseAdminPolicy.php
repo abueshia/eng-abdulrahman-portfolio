@@ -84,4 +84,3 @@ abstract class BaseAdminPolicy
         return $user->checkPermissionTo($permissionName, 'admin');
     }
 }
-

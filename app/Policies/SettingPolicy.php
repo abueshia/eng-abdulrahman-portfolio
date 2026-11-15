@@ -45,4 +45,3 @@ class SettingPolicy extends BaseAdminPolicy
         return $user->checkPermissionTo('mainSetting.edit', 'admin');
     }
 }
-

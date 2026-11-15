@@ -61,4 +61,3 @@ class UpdateServiceRequest extends BasePortfolioFormRequest
         ];
     }
 }
-

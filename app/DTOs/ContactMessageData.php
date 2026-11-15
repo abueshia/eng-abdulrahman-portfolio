@@ -101,4 +101,3 @@ readonly class ContactMessageData
         return $attributes;
     }
 }
-

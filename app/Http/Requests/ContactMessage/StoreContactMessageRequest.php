@@ -53,4 +53,3 @@ class StoreContactMessageRequest extends BasePortfolioFormRequest
         );
     }
 }
-

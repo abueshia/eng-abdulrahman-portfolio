@@ -17,4 +17,3 @@ class ServicePolicy extends BaseAdminPolicy
         return 'services';
     }
 }
-

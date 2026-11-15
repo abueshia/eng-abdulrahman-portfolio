@@ -131,4 +131,3 @@ class StatService
         $this->cache->flush([self::CACHE_MODULE]);
     }
 }
-

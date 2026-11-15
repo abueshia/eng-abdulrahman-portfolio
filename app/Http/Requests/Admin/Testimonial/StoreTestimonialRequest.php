@@ -50,4 +50,3 @@ class StoreTestimonialRequest extends BasePortfolioFormRequest
         ];
     }
 }
-

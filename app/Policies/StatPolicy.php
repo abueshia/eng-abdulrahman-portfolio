@@ -17,4 +17,3 @@ class StatPolicy extends BaseAdminPolicy
         return 'stats';
     }
 }
-

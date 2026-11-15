@@ -19,4 +19,3 @@ class ContactMessagePolicy extends BaseAdminPolicy
         return 'messages';
     }
 }
-

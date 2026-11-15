@@ -43,4 +43,3 @@ class StoreTechnologyRequest extends BasePortfolioFormRequest
         ];
     }
 }
-

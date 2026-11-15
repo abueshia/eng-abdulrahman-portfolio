@@ -32,4 +32,3 @@ class UpdateContactMessageRequest extends BasePortfolioFormRequest
         ];
     }
 }
-

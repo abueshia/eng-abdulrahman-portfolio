@@ -17,4 +17,3 @@ class ProjectPolicy extends BaseAdminPolicy
         return 'projects';
     }
 }
-

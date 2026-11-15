@@ -37,4 +37,3 @@ class StoreFaqRequest extends BasePortfolioFormRequest
         ];
     }
 }
-

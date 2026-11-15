@@ -55,4 +55,3 @@ class UpdateExperienceRequest extends BasePortfolioFormRequest
         ];
     }
 }
-

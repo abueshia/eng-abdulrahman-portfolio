@@ -17,4 +17,3 @@ class BlogPolicy extends BaseAdminPolicy
         return 'blogs';
     }
 }
-

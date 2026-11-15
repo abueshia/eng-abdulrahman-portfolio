@@ -58,4 +58,3 @@ class UpdateCategoryRequest extends BasePortfolioFormRequest
         ];
     }
 }
-

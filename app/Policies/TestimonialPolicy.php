@@ -32,4 +32,3 @@ class TestimonialPolicy extends BaseAdminPolicy
             || $user->checkPermissionTo("testimonials.{$action}", 'admin');
     }
 }
-

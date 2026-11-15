@@ -17,4 +17,3 @@ class FaqPolicy extends BaseAdminPolicy
         return 'faqs';
     }
 }
-

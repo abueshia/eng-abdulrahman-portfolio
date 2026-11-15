@@ -47,4 +47,3 @@ class UpdateCredentialRequest extends BasePortfolioFormRequest
         ];
     }
 }
-

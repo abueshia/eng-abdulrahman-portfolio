@@ -76,4 +76,3 @@ abstract class BasePortfolioFormRequest extends FormRequest
         return is_array($attributes) ? $attributes : [];
     }
 }
-

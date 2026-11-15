@@ -37,4 +37,3 @@ class UpdateStatRequest extends BasePortfolioFormRequest
         ];
     }
 }
-
