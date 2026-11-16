@@ -52,6 +52,13 @@ interface ContactMessageRepositoryInterface extends BaseRepositoryInterface
     public function countByStatus(): array;
 
     /**
+     * Get monthly message counts for the last N months (oldest to newest).
+     *
+     * @return array{labels: array<int, string>, counts: array<int, int>, series: array<int, array{month: string, label: string, count: int}>}
+     */
+    public function countByLastMonths(int $months = 6): array;
+
+    /**
      * Mark a message as read (sets `read_at` and moves status from `new` to `read`).
      */
     public function markAsRead(ContactMessage $message): ContactMessage;

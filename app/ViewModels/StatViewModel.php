@@ -36,4 +36,3 @@ class StatViewModel extends ViewModel
         return $this->stat->exists ? 'PUT' : 'POST';
     }
 }
-

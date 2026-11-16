@@ -1,0 +1,71 @@
+/**
+ * Portfolio Admin CMS — RTL (Arabic) Stylesheet (dashboard-rtl.css)
+ *
+ * Right-to-Left layout positioning, typography, and DataTables alignment
+ * when app()->getLocale() === 'ar'.
+ */
+
+body {
+    font-family: 'Tajawal', 'Almarai', sans-serif !important;
+    direction: rtl;
+    text-align: right;
+}
+
+@media (min-width: 992px) {
+    [data-kt-app-sidebar-fixed=true] .app-sidebar {
+        right: 0 !important;
+        left: auto !important;
+    }
+
+    [data-kt-app-header-fixed=true][data-kt-app-sidebar-fixed=true][data-kt-app-sidebar-push-header=true] .app-header,
+    [data-kt-app-header-fixed=true][data-kt-app-sidebar-sticky=on][data-kt-app-sidebar-push-header=true] .app-header {
+        right: calc(var(--bs-app-sidebar-width) + var(--bs-app-sidebar-gap-start, 0px) + var(--bs-app-sidebar-gap-end, 0px));
+        left: 0 !important;
+    }
+
+    [data-kt-app-sidebar-fixed=true] .app-wrapper {
+        margin-right: calc(var(--bs-app-sidebar-width) + var(--bs-app-sidebar-gap-start, 0px) + var(--bs-app-sidebar-gap-end, 0px));
+        margin-left: 0 !important;
+    }
+
+    #kt_app_sidebar_toggle.start-100 {
+        right: 100% !important;
+        left: auto !important;
+        margin-right: -12px;
+    }
+}
+
+.app-sidebar .menu-icon {
+    margin-left: 0.75rem !important;
+    margin-right: 0 !important;
+}
+
+.dataTables_wrapper {
+    direction: rtl !important;
+}
+
+.dataTables_filter label {
+    direction: rtl !important;
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+    text-align: left !important;
+}
+
+table.table.dataTable {
+    direction: rtl;
+}
+
+table.table.dataTable th,
+table.table.dataTable td {
+    text-align: right !important;
+}
+
+.sortable li.mjs-nestedSortable-leaf div {
+    text-align: right !important;
+}
+
+.custom_form_switch {
+    text-align: right !important;
+}
+

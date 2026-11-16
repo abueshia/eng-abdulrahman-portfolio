@@ -37,4 +37,3 @@ class FaqViewModel extends ViewModel
         return $this->faq->exists ? 'PUT' : 'POST';
     }
 }
-

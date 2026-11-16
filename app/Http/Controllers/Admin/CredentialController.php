@@ -194,4 +194,3 @@ class CredentialController extends Controller
         ]);
     }
 }
-

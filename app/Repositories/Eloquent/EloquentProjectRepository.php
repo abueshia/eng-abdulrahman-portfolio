@@ -184,6 +184,21 @@ class EloquentProjectRepository extends BaseRepository implements ProjectReposit
     /**
      * {@inheritDoc}
      */
+    public function getLatestForAdmin(int $limit = 5): Collection
+    {
+        /** @var Collection<int, Project> $projects */
+        $projects = $this->listQuery()
+            ->orderByDesc('created_at')
+            ->orderByDesc('id')
+            ->limit($limit)
+            ->get();
+
+        return $projects;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function syncTechnologies(Project $project, array $technologies): void
     {
         $payload = [];

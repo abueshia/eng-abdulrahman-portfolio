@@ -1,0 +1,221 @@
+/**
+ * Portfolio Admin CMS — Common Stylesheet (dashboard-common.css)
+ *
+ * Shared UI components, KPI cards, chart widgets, DataTables overrides,
+ * and responsive rules for both RTL (Arabic) and LTR (English) layouts.
+ */
+
+:root {
+    --portfolio-primary: #2563eb;
+    --portfolio-primary-soft: rgba(37, 99, 235, 0.1);
+    --portfolio-emerald: #059669;
+    --portfolio-emerald-soft: rgba(5, 150, 105, 0.1);
+    --portfolio-amber: #d97706;
+    --portfolio-amber-soft: rgba(217, 119, 6, 0.12);
+    --portfolio-violet: #7c3aed;
+    --portfolio-violet-soft: rgba(124, 58, 237, 0.1);
+    --portfolio-rose: #e11d48;
+    --portfolio-rose-soft: rgba(225, 29, 72, 0.1);
+    --portfolio-border: #e5e7eb;
+    --portfolio-card-radius: 14px;
+}
+
+.bold {
+    font-weight: 600 !important;
+}
+
+.details_item {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--portfolio-border);
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.details_item:hover {
+    background-color: #f8fafc;
+}
+
+.details_item_custom {
+    font-size: 14px !important;
+    color: #1e293b !important;
+}
+
+/* KPI Stat Cards */
+.cms-kpi-card {
+    background: #ffffff;
+    border: 1px solid var(--portfolio-border);
+    border-radius: var(--portfolio-card-radius);
+    padding: 1.5rem;
+    height: 100%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.cms-kpi-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px -10px rgba(15, 23, 42, 0.1);
+    border-color: #cbd5e1;
+}
+
+.cms-kpi-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.45rem;
+    flex-shrink: 0;
+}
+
+.cms-kpi-value {
+    font-size: 1.85rem;
+    font-weight: 800;
+    line-height: 1.15;
+    color: #0f172a;
+    margin-bottom: 0.25rem;
+}
+
+.cms-kpi-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 0.25rem;
+}
+
+.cms-kpi-sub {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: #94a3b8;
+}
+
+/* 6-Month Contact Messages Bar Chart */
+.cms-chart-wrapper {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 220px;
+    padding: 1.25rem 0.75rem 0.5rem;
+    border-bottom: 1px dashed var(--portfolio-border);
+}
+
+.cms-chart-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 190px;
+}
+
+.cms-chart-bar-track {
+    width: 100%;
+    max-width: 48px;
+    height: 140px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    padding: 2px;
+}
+
+.cms-chart-bar-fill {
+    width: 100%;
+    background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+    border-radius: 6px;
+    min-height: 6px;
+    transition: height 0.4s ease;
+}
+
+.cms-chart-count {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.35rem;
+}
+
+.cms-chart-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #64748b;
+    margin-top: 0.5rem;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Sidebar Menu Refinements */
+.app-sidebar .menu-heading {
+    letter-spacing: 0.05em;
+    color: #94a3b8 !important;
+}
+
+.app-sidebar .menu-item .menu-link {
+    border-radius: 8px;
+    padding: 0.65rem 1rem;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.app-sidebar .menu-item .menu-link.active {
+    background-color: rgba(59, 130, 246, 0.16) !important;
+    color: #ffffff !important;
+}
+
+/* DataTables & Tables */
+.dataTables_wrapper .dataTable thead th,
+.dataTables_wrapper .dataTable tfoot th {
+    font-weight: 700;
+    color: #1e293b;
+    vertical-align: middle !important;
+}
+
+table.table-bordered.dataTable th,
+table.table-bordered.dataTable td {
+    vertical-align: middle !important;
+}
+
+.cke_notifications_area {
+    display: none !important;
+}
+
+.form-check-input:checked {
+    background-color: var(--portfolio-primary);
+    border-color: var(--portfolio-primary);
+}
+
+/* Responsive Breakpoints (Mobile & Tablet) */
+@media (max-width: 991.98px) {
+    .cms-kpi-card {
+        padding: 1.15rem;
+    }
+
+    .cms-kpi-value {
+        font-size: 1.5rem;
+    }
+
+    .cms-chart-wrapper {
+        gap: 0.5rem;
+        overflow-x: auto;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .app-toolbar .page-heading {
+        font-size: 1.15rem !important;
+    }
+
+    .card-header {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+}
+

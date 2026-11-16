@@ -26,4 +26,5 @@
 <?php endif; ?>
 
 <script src="<?php echo e(asset('dashboard/assets/js/delete-item.js')); ?>" type="text/javascript"></script>
+
 <?php /**PATH D:\laragon\www\eng-abdulrahman-portfolio\resources\views/admin/pages/service/buttons.blade.php ENDPATH**/ ?>

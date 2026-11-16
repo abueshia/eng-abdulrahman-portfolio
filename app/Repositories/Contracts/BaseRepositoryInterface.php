@@ -86,4 +86,11 @@ interface BaseRepositoryInterface
      * @return Builder<Model>
      */
     public function adminQuery(array $relations = []): Builder;
+
+    /**
+     * Count records matching optional attribute criteria.
+     *
+     * @param  array<string, mixed>  $criteria
+     */
+    public function count(array $criteria = []): int;
 }

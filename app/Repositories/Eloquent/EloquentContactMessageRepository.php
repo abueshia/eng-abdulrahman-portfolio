@@ -110,6 +110,53 @@ class EloquentContactMessageRepository extends BaseRepository implements Contact
     /**
      * {@inheritDoc}
      */
+    public function countByLastMonths(int $months = 6): array
+    {
+        $monthsCount = max(1, $months);
+        $startDate = now()->startOfMonth()->subMonths($monthsCount - 1);
+
+        /** @var Collection<int, ContactMessage> $messages */
+        $messages = $this->query()
+            ->where('created_at', '>=', $startDate)
+            ->get(['id', 'created_at']);
+
+        $grouped = [];
+        foreach ($messages as $message) {
+            if ($message->created_at !== null) {
+                $ym = $message->created_at->format('Y-m');
+                $grouped[$ym] = ($grouped[$ym] ?? 0) + 1;
+            }
+        }
+
+        $labels = [];
+        $counts = [];
+        $series = [];
+
+        for ($i = $monthsCount - 1; $i >= 0; $i--) {
+            $monthDate = now()->startOfMonth()->subMonths($i);
+            $ym = $monthDate->format('Y-m');
+            $label = $monthDate->translatedFormat('M Y');
+            $count = (int) ($grouped[$ym] ?? 0);
+
+            $labels[] = $label;
+            $counts[] = $count;
+            $series[] = [
+                'month' => $ym,
+                'label' => $label,
+                'count' => $count,
+            ];
+        }
+
+        return [
+            'labels' => $labels,
+            'counts' => $counts,
+            'series' => $series,
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function markAsRead(ContactMessage $message): ContactMessage
     {
         if ($message->read_at === null) {

@@ -1,0 +1,35 @@
+/**
+ * Portfolio Admin CMS — LTR (English) Stylesheet (dashboard-ltr.css)
+ *
+ * Left-to-Right layout positioning, typography, and DataTables alignment
+ * when app()->getLocale() === 'en'.
+ */
+
+body {
+    font-family: 'Inter', 'Poppins', sans-serif !important;
+    direction: ltr;
+    text-align: left;
+}
+
+.app-sidebar .menu-icon {
+    margin-right: 0.75rem !important;
+    margin-left: 0 !important;
+}
+
+.dataTables_wrapper {
+    direction: ltr !important;
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+    text-align: right !important;
+}
+
+table.table.dataTable {
+    direction: ltr;
+}
+
+table.table.dataTable th,
+table.table.dataTable td {
+    text-align: left !important;
+}
+

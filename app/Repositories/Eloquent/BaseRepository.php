@@ -171,6 +171,20 @@ abstract class BaseRepository implements BaseRepositoryInterface
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function count(array $criteria = []): int
+    {
+        $query = $this->query();
+
+        foreach ($criteria as $column => $value) {
+            $query->where($column, $value);
+        }
+
+        return $query->count();
+    }
+
+    /**
      * Determine whether a slug is already taken, optionally ignoring a specific record.
      *
      * Only meaningful for repositories implementing SluggableRepositoryInterface.

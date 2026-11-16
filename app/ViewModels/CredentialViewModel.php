@@ -46,4 +46,3 @@ class CredentialViewModel extends ViewModel
         return CredentialTypeEnum::options();
     }
 }
-

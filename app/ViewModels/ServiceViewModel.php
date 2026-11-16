@@ -37,4 +37,3 @@ class ServiceViewModel extends ViewModel
         return $this->service->exists ? 'PUT' : 'POST';
     }
 }
-

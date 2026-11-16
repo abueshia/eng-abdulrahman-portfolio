@@ -19,10 +19,7 @@ if (! function_exists('showLink')) {
      */
     function showLink(string $routeName): string
     {
-        $currentRoute = Route::currentRouteName() ?? '';
-        $modulePrefix = explode('.', $routeName)[0] ?? '';
-
-        return preg_match("/^{$modulePrefix}/", $currentRoute) ? 'here show' : '';
+        return activeLink($routeName) !== '' ? 'here show' : '';
     }
 }
 
@@ -33,9 +30,24 @@ if (! function_exists('activeLink')) {
     function activeLink(string $routeName): string
     {
         $currentRoute = Route::currentRouteName() ?? '';
-        $modulePrefix = explode('.', $routeName)[0] ?? '';
+        if ($currentRoute === '') {
+            return '';
+        }
 
-        return preg_match("/^{$modulePrefix}/", $currentRoute) ? 'active' : '';
+        $parts = explode('.', $routeName);
+        $modulePrefix = ($parts[0] === 'admin' && isset($parts[1]))
+            ? 'admin.'.$parts[1]
+            : $parts[0];
+
+        if (
+            $currentRoute === $modulePrefix
+            || str_starts_with($currentRoute, $modulePrefix.'.')
+            || str_starts_with($currentRoute, 'admin.'.$modulePrefix.'.')
+        ) {
+            return 'active';
+        }
+
+        return '';
     }
 }
 

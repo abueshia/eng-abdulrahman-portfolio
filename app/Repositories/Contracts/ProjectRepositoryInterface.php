@@ -81,6 +81,13 @@ interface ProjectRepositoryInterface extends SluggableRepositoryInterface
     public function paginateForAdmin(int $perPage = 15, array $filters = []): LengthAwarePaginator;
 
     /**
+     * Get the latest projects for the admin dashboard with relations eager loaded.
+     *
+     * @return Collection<int, Project>
+     */
+    public function getLatestForAdmin(int $limit = 5): Collection;
+
+    /**
      * Synchronize the technologies attached to a project.
      *
      * @param  array<int, array{id: int, role_in_project?: string|null, sort_order?: int|null}>  $technologies

@@ -84,4 +84,5 @@
     </script>
 <?php $__env->stopPush(); ?>
 
+
 <?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\laragon\www\eng-abdulrahman-portfolio\resources\views/admin/pages/faq/reorder.blade.php ENDPATH**/ ?>
