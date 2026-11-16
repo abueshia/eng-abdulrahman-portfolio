@@ -113,10 +113,59 @@ class SettingService
     {
         $result = [];
         foreach (SettingKeyEnum::forGroup($group) as $settingKey) {
-            $result[$settingKey->value] = $this->get($settingKey, $locale);
+            $value = $this->get($settingKey, $locale);
+
+            if ($settingKey->type() === SettingTypeEnum::Boolean) {
+                $value = (bool) filter_var($value, FILTER_VALIDATE_BOOLEAN);
+            } elseif ($settingKey->isFileOrImage() && is_string($value) && $value !== '') {
+                $value = str_starts_with($value, 'http://') || str_starts_with($value, 'https://')
+                    ? $value
+                    : url($value);
+            }
+
+            $result[$settingKey->value] = $value;
         }
 
         return $result;
+    }
+
+    /**
+     * Determine whether a specific portfolio section visibility flag is enabled.
+     */
+    public function isSectionVisible(SettingKeyEnum $visibilityKey): bool
+    {
+        return (bool) filter_var($this->get($visibilityKey), FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * Retrieve all public portfolio settings grouped by domain and resolved for the active locale,
+     * respecting sections_visibility flags.
+     *
+     * @return array<string, mixed>
+     */
+    public function getPublicSettings(?string $locale = null): array
+    {
+        $resolvedLocale = $locale ?? app()->getLocale();
+        $visibility = $this->getGroupValues(SettingGroupEnum::SectionsVisibility, $resolvedLocale);
+
+        return [
+            'locale' => $resolvedLocale,
+            'general' => $this->getGroupValues(SettingGroupEnum::General, $resolvedLocale),
+            'seo' => $this->getGroupValues(SettingGroupEnum::Seo, $resolvedLocale),
+            'sections_visibility' => $visibility,
+            'hero' => ($visibility[SettingKeyEnum::ShowHeroSection->value] ?? true)
+                ? $this->getGroupValues(SettingGroupEnum::Hero, $resolvedLocale)
+                : null,
+            'about' => ($visibility[SettingKeyEnum::ShowAboutSection->value] ?? true)
+                ? $this->getGroupValues(SettingGroupEnum::About, $resolvedLocale)
+                : null,
+            'contact' => ($visibility[SettingKeyEnum::ShowContactSection->value] ?? true)
+                ? $this->getGroupValues(SettingGroupEnum::Contact, $resolvedLocale)
+                : null,
+            'cta' => ($visibility[SettingKeyEnum::ShowCtaSection->value] ?? true)
+                ? $this->getGroupValues(SettingGroupEnum::Cta, $resolvedLocale)
+                : null,
+        ];
     }
 
     /**

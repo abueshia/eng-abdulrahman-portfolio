@@ -94,15 +94,59 @@ class EloquentProjectRepository extends BaseRepository implements ProjectReposit
      */
     public function paginatePublished(
         int $perPage = 9,
-        ?ProjectTypeEnum $type = null,
+        ProjectTypeEnum|array|null $type = null,
         ?int $categoryId = null
     ): LengthAwarePaginator {
-        return $this->listQuery()
-            ->published()
-            ->when($type !== null, fn (Builder $query) => $query->ofType($type))
-            ->when($categoryId !== null, fn (Builder $query) => $query->where('category_id', $categoryId))
-            ->ordered()
-            ->paginate($perPage);
+        $filters = is_array($type) ? $type : [];
+
+        $resolvedType = $type instanceof ProjectTypeEnum
+            ? $type
+            : (! empty($filters['type']) ? ProjectTypeEnum::tryFrom((string) $filters['type']) : null);
+
+        $resolvedCategory = $categoryId ?? ($filters['category_id'] ?? $filters['category'] ?? null);
+        $resolvedTechnology = $filters['technology_id'] ?? $filters['technology'] ?? null;
+        $onlyFeatured = ! empty($filters['featured'])
+            && filter_var($filters['featured'], FILTER_VALIDATE_BOOLEAN);
+
+        $query = $this->listQuery()->published();
+
+        if ($resolvedType !== null) {
+            $query->ofType($resolvedType);
+        }
+
+        if ($resolvedCategory !== null && $resolvedCategory !== '') {
+            if (is_numeric($resolvedCategory)) {
+                $query->where('category_id', (int) $resolvedCategory);
+            } else {
+                $categorySlug = (string) $resolvedCategory;
+                $query->whereHas(
+                    'category',
+                    static fn (Builder $catQuery): Builder => $catQuery->where('slug', $categorySlug)
+                );
+            }
+        }
+
+        if ($resolvedTechnology !== null && $resolvedTechnology !== '') {
+            if (is_numeric($resolvedTechnology)) {
+                $techId = (int) $resolvedTechnology;
+                $query->whereHas(
+                    'technologies',
+                    static fn (Builder $techQuery): Builder => $techQuery->where('technologies.id', $techId)
+                );
+            } else {
+                $techSlug = (string) $resolvedTechnology;
+                $query->whereHas(
+                    'technologies',
+                    static fn (Builder $techQuery): Builder => $techQuery->where('technologies.slug', $techSlug)
+                );
+            }
+        }
+
+        if ($onlyFeatured) {
+            $query->featured();
+        }
+
+        return $query->ordered()->paginate($perPage);
     }
 
     /**

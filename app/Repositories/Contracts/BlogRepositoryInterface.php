@@ -34,9 +34,10 @@ interface BlogRepositoryInterface extends SluggableRepositoryInterface
     /**
      * Paginate published articles for the public blog with an optional category filter.
      *
+     * @param  int|array<string, mixed>|null  $categoryId
      * @return LengthAwarePaginator<Blog>
      */
-    public function paginatePublished(int $perPage = 9, ?int $categoryId = null): LengthAwarePaginator;
+    public function paginatePublished(int $perPage = 9, int|array|null $categoryId = null): LengthAwarePaginator;
 
     /**
      * Find an article by slug with category and media eager loaded.

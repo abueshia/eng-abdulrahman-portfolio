@@ -14,6 +14,8 @@ namespace App\Http\Requests\ContactMessage;
 use App\DTOs\ContactMessageData;
 use App\Enums\ContactMessageTypeEnum;
 use App\Http\Requests\BasePortfolioFormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 
 class StoreContactMessageRequest extends BasePortfolioFormRequest
@@ -38,7 +40,28 @@ class StoreContactMessageRequest extends BasePortfolioFormRequest
             'timeline' => ['nullable', 'string', 'max:120'],
             'message' => ['required', 'string', 'max:5000'],
             'type' => ['nullable', Rule::enum(ContactMessageTypeEnum::class)],
+            'website' => ['nullable', 'string', 'max:0'],
+            'honeypot' => ['nullable', 'string', 'max:0'],
         ];
+    }
+
+    /**
+     * Format API validation errors using the standardized ApiResponseTrait envelope.
+     */
+    protected function failedValidation(Validator $validator): void
+    {
+        if ($this->is('api/*') || $this->expectsJson()) {
+            throw new HttpResponseException(
+                response()->json([
+                    'code' => 422,
+                    'success' => false,
+                    'message' => $validator->errors()->first(),
+                    'errors' => $validator->errors()->toArray(),
+                ], 422)
+            );
+        }
+
+        parent::failedValidation($validator);
     }
 
     /**

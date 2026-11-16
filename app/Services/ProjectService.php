@@ -20,6 +20,7 @@ use App\Services\Support\SlugGenerator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 
 class ProjectService
@@ -93,7 +94,22 @@ class ProjectService
      */
     public function findBySlug(string $slug, bool $publishedOnly = true): ?Project
     {
-        return $this->projectRepository->findBySlugWithRelations($slug, $publishedOnly);
+        try {
+            if (! $publishedOnly) {
+                return $this->projectRepository->findBySlugWithRelations($slug, false);
+            }
+
+            /** @var Project $project */
+            $project = $this->cache->remember(
+                self::CACHE_MODULE,
+                "slug:{$slug}",
+                fn (): Project => $this->projectRepository->findBySlugWithRelations($slug, true),
+            );
+
+            return $project;
+        } catch (ModelNotFoundException) {
+            return null;
+        }
     }
 
     /**

@@ -50,11 +50,12 @@ interface ProjectRepositoryInterface extends SluggableRepositoryInterface
     /**
      * Paginate published projects for the public portfolio with optional filters.
      *
+     * @param  ProjectTypeEnum|array<string, mixed>|null  $type
      * @return LengthAwarePaginator<Project>
      */
     public function paginatePublished(
         int $perPage = 9,
-        ?ProjectTypeEnum $type = null,
+        ProjectTypeEnum|array|null $type = null,
         ?int $categoryId = null
     ): LengthAwarePaginator;
 

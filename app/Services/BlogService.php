@@ -20,6 +20,7 @@ use App\Services\Support\SlugGenerator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 
@@ -94,7 +95,22 @@ class BlogService
      */
     public function findBySlug(string $slug, bool $publishedOnly = true): ?Blog
     {
-        return $this->blogRepository->findBySlugWithRelations($slug, $publishedOnly);
+        try {
+            if (! $publishedOnly) {
+                return $this->blogRepository->findBySlugWithRelations($slug, false);
+            }
+
+            /** @var Blog $blog */
+            $blog = $this->cache->remember(
+                self::CACHE_MODULE,
+                "slug:{$slug}",
+                fn (): Blog => $this->blogRepository->findBySlugWithRelations($slug, true),
+            );
+
+            return $blog;
+        } catch (ModelNotFoundException) {
+            return null;
+        }
     }
 
     /**

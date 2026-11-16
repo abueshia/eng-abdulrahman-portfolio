@@ -65,14 +65,36 @@ class EloquentBlogRepository extends BaseRepository implements BlogRepositoryInt
     /**
      * {@inheritDoc}
      */
-    public function paginatePublished(int $perPage = 9, ?int $categoryId = null): LengthAwarePaginator
+    public function paginatePublished(int $perPage = 9, int|array|null $categoryId = null): LengthAwarePaginator
     {
-        return $this->query()
+        $filters = is_array($categoryId) ? $categoryId : [];
+        $resolvedCategory = is_int($categoryId)
+            ? $categoryId
+            : ($filters['category_id'] ?? $filters['category'] ?? null);
+        $onlyFeatured = ! empty($filters['featured'])
+            && filter_var($filters['featured'], FILTER_VALIDATE_BOOLEAN);
+
+        $query = $this->query()
             ->with(self::RELATIONS)
-            ->published()
-            ->when($categoryId !== null, fn (Builder $query) => $query->where('category_id', $categoryId))
-            ->ordered()
-            ->paginate($perPage);
+            ->published();
+
+        if ($resolvedCategory !== null && $resolvedCategory !== '') {
+            if (is_numeric($resolvedCategory)) {
+                $query->where('category_id', (int) $resolvedCategory);
+            } else {
+                $categorySlug = (string) $resolvedCategory;
+                $query->whereHas(
+                    'category',
+                    static fn (Builder $catQuery): Builder => $catQuery->where('slug', $categorySlug)
+                );
+            }
+        }
+
+        if ($onlyFeatured) {
+            $query->featured();
+        }
+
+        return $query->ordered()->paginate($perPage);
     }
 
     /**

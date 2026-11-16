@@ -4,52 +4,47 @@
  * API MessageController
  *
  * Handles public contact message and project inquiry submissions via REST API.
+ * Uses StoreContactMessageRequest (with Honeypot protection) and ContactMessageService.
  */
 
 declare(strict_types=1);
 
 namespace App\Http\Controllers\API;
 
-use App\Enums\ContactMessageStatusEnum;
-use App\Enums\ContactMessageTypeEnum;
 use App\Http\Controllers\Controller;
-use App\Models\ContactMessage;
+use App\Http\Requests\ContactMessage\StoreContactMessageRequest;
+use App\Http\Resources\UserApp\MessageResource;
+use App\Services\ContactMessageService;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class MessageController extends Controller
 {
     use ApiResponseTrait;
 
+    public function __construct(
+        private readonly ContactMessageService $contactMessageService,
+    ) {}
+
     /**
-     * Validate and store a new contact message from the API.
+     * Store a new public contact message or project inquiry (`POST /api/v1/contact`).
      */
-    public function CreateMessage(Request $request): JsonResponse
+    public function store(StoreContactMessageRequest $request): JsonResponse
     {
-        try {
-            $validated = $request->validate([
-                'message' => 'required|string',
-                'name' => 'required|string|max:100',
-                'phone' => 'required|string|regex:/^[0-9]{10,15}$/',
-                'email' => 'nullable|email|max:255',
-            ]);
+        $message = $this->contactMessageService->submit($request->toDto());
 
-            $message = ContactMessage::query()->create([
-                'message' => $validated['message'],
-                'name' => $validated['name'],
-                'phone' => $validated['phone'],
-                'email' => $validated['email'] ?? null,
-                'type' => ContactMessageTypeEnum::GeneralContact,
-                'status' => ContactMessageStatusEnum::New,
-                'ip_address' => $request->ip(),
-                'user_agent' => (string) $request->userAgent(),
-            ]);
+        return $this->success_response(
+            new MessageResource($message),
+            'Message created successfully',
+            201
+        );
+    }
 
-            return $this->success_response($message, 'Message created successfully', 201);
-        } catch (ValidationException $e) {
-            return $this->error_response('Validation failed', 422, $e->errors());
-        }
+    /**
+     * Backward-compatible endpoint handler for `POST /api/message`.
+     */
+    public function CreateMessage(StoreContactMessageRequest $request): JsonResponse
+    {
+        return $this->store($request);
     }
 }
